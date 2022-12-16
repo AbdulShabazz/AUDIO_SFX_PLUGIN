@@ -1,11 +1,18 @@
+/Binaries/*
+/Intermediate/*
+/Plugins/AUDIO_SFX_PLUGIN/Binaries/*
+/Plugins/AUDIO_SFX_PLUGIN/Intermediate/*
+
 # Prerequisites
 *.d
+.vs/*
 
 # Compiled Object files
 *.slo
 *.lo
 *.o
 *.obj
+*.dll
 
 # Precompiled Headers
 *.gch
