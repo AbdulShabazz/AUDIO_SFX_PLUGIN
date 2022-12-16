@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "AUDIO_SFX_PLUGIN",
+	"Description": "Audio SFX Plugin",
+	"Category": "Other",
+	"CreatedBy": "AbdulShabazz",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "AUDIO_SFX_PLUGIN",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
