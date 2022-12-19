@@ -1,2 +1,0 @@
-SYMP: VS builds external file[s] (RTX_DX12_Viewport.*)
-SOLU: Remove RTX_DX12_Viewport Project from build path
