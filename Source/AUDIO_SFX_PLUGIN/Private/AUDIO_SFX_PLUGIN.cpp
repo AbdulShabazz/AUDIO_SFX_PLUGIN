@@ -8,6 +8,7 @@
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Text/STextBlock.h"
 #include "ToolMenus.h"
+//#include "DXRApplication.h"
 
 static const FName AUDIO_SFX_PLUGINTabName("AUDIO_SFX_PLUGIN");
 
@@ -54,6 +55,8 @@ void FAUDIO_SFX_PLUGINModule::ShutdownModule()
 
 TSharedRef<SDockTab> FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {
+    //DXRApplication THE_RTX_APP;
+
     FText WidgetText = FText::Format(
         LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
         FText::FromString(TEXT("FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab")),
