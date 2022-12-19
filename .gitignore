@@ -1,7 +1,5 @@
 /Binaries/*
 /Intermediate/*
-/Plugins/AUDIO_SFX_PLUGIN/Binaries/*
-/Plugins/AUDIO_SFX_PLUGIN/Intermediate/*
 /RTX_DX12_Viewport/bin/*
 /RTX_DX12_Viewport/intermediate/*
 
