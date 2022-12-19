@@ -2,6 +2,8 @@
 /Intermediate/*
 /Plugins/AUDIO_SFX_PLUGIN/Binaries/*
 /Plugins/AUDIO_SFX_PLUGIN/Intermediate/*
+/Plugins/AUDIO_SFX_PLUGIN/RTX_DX12_Viewport/bin/*
+/Plugins/AUDIO_SFX_PLUGIN/RTX_DX12_Viewport/intermediate/*
 
 # Prerequisites
 *.d
