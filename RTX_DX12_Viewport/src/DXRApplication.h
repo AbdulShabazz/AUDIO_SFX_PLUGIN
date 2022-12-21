@@ -51,7 +51,7 @@ class DXRApplication
 {
 
 public:
-
+	DXRApplication();
 	void Init(ConfigInfo& config);
 	void Update();
 	void Render();
