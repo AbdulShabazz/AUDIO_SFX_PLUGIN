@@ -1,5 +1,9 @@
 #include "DXRApplication.h"
 
+DXRApplication::DXRApplication()
+{
+
+}
 void DXRApplication::Init(ConfigInfo& config)
 {
 	// Create a new window
