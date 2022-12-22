@@ -1,6 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "AUDIO_SFX_PLUGIN.h"
+#include "CoreMinimal.h"
+#include "Modules/ModuleManager.h"
+#include <GameFramework/Actor.h>
+#include <GameFramework/PlayerController.h>
+#include <Engine/Classes/Engine/Engine.h>
+#include <Engine/World.h>
 #include "AUDIO_SFX_PLUGINStyle.h"
 #include "AUDIO_SFX_PLUGINCommands.h"
 #include "LevelEditor.h"
@@ -8,7 +14,17 @@
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Text/STextBlock.h"
 #include "ToolMenus.h"
+//#include <Editor/UnrealEd/Public/EditorViewportClient.h>
 //#include "DXRApplication.h"
+
+//class FSMy3DViewport : public FEditorViewportClient
+//{
+//public:
+//    FSMy3DViewport() 
+//    {
+//
+//    };
+//} SMy3DViewport;
 
 static const FName AUDIO_SFX_PLUGINTabName("AUDIO_SFX_PLUGIN");
 
@@ -28,13 +44,32 @@ void FAUDIO_SFX_PLUGINModule::StartupModule()
     PluginCommands->MapAction(
         FAUDIO_SFX_PLUGINCommands::Get().OpenPluginWindow,
         FExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::PluginButtonClicked),
-        FCanExecuteAction());
+        FCanExecuteAction()
+    );
 
     UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::RegisterMenus));
     
-    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(AUDIO_SFX_PLUGINTabName, FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab))
-        .SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
-        .SetMenuType(ETabSpawnerMenuType::Hidden);
+    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+        AUDIO_SFX_PLUGINTabName, 
+        FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
+    )
+    .SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
+    .SetMenuType(ETabSpawnerMenuType::Hidden);
+
+    //// Create a 3D viewport
+    //GEngine->GameViewport->AddViewportWidgetContent(
+    //    SNew(SMy3DViewport).AddMetaData<FTagMetaData>(FTagMetaData(TEXT("MyViewport")))
+    //);
+
+    //// Create a camera actor
+    //FActorSpawnParameters SpawnParams;
+    //SpawnParams.Name = TEXT("MyCamerActor");
+    //TObjectPtr<ACameraActor> CameraActor = GEngine->GetWorld()->SpawnActor<ACameraActor>(FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
+    //CameraActor->SetActorLabel(TEXT("MyCameraActor"));
+    //
+    //// Set the camera actor as the current player controller's controlled camera
+    //TObjectPtr<APlayerController> PlayerController = GEngine->GetFirstLocalPlayerController(GEngine->GetWorld());
+    //PlayerController->SetViewTarget(CameraActor);
 }
 
 void FAUDIO_SFX_PLUGINModule::ShutdownModule()
@@ -51,6 +86,11 @@ void FAUDIO_SFX_PLUGINModule::ShutdownModule()
     FAUDIO_SFX_PLUGINCommands::Unregister();
 
     FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(AUDIO_SFX_PLUGINTabName);
+    
+    // Destroy the 3D viewport widget
+   /* GEngine->GameViewport->RemoveViewportWidgetContent(
+        SNew(SMy3DViewport).AddMetaData<FTagMetaData>(FTagMetaData(TEXT("MyViewport")))
+    );*/
 }
 
 TSharedRef<SDockTab> FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
@@ -67,6 +107,16 @@ TSharedRef<SDockTab> FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab(const FSpawnTabAr
         .TabRole(ETabRole::MajorTab)
         [
             // Put your tab content here!
+            //SNew(SViewport)
+            /*SNew(SBox)
+            .HAlign(HAlign_Fill)
+            .VAlign(VAlign_Fill)
+            [
+                SNew(SViewport)
+            ]*/
+
+            //SNew(SMy3DViewport)
+            
             SNew(SBox)
             .HAlign(HAlign_Center)
             .VAlign(VAlign_Center)
