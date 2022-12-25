@@ -1,6 +1,8 @@
 #include <chrono>
 #include <functional>
 #include <thread>
+#include <stdexcept>
+#include <iostream>
 
 #include "DXRApplication.h"
 
@@ -50,24 +52,31 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
     HRESULT hr = EXIT_SUCCESS;
     {
-        MSG msg = { 0 };
+        try
+        {
+            MSG msg = { 0 };
 
-        // Get the application configuration
-        ConfigInfo config;
-        hr = Utils::ParseCommandLine(lpCmdLine, config);
-        if (hr != EXIT_SUCCESS) return hr;
+            // Get the application configuration
+            ConfigInfo config;
+            hr = Utils::ParseCommandLine(lpCmdLine, config);
+            if (hr != EXIT_SUCCESS) return hr;
 
-        // Initialize
-        ParamSTRUCT ParamStruct;
-        ParamStruct.msg = msg;
-        ParamStruct.app.Init(config);
+            // Initialize
+            ParamSTRUCT ParamStruct;
+            ParamStruct.msg = msg;
+            ParamStruct.app.Init(config);
 
-        // Main loop
-        set_interval(
-            RenderCallback,
-            ParamStruct,
-            std::chrono::milliseconds(1000 / 2000) // eg. 1000/60 = 60fps
-        );
+            // Main loop
+            set_interval(
+                RenderCallback,
+                ParamStruct,
+                std::chrono::milliseconds(1000 / 2000) // eg. 1000/60 = 60fps
+            );
+        }
+        catch (std::invalid_argument& e)
+        {
+            std::cout << e.what() << std::endl;
+        }
     }
 
 #if defined _CRTDBG_MAP_ALLOC
