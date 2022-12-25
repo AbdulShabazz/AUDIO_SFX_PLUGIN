@@ -1,10 +1,12 @@
 #pragma once
 
+struct FILEINFO_Obj;
+
 class PinkNoise
 {
 public:
     PinkNoise();
-    void GeneratePinkNoise(float* noise, int length);
+    void GeneratePinkNoise(FILEINFO_Obj& FileInfoObj);
 protected:
-    void ApplyPinkFilter(float* noise, int length);
+    void ApplyPinkFilter(FILEINFO_Obj& FileInfoObj);
 };
