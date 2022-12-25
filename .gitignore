@@ -2,10 +2,10 @@
 /Intermediate/*
 /RTX_DX12_Viewport/bin/*
 /RTX_DX12_Viewport/intermediate/*
+/.vs/*
 
 # Prerequisites
 *.d
-.vs/*
 
 # Compiled Object files
 *.slo
