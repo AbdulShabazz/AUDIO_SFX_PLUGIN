@@ -1,11 +1,13 @@
 #pragma once
 
+struct FILEINFO_Obj;
+
 class PurpleNoise
 {
 public:
     PurpleNoise();
-    void GeneratePurpleNoise(float* noise, int length);
+    void GeneratePurpleNoise(FILEINFO_Obj& FileInfoObj);
 protected:
-    void ApplyPurpleFilter(float* noise, int length);
+    void ApplyPurpleFilter(FILEINFO_Obj& FileInfoObj);
 
 };
