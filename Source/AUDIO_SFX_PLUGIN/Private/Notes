@@ -1,0 +1,7 @@
+// RANDOM Keygen Algorithm
+unsigned long long a = 1103515245;
+unsigned long long c = 12345;
+unsigned long long m = 1ull << 31;
+unsigned long long x = 1;
+// loop..
+x = (a * x + c) % m;
