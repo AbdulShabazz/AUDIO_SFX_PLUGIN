@@ -7,18 +7,19 @@ PinkNoise::PinkNoise()
 }
 
 // Apply 1/f^2 high-pass filter to shape noise spectrum
-void PinkNoise::ApplyPinkFilter(float* noise, int length)
+void PinkNoise::ApplyPinkFilter(FILEINFO_Obj& FileInfoObj)
 {
-    for (int i = 0; i < length; i++)
+    int I = FileInfoObj.LengthInt16;
+    for (int i = 0; i < I; i++)
     {
-        noise[i] /= std::sqrt(i*i);
+        FileInfoObj.NoiseBufferInt32[i] /= std::sqrt(i*i);
     }
 }
 
-void PinkNoise::GeneratePinkNoise(float* noise, int length)
+void PinkNoise::GeneratePinkNoise(FILEINFO_Obj& FileInfoObj)
 {
     WhiteNoise WhiteNoiseObj;
-    WhiteNoiseObj.GenerateWhiteNoise(noise, length);
-    ApplyPinkFilter(noise, length);
+    WhiteNoiseObj.GenerateWhiteNoise(FileInfoObj);
+    ApplyPinkFilter(FileInfoObj);
 }
 
