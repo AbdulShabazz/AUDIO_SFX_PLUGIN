@@ -5,13 +5,14 @@ WhiteNoise::WhiteNoise()
 {
 }
 
-void WhiteNoise::GenerateWhiteNoise(float* noise, int length)
+void WhiteNoise::GenerateWhiteNoise(FILEINFO_Obj& FileInfoObj)
 {
     std::random_device rd;
     std::mt19937_64 gen(rd());
-    std::uniform_real_distribution<> dis(-TonesSettingsObj.AmplitudeInt32, TonesSettingsObj.AmplitudeInt32);
-    for (int i = 0; i < length; i++)
+    std::uniform_real_distribution<> dis(-TonesSettingsObj.AmplitudeInt16, TonesSettingsObj.AmplitudeInt16);
+    int I = FileInfoObj.LengthInt16;
+    for (int i = 0; i < I; i++)
     {
-        noise[i] = dis(gen);
+        FileInfoObj.NoiseBufferInt32[i] = dis(gen);
     }
 }
