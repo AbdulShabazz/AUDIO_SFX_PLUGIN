@@ -1,8 +1,10 @@
 #pragma once
 
+struct IFILEINFO_Obj;
+
 class WhiteNoise
 {
 public:
     WhiteNoise();
-    void GenerateWhiteNoise(float* noise, int length);
+    void GenerateWhiteNoise(FILEINFO_Obj& FileInfoObj);
 };
