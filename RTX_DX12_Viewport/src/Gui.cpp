@@ -74,7 +74,7 @@ void Gui::Update(D3D12Global& d3d, float elapsedTime)
  // We must select font scale inside of Begin/End
  ImGui::SetWindowFontScale(dpiScaling);
 
- static const int MillisecondsPer1SecondPerFrameInt32 = 100 ;
+ static const int MillisecondsPer1SecondPerFrameInt32 = 1000 ;
 
  Text("Frame Time: %.02f ms ( %.02f fps )", elapsedTime, MillisecondsPer1SecondPerFrameInt32 / elapsedTime);
 }
