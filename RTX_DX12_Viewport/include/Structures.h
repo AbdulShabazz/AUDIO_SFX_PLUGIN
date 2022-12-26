@@ -227,7 +227,7 @@ struct DXRGlobal
 
 	uint32_t										frameNumber = 0;
 	uint32_t										accumulatedFrames = 0;
-	int												maxBounces = 8;
+	int												maxBounces = 16;
 	bool											enableAntiAliasing = true; 
 	float											exposureAdjustment = 0.8f;
 	float											skyIntensity = 3.0f;
@@ -235,7 +235,7 @@ struct DXRGlobal
 	bool											enableDirectLighting = true;
 	DirectX::XMMATRIX								lastView;
 	bool											enableSun = true;
-	bool											enableHeadlight = false;
+	bool											enableHeadlight = true;
 	float											sunIntensity = 1.0f;
 	float											headlightIntensity = 10.0f;
 	float											focusDistance = 10.0f;
