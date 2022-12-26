@@ -73,7 +73,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
                 std::chrono::milliseconds(1000 / 2000) // eg. 1000/60 = 60fps
             );
         }
-        catch (std::invalid_argument& e)
+        catch (const std::exception& e)
         {
             std::cout << e.what() << std::endl;
         }
