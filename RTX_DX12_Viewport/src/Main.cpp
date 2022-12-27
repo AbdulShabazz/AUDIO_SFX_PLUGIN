@@ -16,7 +16,7 @@ void set_interval(
     std::function<void(ParamSTRUCT&)> callback,
     ParamSTRUCT& ParamStruct,
     std::chrono::milliseconds intervalInt64
-)
+    )
 {
     // Set Timer
     while (WM_QUIT != ParamStruct.msg.message)
@@ -34,7 +34,6 @@ void RenderCallback(ParamSTRUCT& ParamStruct)
         TranslateMessage(&ParamStruct.msg);
         DispatchMessage(&ParamStruct.msg);
     }
-
     ParamStruct.app.Update();
     ParamStruct.app.Render();
 }
@@ -42,7 +41,12 @@ void RenderCallback(ParamSTRUCT& ParamStruct)
 /**
  * Program entry point.
  */
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
+int WINAPI wWinMain(
+    HINSTANCE hInstance, 
+    HINSTANCE hPrevInstance, 
+    LPWSTR lpCmdLine, 
+    int nCmdShow
+    )
 {
     UNREFERENCED_PARAMETER(hInstance);
     UNREFERENCED_PARAMETER(hPrevInstance);
@@ -71,7 +75,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
                 RenderCallback,
                 ParamStruct,
                 std::chrono::milliseconds(1000 / 2000) // eg. 1000/60 = 60fps
-            );
+                );
         }
         catch (const std::exception& e)
         {
@@ -79,7 +83,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
         }
     }
 
-#if defined _CRTDBG_MAP_ALLOC
+#ifdef _CRTDBG_MAP_ALLOC
     _CrtDumpMemoryLeaks();
 #endif
 
