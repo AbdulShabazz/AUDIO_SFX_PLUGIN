@@ -13,17 +13,12 @@
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Text/STextBlock.h"
 #include "ToolMenus.h"
+#include <stdexcept>
+//#include <Engine/Classes/Engine/GameInstance.h>
+//#include <Engine/GameViewportClient.h>
+//#include <Windows.h>
 //#include <Editor/UnrealEd/Public/EditorViewportClient.h>
 //#include "DXRApplication.h"
-
-//class FSMy3DViewport : public FEditorViewportClient
-//{
-//public:
-//    FSMy3DViewport() 
-//    {
-//
-//    };
-//} SMy3DViewport;
 
 static const FName AUDIO_SFX_PLUGINTabName("AUDIO_SFX_PLUGIN");
 
@@ -54,35 +49,6 @@ void FAUDIO_SFX_PLUGINModule::StartupModule()
     )
     .SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
     .SetMenuType(ETabSpawnerMenuType::Hidden);
-
-    TObjectPtr<UWorld> World = GEngine->GetWorld();
-
-    //GEngine->GameViewport->AddViewportWidgetContent(
-    //    SNew(SMy3DViewport).AddMetaData<FTagMetaData>(FTagMetaData(TEXT("MyViewport")))
-    //);
-
-    // Create a camera actor
-    FActorSpawnParameters SpawnParams;
-    SpawnParams.Name = TEXT("MyCamera");
-    TObjectPtr<FCamera> CameraActor = World->SpawnActor<FCamera>(FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
-    CameraActor->SetActorLabel(TEXT("MyCameraActor"));
-
-    // Create a 3D viewport
-    TObjectPtr<FMYViewportClient> ViewportClient = new FMYViewportClient();
-    //TSharedPtr<FMYViewportClient> ViewportClient = GEngine->GameViewport();
-    ViewportClient->Viewport = MakeShareable(new FMYViewport(ViewportClient));
-    //ViewportClient->Viewport->SetSize(FIntPoint(1024, 768));
-    ViewportClient->Viewport->SetInitialSize(FIntPoint(1024, 768));
-    //ViewportClient->Viewport->SetViewLocation(FVector::ZeroVector);
-    //ViewportClient->Viewport->SetViewRotation(FRotator::ZeroRotator);
-    //ViewportClient->Viewport->SetViewTarget(CameraActor);
-
-    // Create a character controller
-    TObjectPtr<FCharacter> Character = World->SpawnActor<FCharacter>(FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
-    
-    // Set the camera actor as the current player controller's controlled camera
-    TObjectPtr<FPlayerController> PlayerController = (FPlayerController*) GEngine->GetFirstLocalPlayerController(GEngine->GetWorld());
-    PlayerController->SetViewTarget(CameraActor);
 }
 
 void FAUDIO_SFX_PLUGINModule::ShutdownModule()
@@ -106,6 +72,12 @@ void FAUDIO_SFX_PLUGINModule::ShutdownModule()
     );*/
 }
 
+/**
+* Spawns the AUDIO_SFX_PLUGIN (tab) window.
+* @header "AUDIOSFX_PLUGIN.h"
+* @param [ const FSpawnTabArgs& SpawnTabArgs ]--- The spawn params.
+* @return [ TSharedRef<SDockTab> ]--- The window slate dock tab object.
+*/
 TSharedRef<SDockTab> FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {
     //DXRApplication THE_RTX_APP;
@@ -115,6 +87,9 @@ TSharedRef<SDockTab> FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab(const FSpawnTabAr
         FText::FromString(TEXT("FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab")),
         FText::FromString(TEXT("AUDIO_SFX_PLUGIN.cpp"))
         );
+
+    // Init viewport et al.
+    CreatCameraViewportPlayerControllerEtc();
 
     return SNew(SDockTab)
         .TabRole(ETabRole::MajorTab)
@@ -138,6 +113,11 @@ TSharedRef<SDockTab> FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab(const FSpawnTabAr
                 .Text(WidgetText)
             ]
         ];
+}
+
+void FAUDIO_SFX_PLUGINModule::CreatCameraViewportPlayerControllerEtc()
+{
+
 }
 
 void FAUDIO_SFX_PLUGINModule::PluginButtonClicked()
@@ -173,75 +153,3 @@ void FAUDIO_SFX_PLUGINModule::RegisterMenus()
 #undef LOCTEXT_NAMESPACE
     
 IMPLEMENT_MODULE(FAUDIO_SFX_PLUGINModule, AUDIO_SFX_PLUGIN)
-
-FMYViewport::FMYViewport(TObjectPtr<FViewportClient> InViewportClient)
-{
-}
-
-FMYViewport::~FMYViewport()
-{
-}
-
-void* FMYViewport::GetWindow()
-{
-    return 0;
-}
-
-void FMYViewport::MoveWindow(int32 NewPosX, int32 NewPosY, int32 NewSizeX, int32 NewSizeY)
-{
-}
-
-void FMYViewport::Destroy()
-{
-}
-
-bool FMYViewport::SetUserFocus(bool bFocus)
-{
-    return false;
-}
-
-bool FMYViewport::KeyState(FKey Key) const
-{
-    return false;
-}
-
-int32 FMYViewport::GetMouseX() const
-{
-    return int32();
-}
-
-int32 FMYViewport::GetMouseY() const
-{
-    return int32();
-}
-
-void FMYViewport::GetMousePos(FIntPoint& MousePosition, const bool bLocalPosition)
-{
-}
-
-void FMYViewport::SetMouse(int32 x, int32 y)
-{
-}
-
-void FMYViewport::ProcessInput(float DeltaTime)
-{
-}
-
-FVector2D FMYViewport::VirtualDesktopPixelToViewport(FIntPoint VirtualDesktopPointPx) const
-{
-    return FVector2D();
-}
-
-FIntPoint FMYViewport::ViewportToVirtualDesktopPixel(FVector2D ViewportCoordinate) const
-{
-    return FIntPoint();
-}
-
-void FMYViewport::InvalidateDisplay()
-{
-}
-
-TObjectPtr<FViewportFrame> FMYViewport::GetViewportFrame()
-{
-    return 0;
-}
