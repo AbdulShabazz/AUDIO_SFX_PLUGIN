@@ -188,3 +188,223 @@ void FAUDIO_SFX_PLUGINModule::CreatCameraViewportPlayerControllerEtc()
     //Viewport->SetRealtime(true); // real-time rendering
     //Viewport->bIsSlateViewport = true;
 }
+TSharedRef<SDockTab> FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
+{
+    //DXRApplication THE_RTX_APP;
+
+    FText WidgetText = FText::Format(
+        LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
+        FText::FromString(TEXT("FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab")),
+        FText::FromString(TEXT("AUDIO_SFX_PLUGIN.cpp"))
+        );
+
+    // Init viewport et al.
+    CreatCameraViewportPlayerControllerEtc();
+
+    return SNew(SDockTab)
+        .TabRole(ETabRole::MajorTab)
+        [
+            // Put your tab content here!
+            //SNew(SViewport)
+            /*SNew(SBox)
+            .HAlign(HAlign_Fill)
+            .VAlign(VAlign_Fill)
+            [
+                SNew(SViewport)
+            ]*/
+
+            //SNew(SMy3DViewport)
+            
+            SNew(SBox)
+            .HAlign(HAlign_Center)
+            .VAlign(VAlign_Center)
+            [
+                SNew(STextBlock)
+                .Text(WidgetText)
+            ]
+        ];
+}
+
+
+ /*   return SNew(SWindow)
+        .Title(LOCTEXT("FAUDIO_SFX_PLUGINTabWindowTitle", "The Audio SFX Designer"))
+        .ClientSize(FVector2D(1024, 728))
+        .CreateTitleBar(true);*/
+
+    return SNew(SDockTab)
+        .TabRole(ETabRole::MajorTab)
+        [            
+           /* SNew(SBox)
+            .HAlign(HAlign_Center)
+            .VAlign(VAlign_Center)
+            [
+                SNew(STextBlock)
+                .Text(WidgetText)
+            ]*/
+            WindowObjPtr
+        ];
+
+
+
+class UMGViewportComponent : public SWindow
+{
+
+public:
+
+    UMGViewportComponent();
+   ~UMGViewportComponent();
+
+    void OpenAsWindow();
+    void SetManualDPIScaling();
+    void OverrideWindowManualDPIScaling();
+
+};
+
+
+class UMGViewportComponent : public SWindow
+{
+
+public:
+
+    UMGViewportComponent();
+   ~UMGViewportComponent();
+
+public:
+    TSharedPtr<UMGViewportComponent> toSharedPtr();
+
+};
+
+
+
+UMGViewportComponent::UMGViewportComponent()
+{
+    this->SetTitle(FText::FromString(TEXT("The Audio SFX Designer")));
+    this->bCreateTitleBar = true;
+
+    /*void* WindowHandlePtr = 0;
+    uint32 SizeXINT32 = 1024;
+    uint32 SizeYINT32 = 728;
+    bool isFullcreenBOOL = false;
+    EPixelFormat PreferredPixelFormatENUM = EPixelFormat::PF_R32G32B32A32_UINT;
+
+    RHICreateViewport(WindowHandlePtr, SizeXINT32, SizeYINT32, isFullcreenBOOL, PreferredPixelFormatENUM);*/
+}
+
+UMGViewportComponent::~UMGViewportComponent()
+{
+}
+
+TSharedPtr<UMGViewportComponent> UMGViewportComponent::toSharedPtr()
+{
+    return TSharedPtr<UMGViewportComponent>();
+}
+
+
+    return SNew(SDockTab)
+        .TabRole(ETabRole::MajorTab)
+        [
+            /*SNew(SWindow)
+            .Title(LOCTEXT("FAUDIO_SFX_PLUGINTabWindowTitle", "The Audio SFX Designer"))
+            .CreateTitleBar(true)*/
+            SNew(SWindow)
+        ];
+
+
+
+UMGViewportComponent::UMGViewportComponent()
+{
+}
+
+UMGViewportComponent::~UMGViewportComponent()
+{
+}
+
+//TSharedRef<UMGViewportComponent> UMGViewportComponent::toSharedRef()
+//{
+//    return TSharedRef<UMGViewportComponent>();
+//}
+
+    TSharedRef<SDockTab> MySDockTabObjPtr = SNew(SDockTab).TabRole(ETabRole::MajorTab);
+
+    TSharedRef<SWindow> QuickWindowObjRef = TSharedRef<SWindow>();
+    //TSharedRef<UMGViewportComponent> QuickWindowObjRef = MakeSharedRef<UMGViewportComponent>();
+    //MySDockTabObjPtr->SetContent(QuickWindowObjRef);
+
+    return MySDockTabObjPtr;
+
+
+void FAUDIO_SFX_PLUGINModule::CreateCameraViewportPlayerControllerEtc()
+{
+    //WindowObjPtr = SNew(SWindow)
+        //.Title(FText::FromString(TEXT("The Audio SFX Designer")))
+        //.CreateTitleBar(true)
+        ;
+    //WindowObjPtr->SetTitle(FText::FromString(TEXT("The Audio SFX Designer")));
+    //WindowObjPtr->bCreateTitleBar = true;
+    //WindowObjPtr->SetContent
+}
+
+
+    //TSharedRef<SWindow>(QuickWindowObjRef);
+    //TSharedRef<SWindow> QuickWindowObjRef = SNew(SWindow);
+    //TSharedRef<UMGViewportComponent> QuickWindowObjRef = MakeSharedRef<UMGViewportComponent>();
+    //MySDockTabObjPtr->SetContent(QuickWindowObjRef);
+
+    //TSharedPtr<UMGViewportComponent> QuickWindowObjRef;
+    //TSharedRef<UMGViewportComponent> QuickWindowObjRef;
+    //UMGViewportComponent QuickWindowObjRef;
+    //TSharedRef<SWindow> QuickWindowObjRef;
+    //UMGViewportComponent ViewportClientComponent;
+
+    //UMGViewportComponent::FArguments InArgs;
+    //QuickWindowObjRef->Construct(InArgs);
+
+
+//class IModuleInterface;
+//class FToolBarBuilder;
+//class FMenuBuilder;
+//class FViewportClient;
+//class UMGViewportComponent;
+
+
+    SpawnTabArgs.GetTabId();
+
+    if (SpawnTabArgs.GetTabId() == )
+    {
+
+    }
+
+
+    //TSharedRef<UMGViewportComponent> SNWin = SNew(UMGViewportComponent)
+        //.Title(FText::FromString(TEXT("The Audio SFX Designer")))
+        //.CreateTitleBar(true)
+        //.HasCloseButton(false)
+        ;
+
+    return SNew(SDockTab)
+        .TabRole(ETabRole::MajorTab)
+        .Label(inAttributesTXT)
+        [
+            SNWin
+        ]
+        ;
+
+
+void CreateCameraViewportPlayerControllerEtc();
+
+// Init viewport et al.
+CreateCameraViewportPlayerControllerEtc();
+
+void FAUDIO_SFX_PLUGINModule::CreateCameraViewportPlayerControllerEtc()
+{
+
+}
+
+
+    //DXRApplication THE_RTX_APP;
+
+    FText WidgetText = FText::Format(
+        LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
+        FText::FromString(TEXT("FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab")),
+        FText::FromString(TEXT("AUDIO_SFX_PLUGIN.cpp"))
+        );
