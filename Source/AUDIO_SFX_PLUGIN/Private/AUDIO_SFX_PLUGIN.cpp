@@ -14,6 +14,7 @@
 #include "Widgets/Text/STextBlock.h"
 #include "ToolMenus.h"
 #include <stdexcept>
+//#include <Widgets/SWindow.h>
 //#include <Engine/Classes/Engine/GameInstance.h>
 //#include <Engine/GameViewportClient.h>
 //#include <Windows.h>
@@ -73,51 +74,34 @@ void FAUDIO_SFX_PLUGINModule::ShutdownModule()
 }
 
 /**
-* Spawns the AUDIO_SFX_PLUGIN (tab) window.
-* @header "AUDIOSFX_PLUGIN.h"
-* @param [ const FSpawnTabArgs& SpawnTabArgs ]--- The spawn params.
-* @return [ TSharedRef<SDockTab> ]--- The window slate dock tab object.
+* Spawns the AUDIO_SFX_PLUGIN (tab) window. 
+* Usage : TSharedRef<SDockTab> MyDockTabObjPtr = OnSpawnPluginTab(SpawnTabArgs);
+* @header AUDIOSFX_PLUGIN.h
+* @param [ const FSpawnTabArgs& SpawnTabArgs ] --- The spawn params.
+* @return [ TSharedRef<SDockTab> ] --- The window slate dock tab object.
 */
 TSharedRef<SDockTab> FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {
-    //DXRApplication THE_RTX_APP;
+    TSharedRef<UMGViewportComponent> SNWin = SNew(UMGViewportComponent);
 
-    FText WidgetText = FText::Format(
-        LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
-        FText::FromString(TEXT("FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab")),
-        FText::FromString(TEXT("AUDIO_SFX_PLUGIN.cpp"))
-        );
+    UMGViewportComponent::FArguments InArgs;
 
-    // Init viewport et al.
-    CreatCameraViewportPlayerControllerEtc();
+    SNWin.Get().Construct(InArgs);
+
+    TAttribute<FText> inAttributesTXT;
+
+    FText WidgetLabel = FText(
+        LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool")
+    );
+
+    inAttributesTXT.Set(WidgetLabel);
 
     return SNew(SDockTab)
         .TabRole(ETabRole::MajorTab)
+        .Label(inAttributesTXT)
         [
-            // Put your tab content here!
-            //SNew(SViewport)
-            /*SNew(SBox)
-            .HAlign(HAlign_Fill)
-            .VAlign(VAlign_Fill)
-            [
-                SNew(SViewport)
-            ]*/
-
-            //SNew(SMy3DViewport)
-            
-            SNew(SBox)
-            .HAlign(HAlign_Center)
-            .VAlign(VAlign_Center)
-            [
-                SNew(STextBlock)
-                .Text(WidgetText)
-            ]
+            SNWin
         ];
-}
-
-void FAUDIO_SFX_PLUGINModule::CreatCameraViewportPlayerControllerEtc()
-{
-
 }
 
 void FAUDIO_SFX_PLUGINModule::PluginButtonClicked()
@@ -153,3 +137,20 @@ void FAUDIO_SFX_PLUGINModule::RegisterMenus()
 #undef LOCTEXT_NAMESPACE
     
 IMPLEMENT_MODULE(FAUDIO_SFX_PLUGINModule, AUDIO_SFX_PLUGIN)
+
+void UMGViewportComponent::Construct(const FArguments& InArgs)
+{
+    this->SetTitle(FText::FromString(TEXT("The Audio SFX Designer")));
+
+    this->bCreateTitleBar = true; 
+    
+    FText TTip = FText::FromString(
+        TEXT("The Audio SFX Design Tool")
+    );
+    this->SetToolTipText(TTip);
+}
+
+TSharedPtr<UMGViewportComponent> UMGViewportComponent::toSharedPtr()
+{
+    return TSharedPtr<UMGViewportComponent>();
+}
