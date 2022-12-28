@@ -1,0 +1,5 @@
+SYMP: Error C2248 'FSlateControlledConstruction::operator new': cannot access private member declared in class 'FSlateControlledConstruction'	...	
+SOLU: It appears TSharedRef<> in-class type declarations, and *.toSharedRef() class members are not allowed on derived Slates 
+
+SYMP: Error UMGViewportComponent derived from class SWindow, and other components is undefined
+SOLU: Remove class SWindow, class IModuleInterface, class FToolBarBuilder, class FMenuBuilder, class FViewportClient forward dedclarations in header file
