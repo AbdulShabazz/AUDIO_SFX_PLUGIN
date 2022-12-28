@@ -6,3 +6,59 @@ unsigned long long x = 1;
 
 // Use in loop..
 x = (a * x + c) % m;
+
+
+TODO
+
+*BASIC WINDOW
+*TOOLTIPS
+-MULTI TAB SUPPORT
+-TIMELINE SCRUBBER
+-FREQUENCY DUAL SCRUBBER
+-3D VIEWPORT
+-NOISE BRUSH
+-TOOLBARS
+    -VOLUME NORMALIZATION [dB]
+    -MERGE SELECTION
+    -NOISE SHAPER
+        -BLACK/BROWN
+        -BLUE
+        -GREY
+        -PINK
+        -PURPLE
+        -WHITE
+-MENU
+    -FILE
+        -IMPORT
+            -.WAV
+            -.OGG
+            -.MP4
+            -.AVI
+            -VISUAL
+                -.GLTF + [.WAV .OGG .MP4 .AVI]
+        -EXPORT [44100hz-192Khz+]
+            -.WAV
+            -.OGG
+            -.MP4
+            -.AVI
+            -VISUAL
+                -.GLTF + [.WAV .OGG .MP4 .AVI]
+    -VOLUME NORMALIZATION [dB]
+    -MERGE SELECTION
+    -NOISE SHAPER
+        -BLACK/BROWN
+        -BLUE
+        -GREY
+        -PINK
+        -PURPLE
+        -WHITEE
+-CONTEXT MENU
+    -VOLUME NORMALIZATION [dB]
+    -MERGE SELECTION
+    -NOISE SHAPER
+        -BLACK/BROWN
+        -BLUE
+        -GREY
+        -PINK
+        -PURPLE
+        -WHITE
