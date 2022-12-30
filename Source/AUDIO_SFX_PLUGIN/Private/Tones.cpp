@@ -5,6 +5,7 @@
 #include "PinkNoise.h"
 #include "PurpleNoise.h"
 #include "WhiteNoise.h"
+#include "WhitePerlinNoise.h"
 
 Tone::Tone()
 {
