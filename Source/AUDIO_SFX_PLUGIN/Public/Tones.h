@@ -6,6 +6,7 @@ class GreyNoise;
 class PinkNoise;
 class PurpleNoise;
 class WhiteNoise;
+class WhitePerlinNoise;
 
 class Tone : public 
     BlackNoise, 
@@ -13,10 +14,14 @@ class Tone : public
     GreyNoise,
     PinkNoise,
     PurpleNoise,
-    WhiteNoise
+    WhiteNoise,
+    WhitePerlinNoise
 {
+
 public:
+
     Tone();
+
     struct NOISE_OBJ
     {
         BlackNoise Black;
@@ -25,7 +30,9 @@ public:
         PinkNoise Pink;
         PurpleNoise Purple;
         WhiteNoise White;
+        WhitePerlinNoise Perlin;
     } NoiseObj;
+
     struct RANDOM_TONE_OBJ {
 
     } RandomToneGenerateObj;
