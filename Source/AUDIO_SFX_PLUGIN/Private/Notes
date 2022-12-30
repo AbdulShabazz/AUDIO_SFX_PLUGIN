@@ -10,55 +10,118 @@ x = (a * x + c) % m;
 
 TODO
 
-*BASIC WINDOW
-*TOOLTIPS
--MULTI TAB SUPPORT
--TIMELINE SCRUBBER
--FREQUENCY DUAL SCRUBBER
--3D VIEWPORT
--NOISE BRUSH
--TOOLBARS
-    -VOLUME NORMALIZATION [dB]
-    -MERGE SELECTION
-    -NOISE SHAPER
-        -BLACK/BROWN
-        -BLUE
-        -GREY
-        -PINK
-        -PURPLE
-        -WHITE
--MENU
-    -FILE
-        -IMPORT
-            -.WAV
-            -.OGG
-            -.MP4
-            -.AVI
-            -VISUAL
-                -.GLTF + [.WAV .OGG .MP4 .AVI]
-        -EXPORT [44100hz-192Khz+]
-            -.WAV
-            -.OGG
-            -.MP4
-            -.AVI
-            -VISUAL
-                -.GLTF + [.WAV .OGG .MP4 .AVI]
-    -VOLUME NORMALIZATION [dB]
-    -MERGE SELECTION
-    -NOISE SHAPER
-        -BLACK/BROWN
-        -BLUE
-        -GREY
-        -PINK
-        -PURPLE
-        -WHITEE
--CONTEXT MENU
-    -VOLUME NORMALIZATION [dB]
-    -MERGE SELECTION
-    -NOISE SHAPER
-        -BLACK/BROWN
-        -BLUE
-        -GREY
-        -PINK
-        -PURPLE
-        -WHITE
+-BLANK WINDOW
+-TOOLTIPS
+MULTI TAB SUPPORT
+TIMELINE SCRUBBER
+FREQUENCY DUAL SCRUBBER
+3D VIEWPORT
+NOISE BRUSH
+TOOLBAR
+    VOLUME NORMALIZATION [dB]
+    DUPLICATE SELECTION
+    NORMALIZE SELECTION [dB]
+    MERGE SELECTION
+    NOISE BRUSH
+        BLACK / BROWN / YELLOW
+        BLUE
+        GREY
+        PINK
+        PURPLE
+        WHITE
+        PERLIN WHITE
+
+MENU
+    FILE
+        NEW PROJECT
+        OPEN
+        SAVE
+        SAVE AS ...
+        IMPORT
+            .WAV
+            .OGG
+            .MP4
+            .AVI
+            VISUAL
+                .GLTF + [.WAV .OGG .MP4 .AVI]
+        EXPORT [44100hz192Khz+]
+            .WAV
+            .OGG
+            .MP4
+            .AVI
+            VISUAL
+                .GLTF + [.WAV .OGG .MP4 .AVI]
+    EDIT
+        UNDO
+        REDO
+        CUT
+        COPY
+        PASTE
+        DUPLICATE SELECTION
+        NORMALIZE SELECTION [dB]
+        MERGE SELECTION
+        NOISE BRUSH
+            BLACK / BROWN / YELLOW
+            BLUE
+            GREY
+            PINK
+            PURPLE
+            WHITE
+            PERLIN WHITE
+    VIEW
+        ZOOM IN
+        ZOOM OUT
+        FIT TO CONTENT
+        CLIP WINDOW
+        BROWSER WINDOW
+        INFO WINDOW
+        MIXER WINDOW
+    CREATE
+        AUDIO EFFECT TRACK
+        AUDIO TRACK
+        MIDI TRACK
+        VIRTUAL INSTRUMENT
+        AUDIO CLIP
+        MIDI CLIP
+    DEVICE
+        ADD TRACK-, RACK- DEVICE
+        EDIT DEVICE
+        BYPASS DEVICE
+    OPTIONS
+        PREFERENCES
+        KEY MAP VIEWER
+        CONTROL SURFACE
+        LINK/MIDI
+        OPEN FILE FOLDER
+    WINDOW
+        ARRANGE WINDOWS
+            CASCADE
+            STACK
+            SAVE ALL
+            MINIMIZE ALL
+            CLOSE ALL
+        SHOW / HIDE CLIP WINDOW
+        SHOW / HIDE BROWSER WINDOW
+        SHOW / HIDE INFO WINDOW
+        SHOW / HIDE MIXER WINDOW
+        SHOW / HIDE DEVICE WINDOW
+    HELP
+        MANUAL
+        REFERENCE
+        SUPPORT
+        LICENSE
+        CHECK FOR UPDATES
+
+CONTEXT MENU    
+    VOLUME NORMALIZATION [dB]
+    DUPLICATE SELECTION
+    NORMALIZE SELECTION [dB]
+    MERGE SELECTION
+    NOISE BRUSH
+        BLACK/BROWN
+        BLUE
+        GREY
+        PINK
+        PURPLE
+        WHITE
+        PERLIN WHITE
