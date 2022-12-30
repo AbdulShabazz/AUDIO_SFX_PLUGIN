@@ -3,3 +3,6 @@ SOLU: It appears TSharedRef<> in-class type declarations, and *.toSharedRef() cl
 
 SYMP: Error UMGViewportComponent derived from class SWindow, and other components is undefined
 SOLU: Remove class SWindow, class IModuleInterface, class FToolBarBuilder, class FMenuBuilder, class FViewportClient forward dedclarations in header file
+
+SYMP: UE_FLOAT64 SampleRateUInt64 = 44'100_hz; // Error user-defined operator not found (overloaded operator"")
+SOLU: UE_FLOAT64 SampleRateUInt64 = 44'100.0_hz;
