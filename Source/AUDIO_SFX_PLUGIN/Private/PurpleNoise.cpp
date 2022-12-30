@@ -8,10 +8,10 @@ PurpleNoise::PurpleNoise()
 
 void PurpleNoise::ApplyPurpleFilter(FILEINFO_Obj& FileInfoObj)
 {
-    int I = FileInfoObj.LengthInt16;
-    for (int i = 0; i < I; i++)
+    UE_UINT64 iUInt64 = 0;
+    for (UE_FLOAT64REF SampleIdxFloat64Ref : FileInfoObj.NoiseBufferFloat64)
     {
-        FileInfoObj.NoiseBufferInt32[i] /= std::sqrt(i);
+        SampleIdxFloat64Ref /= std::sqrt(iUInt64++ + 1);
     }
 }
 
