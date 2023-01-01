@@ -1,6 +1,8 @@
 #include "BlueNoise.h"
 #include "Tones.Default.Settings.h"
 
+using namespace ToneLibrary;
+
 BlueNoise::BlueNoise()
 {
 }
@@ -14,13 +16,12 @@ void BlueNoise::ApplyBlueFilter(FILEINFO_Obj& FileInfoObj)
     std::mt19937_64 gen(rd());
 
     // Generate noise sample buffer
-    std::uniform_real_distribution<const UE_FLOAT64> dis(0.0f,1.0f);
+    UniformRealDistributionFloat64 dis(0.0f,1.0f);
 
     // Generate noise sample buffer
     UE_UINT64 iUInt64 = 0;
     for (UE_FLOAT64REF SampleIdxFloat64Ref : FileInfoObj.NoiseBufferFloat64)
     {
-        /* UE_UINT64 frequencyUInt64 = 1 << iUInt64; */
         UE_UINT64 amplitude = std::pow(FileInfoObj.BlackNoisePersistenceValueFloat64, iUInt64++);
         SampleIdxFloat64Ref += dis(gen) + amplitude;
     }
