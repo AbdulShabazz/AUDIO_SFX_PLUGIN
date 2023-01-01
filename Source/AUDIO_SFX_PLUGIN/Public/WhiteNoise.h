@@ -2,9 +2,12 @@
 
 struct IFILEINFO_Obj;
 
-class WhiteNoise
+namespace ToneLibrary
 {
-public:
-    WhiteNoise();
-    void GenerateWhiteNoise(FILEINFO_Obj& FileInfoObj);
-};
+    class WhiteNoise
+    {
+    public:
+        WhiteNoise();
+        void GenerateWhiteNoise(FILEINFO_Obj& FileInfoObj);
+    };
+}
