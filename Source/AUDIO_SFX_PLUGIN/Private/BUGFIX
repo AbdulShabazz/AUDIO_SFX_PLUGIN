@@ -1,11 +1,11 @@
 SYMP: Error C2248 'FSlateControlledConstruction::operator new': cannot access private member declared in class 'FSlateControlledConstruction'	...	
 SOLU: It appears TSharedRef<> in-class type declarations, and *.toSharedRef() class members are not allowed on derived Slates 
 
-SYMP: Error UMGViewportComponent derived from class SWindow, and other components is undefined
-SOLU: Remove class SWindow, class IModuleInterface, class FToolBarBuilder, class FMenuBuilder, class FViewportClient forward dedclarations in header file
+SYMP: Error UMGViewportComponent derived from class SWindow, and other components - undefined
+SOLU: Remove class SWindow, class IModuleInterface, class FToolBarBuilder, class FMenuBuilder, class FViewportClient forward dedclarations into header file
 
 SYMP: UE_FLOAT64 SampleRateUInt64 = 44'100_hz; // Error user-defined operator not found (overloaded operator"")
-SOLU: UE_FLOAT64 SampleRateUInt64 = 44'100.0_hz;
+SOLU: UE_FLOAT64 SampleRateUInt64 = 44'100.0_hz; // Add float designation
 
 SYMP: Error C2338 invalid template input to std::unifrm_real_distribution (pragma once Tones.Default.Settings.h Scoping error; Multiple local template declarations)
 SOLU: Move std::uniform_real_distribution<UE_FLOAT64> declaration into global Tones.Default.Settings.h: using UniformRealDistributionFloat64 = std::uniform_real_distribution<UE_FLOAT64>;
