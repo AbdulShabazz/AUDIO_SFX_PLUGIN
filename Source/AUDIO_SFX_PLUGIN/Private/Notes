@@ -11,46 +11,41 @@ x = (a * x + c) % m;
 TODO
 
 -BLANK WINDOW
--TOOLTIPS
-MULTI TAB SUPPORT
-TIMELINE SCRUBBER
-FREQUENCY DUAL SCRUBBER
+
+MULTI TAB AND WINDOW SUPPORT FOR OTHER SETTINGS
+
+TIMELINE SCRUBBER (DUAL-EDGE)
+
+FREQUENCY SCRUBBER (DUAL-EDGE)
+
 3D VIEWPORT
+
 NOISE BRUSH
-TOOLBAR
-    VOLUME NORMALIZATION [dB]
-    DUPLICATE SELECTION
-    NORMALIZE SELECTION [dB]
-    MERGE SELECTION
-    NOISE BRUSH
-        BLACK / BROWN / YELLOW
-        BLUE
-        GREY
-        PINK
-        PURPLE
-        WHITE
-        PERLIN WHITE
 
 MENU
     FILE
         NEW PROJECT
         OPEN
+            .GLTF + [.WAV .OGG .MP4 .AVI .VST2]
         SAVE
-        SAVE AS ...
-        IMPORT
+        SAVE AS...
+            .GLTF + [.WAV .OGG .MP4 .AVI .VST2]
+        IMPORT        
+            .GLTF + [.WAV .OGG .MP4 .AVI .VST2]
+            .WAV
+            .OGG
+            .MP4
+            .AVI
+            .VST2
+            VISUAL FILE ONLY (REBUILD PROJECT)
+                .GLTF
+        EXPORT [44100 hz - 192+ khz]
             .WAV
             .OGG
             .MP4
             .AVI
             VISUAL
-                .GLTF + [.WAV .OGG .MP4 .AVI]
-        EXPORT [44100hz192Khz+]
-            .WAV
-            .OGG
-            .MP4
-            .AVI
-            VISUAL
-                .GLTF + [.WAV .OGG .MP4 .AVI]
+                .GLTF + [.WAV .OGG .MP4 .AVI .VST2]
     EDIT
         UNDO
         REDO
@@ -58,16 +53,29 @@ MENU
         COPY
         PASTE
         DUPLICATE SELECTION
-        NORMALIZE SELECTION [dB]
+        NORMALIZE | EQUALIZE SELECTION [dB]
         MERGE SELECTION
+        MIX SELECTION
+        SAMPLE SELECTION (CREATE BRUSH)
         NOISE BRUSH
-            BLACK / BROWN / YELLOW
+            BLACK- | BROWN- | YELLOW-
             BLUE
             GREY
             PINK
             PURPLE
             WHITE
+            FRACTAL
             PERLIN WHITE
+            PERLIN SIMPLEX
+            INTERPOLATION METHOD 
+                LINEAR
+                BILINEAR
+                POLYNOMIAL
+                SPLINE
+                CUBIC
+            ANALYSIS METHOD
+                COOLEY-TUKEY
+                BLUESTEIN
     VIEW
         ZOOM IN
         ZOOM OUT
@@ -76,23 +84,49 @@ MENU
         BROWSER WINDOW
         INFO WINDOW
         MIXER WINDOW
-    CREATE
-        AUDIO EFFECT TRACK
+    GENERATE
         AUDIO TRACK
+        AUDIO TRACK EFFECT
         MIDI TRACK
         VIRTUAL INSTRUMENT
         AUDIO CLIP
         MIDI CLIP
+        ADVANCED DRUM SEQUENCE
+        AUDIO-TO-MIDI CONVERSION
+        ADVANCED MODULATION
+            LOW FREQUENCY OSCILLATORS (LFO)
+            ENVELOPE (TRACK MOTION) GENERATORS
+        AUDIO WARPING
+        AUDIO SAMPLING
+            TIME STRETCHING
+            PITCH SHIFT
+            REVERB
+                PLATE
+                SPRING
+                CONVOLUTION
+                ALGORITHMIC
+                    SMALL ROOM
+                        WOOD
+                        GLASS
+                        METAL
+                        RUBBER
+                        CERAMIC
+                    MEDIUM HALL
+                    CONCERT HALL
+                    CATHEDRAL
+        GRANULAR SYNTHESIS
+        COMPILE TO BLUEPRINTS AUDIO NODE
     DEVICE
-        ADD TRACK-, RACK- DEVICE
+        ADD TRACK- AND OR RACK- DEVICE
         EDIT DEVICE
         BYPASS DEVICE
     OPTIONS
         PREFERENCES
         KEY MAP VIEWER
         CONTROL SURFACE
-        LINK/MIDI
+        LINK TO MIDI
         OPEN FILE FOLDER
+        CUSTOMIZE EDITOR
     WINDOW
         ARRANGE WINDOWS
             CASCADE
@@ -112,16 +146,10 @@ MENU
         LICENSE
         CHECK FOR UPDATES
 
-CONTEXT MENU    
-    VOLUME NORMALIZATION [dB]
-    DUPLICATE SELECTION
-    NORMALIZE SELECTION [dB]
-    MERGE SELECTION
-    NOISE BRUSH
-        BLACK/BROWN
-        BLUE
-        GREY
-        PINK
-        PURPLE
-        WHITE
-        PERLIN WHITE
+REQUIREMENTS [PRODUCT OF PRIMES]
+3 MENU HANDLER
+5 API
+7 TOOLTIPS
+11 TOOLBAR
+13 CONTEXT MENU HANDLER
+17 SHORTCUT KEY
