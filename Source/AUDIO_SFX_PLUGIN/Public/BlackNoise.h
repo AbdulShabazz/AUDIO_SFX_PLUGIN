@@ -2,11 +2,14 @@
 
 struct FILEINFO_Obj;
 
-class BlackNoise
+namespace ToneLibrary
 {
-public:
-    BlackNoise();
-    void GenerateBlackNoise(FILEINFO_Obj& FileInfoObj);
-protected:
-    void ApplyBlackFilter(FILEINFO_Obj& FileInfoObj);
-};
+    class BlackNoise
+    {
+    public:
+        BlackNoise();
+        void GenerateBlackNoise(FILEINFO_Obj& FileInfoObj);
+    protected:
+        void ApplyBlackFilter(FILEINFO_Obj& FileInfoObj);
+    };
+}
