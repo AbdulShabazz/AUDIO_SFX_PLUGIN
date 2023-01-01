@@ -2,6 +2,8 @@
 #include "WhiteNoise.h"
 #include "Tones.Default.Settings.h"
 
+using namespace ToneLibrary;
+
 PurpleNoise::PurpleNoise()
 {
 }
