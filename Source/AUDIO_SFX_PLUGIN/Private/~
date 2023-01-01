@@ -408,3 +408,80 @@ void FAUDIO_SFX_PLUGINModule::CreateCameraViewportPlayerControllerEtc()
         FText::FromString(TEXT("FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab")),
         FText::FromString(TEXT("AUDIO_SFX_PLUGIN.cpp"))
         );
+
+
+    UE_UINT64 iUInt64 = 0;
+    for (UE_FLOAT64REF SampleIdxFloat64Ref : FileInfoObj.NoiseBufferFloat64)
+    {
+        /* UE_UINT64 frequencyUInt64 = 1 << iUInt64; */
+        UE_UINT64 amplitude = std::pow(FileInfoObj.BlackNoisePersistenceValueFloat64, iUInt64++);
+        SampleIdxFloat64Ref += dis(gen) + amplitude;
+    }
+
+class Tone : public 
+    BlackNoise, 
+    BlueNoise,
+    GreyNoise,
+    PinkNoise,
+    PurpleNoise,
+    WhiteNoise//,
+    //WhitePerlinNoise
+{
+
+public:
+
+    Tone();
+
+    struct NOISE_OBJ
+    {
+        BlackNoise Black;
+        BlueNoise Blue;
+        GreyNoise Grey;
+        PinkNoise Pink;
+        PurpleNoise Purple;
+        WhiteNoise White;
+       // WhitePerlinNoise Perlin;
+    } NoiseObj;
+
+    struct RANDOMTONE_OBJ {
+
+    } RandomToneGenerateObj;
+};
+
+/*
+class Tone : public 
+    BlackNoise, 
+    BlueNoise,
+    GreyNoise,
+    PinkNoise,
+    PurpleNoise,
+    WhiteNoise,
+    WhitePerlinNoise,
+    SimplexNoise,
+    FractalNoise
+{
+
+public:
+
+    Tone();
+
+    struct NOISE_OBJ
+    {
+        BlackNoise Black;
+        BlueNoise Blue;
+        GreyNoise Grey;
+        PinkNoise Pink;
+        PurpleNoise Purple;
+        WhiteNoise White;
+        WhitePerlinNoise PerlinWhite;
+        SimplexNoise PerlinSimplex;
+        FractalNoise Fractal;
+    } NoiseObj;
+
+};
+*/
+
+
+//Tone::Tone()
+//{
+//}
