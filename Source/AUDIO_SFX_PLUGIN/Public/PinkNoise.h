@@ -2,11 +2,14 @@
 
 struct FILEINFO_Obj;
 
-class PinkNoise
+namespace ToneLibrary
 {
-public:
-    PinkNoise();
-    void GeneratePinkNoise(FILEINFO_Obj& FileInfoObj);
-protected:
-    void ApplyPinkFilter(FILEINFO_Obj& FileInfoObj);
-};
+    class PinkNoise
+    {
+    public:
+        PinkNoise();
+        void GeneratePinkNoise(FILEINFO_Obj& FileInfoObj);
+    protected:
+        void ApplyPinkFilter(FILEINFO_Obj& FileInfoObj);
+    };
+}
