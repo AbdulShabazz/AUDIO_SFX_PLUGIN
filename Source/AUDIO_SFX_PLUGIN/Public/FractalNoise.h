@@ -7,6 +7,11 @@ namespace ToneLibrary
     class FractalNoise
     {
     protected:
+        void ApplyDiamondNoiseArrayShape(FILEINFO_Obj& FileInfoObj);
+        void ApplyTriangularNoiseArrayShape(FILEINFO_Obj& FileInfoObj);
+        void ApplyCircularNoiseArrayShape(FILEINFO_Obj& FileInfoObj);
+        void ApplyRectangularNoiseArrayShape(FILEINFO_Obj& FileInfoObj);
+        void ApplySquareNoiseArrayShape(FILEINFO_Obj& FileInfoObj);
         void ApplyFractalNoiseFilter(FILEINFO_Obj& FileInfoObj);
     public:
         FractalNoise();
