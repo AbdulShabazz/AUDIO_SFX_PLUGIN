@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>>
+#include <vector>
 #include <cmath>
 #include <random>
 #include <array>
@@ -54,20 +54,37 @@ struct FILEINFO_Obj
 };
 
 template<typename T> 
-T DotProductT(const std::vector<T>& a, const std::vector<T>& b)
+T DotProductT(
+    const std::vector<T>& a, 
+    const std::vector<T>& b
+    )
 {
     return a[0] * b[0] + a[1] * b[1];
 }
 
-#define DotProductUint64 DotProductT<UE_UINT64>
-
-template<typename A, typename B>
-B BilinearInterpolationT(A n0, A n1, A n2, A n3, B wx, B wy)
+template<typename U>
+U BilinearInterpolationT(
+    const UE_UINT64 n0, 
+    const UE_UINT64 n1, 
+    const UE_UINT64 n2, 
+    const UE_UINT64 n3, 
+    const U wx, 
+    const U wy
+    )
 {
-    B wx_offset = (1 - wx);
-    B wy_offset = (1 - wy);
+    U wx_offset = (1 - wx);
+    U wy_offset = (1 - wy);
     return n0 * wx_offset * wy_offset +
         n1 * wx * wy_offset +
         n2 * wx_offset * wy +
-        n3 * wx * wy
+        n3 * wx * wy ;
 }
+
+UE_FLOAT64 DotProductFloat64(
+    const std::vector<UE_FLOAT64>& a, 
+    const std::vector<UE_FLOAT64>& b
+    )
+{
+    return  DotProductT<UE_FLOAT64>(a, b);
+}
+using UniformRealDistributionFloat64 = std::uniform_real_distribution<UE_FLOAT64>;
