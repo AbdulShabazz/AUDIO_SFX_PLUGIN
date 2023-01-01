@@ -1,6 +1,8 @@
 #include "GreyNoise.h"
 #include "Tones.Default.Settings.h"
 
+using namespace ToneLibrary;
+
 GreyNoise::GreyNoise()
 {
 }
