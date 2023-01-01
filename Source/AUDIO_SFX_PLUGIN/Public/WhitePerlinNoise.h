@@ -2,16 +2,19 @@
 
 struct FILEINFO_Obj;
 
-class WhitePerlinNoise
+namespace ToneLibrary
 {
+    class WhitePerlinNoise
+    {
 
-public:
+    public:
 
-    WhitePerlinNoise();
-    void GenerateWhitePerlinNoise(FILEINFO_Obj& FileInfoObj);
+        WhitePerlinNoise();
+        void GenerateWhitePerlinNoise(FILEINFO_Obj& FileInfoObj);
 
-protected:
+    protected:
 
-    void ApplyWhitePerlinNoiseFilter(FILEINFO_Obj& FileInfoObj);
-};
+        void ApplyWhitePerlinNoiseFilter(FILEINFO_Obj& FileInfoObj);
+    };
 
+}
