@@ -24,7 +24,7 @@ void WhiteNoise::GenerateWhiteNoise(FILEINFO_Obj& FileInfoObj)
     std::mt19937_64 gen(rd());
 
     // Generate noise sample buffer
-    std::uniform_real_distribution<UE_FLOAT64> dis(
+    UniformRealDistributionFloat64 dis(
         -TonesSettingsObj.AmplitudeFloat64, 
          TonesSettingsObj.AmplitudeFloat64
         );
