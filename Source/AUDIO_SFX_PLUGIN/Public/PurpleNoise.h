@@ -2,12 +2,15 @@
 
 struct FILEINFO_Obj;
 
-class PurpleNoise
+namespace ToneLibrary
 {
-public:
-    PurpleNoise();
-    void GeneratePurpleNoise(FILEINFO_Obj& FileInfoObj);
-protected:
-    void ApplyPurpleFilter(FILEINFO_Obj& FileInfoObj);
+    class PurpleNoise
+    {
+    public:
+        PurpleNoise();
+        void GeneratePurpleNoise(FILEINFO_Obj& FileInfoObj);
+    protected:
+        void ApplyPurpleFilter(FILEINFO_Obj& FileInfoObj);
 
-};
+    };
+}
