@@ -54,8 +54,24 @@ MENU
         PASTE
         DUPLICATE SELECTION
         NORMALIZE | EQUALIZE SELECTION [dB]
+        LATENCY SETTINGS
         MERGE SELECTION
         MIX SELECTION
+        ADJUST PITCH
+        ADJUST BPM
+        ADJUST TIME SIGNATURE
+        ADJUST GAIN
+        SOLO-
+            SELECTION
+            FREQUENCY
+            CHANNEL
+        FADE
+            IN
+            OUT
+        CROSSFADE
+            L > R
+            R > L
+            BOTH
         SAMPLE SELECTION (CREATE BRUSH)
         NOISE BRUSH
             BLACK- | BROWN- | YELLOW-
@@ -65,6 +81,17 @@ MENU
             PURPLE
             WHITE
             FRACTAL
+                SQUARE
+                    SMOOTHINESS
+                        2
+                        3
+                        4
+                        8
+                        16
+                RECTANGLE
+                CIRCLE
+                TRIANGLE
+                DIAMOND
             PERLIN WHITE
             PERLIN SIMPLEX
             INTERPOLATION METHOD 
@@ -76,6 +103,9 @@ MENU
             ANALYSIS METHOD
                 COOLEY-TUKEY
                 BLUESTEIN
+        STRIP SILENCE
+        EXTEND SESSION
+
     VIEW
         ZOOM IN
         ZOOM OUT
@@ -84,9 +114,18 @@ MENU
         BROWSER WINDOW
         INFO WINDOW
         MIXER WINDOW
+    SESSION
+        PLAY
+        PAUSE
+        STOP     
+        PLAY (SELECTION)        
+        PLAY (MARKERS)
+        PLAY (CONTINUOUS)
+        ADD TAG
     GENERATE
         AUDIO TRACK
         AUDIO TRACK EFFECT
+        DOLBY CHANNEL
         MIDI TRACK
         VIRTUAL INSTRUMENT
         AUDIO CLIP
@@ -98,6 +137,11 @@ MENU
             ENVELOPE (TRACK MOTION) GENERATORS
         AUDIO WARPING
         AUDIO SAMPLING
+            BANDPASS
+            BANDREJECT
+            HIGHPASS
+            LOWPASS
+            FIR IMPULSE RESPONSE
             TIME STRETCHING
             PITCH SHIFT
             REVERB
@@ -115,7 +159,7 @@ MENU
                     CONCERT HALL
                     CATHEDRAL
         GRANULAR SYNTHESIS
-        COMPILE TO BLUEPRINTS AUDIO NODE
+        COMPILE TO UREAL ENGINE BLUEPRINTS AUDIO NODE
     DEVICE
         ADD TRACK- AND OR RACK- DEVICE
         EDIT DEVICE
