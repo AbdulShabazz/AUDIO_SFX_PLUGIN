@@ -6,6 +6,8 @@
 #include <array>
 #include <algorithm>
 #include <string>
+#include <iostream>
+#include <complex>
 
 using UE_UINT16 = unsigned int;
 using UE_UINT64 = unsigned long long int;
@@ -13,6 +15,11 @@ using UE_FLOAT64 = long double;
 using UE_FLOAT64PTR = long double*;
 using UE_FLOAT64REF = long double&;
 using UE_VECTOR1DFLOAT64REF = std::vector<UE_FLOAT64>&;
+
+UE_FLOAT64 operator"" _dB(UE_FLOAT64 iFloat64)
+{
+    return iFloat64;
+}
 
 UE_FLOAT64 operator"" _hz(UE_FLOAT64 iFloat64)
 {
@@ -50,7 +57,59 @@ struct FILEINFO_Obj
     UE_UINT64 PerlinNoiseHeightUInt64;
     UE_FLOAT64 PerlinNoiseNumGradientsFloat64;
     UE_FLOAT64 BlackNoisePersistenceValueFloat64;
+    UE_UINT64 AudioFormatUInt64;
+    UE_FLOAT64 AudioBitRateFloat64;
+    UE_FLOAT64 AudioSampleRateFloat64;
+    /**
+    * Number of desired dolby audio channels. Default value is 2. This value
+    * can be adjusted.
+    */
+    UE_UINT64 AudioNumberOfDolbyChannelsUInt64 = 2;
+    /**
+    * Length, or desired length in BYTES of the file in question. This value
+    * can be adjusted.
+    */
     UE_UINT64 LengthUInt64;
+    /**  The fractal noise dynamic range,from 0 to this value. Default is 32.
+    */
+    UE_FLOAT64 FractalNoiseRangeParameterFloat64 = 32;
+    /**
+    * This helps smooth out the fractal noise square pattern
+    * to reduce the overall variation between adjacent values.
+    * 
+    * The degree of smoothing can be adjusted by changing this value
+    * which serves as the divisor. For example, if you want a smoother
+    * noise pattern you could use a divisor of 8 or 16 or 4. This would
+    * result in a noise pattern with a lower level of detail and less variation
+    * between adjacent values.
+    * 
+    * On the other hand, if you desire a noisier, more varied pattern, you
+    * could use a smaller divisor such as 2 or 3.
+    * 
+    * Overall, the choice is a completely personal preference and specific to the
+    * requirements of the application.
+    * @param [ UE_FLOAT64 2, 3, 4, 8, or 16 ] --- valid params. Default is 4.
+    */
+    UE_FLOAT64 FractalNoiseSquaresSmoothnessFactorFloat64 = 4; 
+    enum class FractalNoiseArrayShapeENUM 
+    { 
+        Square = 1, 
+        Rectangular,
+        Circular,
+        Triangular,
+        Diamond
+    };
+    /**
+    * This setting determines the shape of the noise pattern array. The shape
+    * can effect the overall appearance and characteristics of the noise.
+    * The avalable patterns are Square, Rectangular, Circular, Triangular,
+    * and Diamond.
+    * For example, a square noise pattern will have a more evenly distributed appearance.
+    * Whereas a rectangle or other irregular shape may have a more uneven, organic appearance,
+    * with different levels of detail in different directions.
+    * @param [ enum class FractalNoiseArrayShapeSettingEnum ] --- Used to determine the shape of the generated noise.
+    */
+    FractalNoiseArrayShapeENUM FractalNoiseArrayShapeSettingEnum = FractalNoiseArrayShapeENUM::Square;
 };
 
 template<typename T> 
