@@ -485,3 +485,9 @@ public:
 //Tone::Tone()
 //{
 //}
+
+
+    {
+        std::cout << "Error - AudioEqualization::CooleyTukeyFFT: invalid parameter, FileInfoObj.LengthUInt64" << std::endl;
+        return;
+    }
