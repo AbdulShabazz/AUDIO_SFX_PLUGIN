@@ -9,3 +9,6 @@ SOLU: UE_FLOAT64 SampleRateUInt64 = 44'100.0_hz; // Add float designation
 
 SYMP: Error C2338 invalid template input to std::unifrm_real_distribution (pragma once Tones.Default.Settings.h Scoping error; Multiple local template declarations)
 SOLU: Move std::uniform_real_distribution<UE_FLOAT64> declaration into global Tones.Default.Settings.h: using UniformRealDistributionFloat64 = std::uniform_real_distribution<UE_FLOAT64>;
+
+SYMP: Error overloaded template not found - std::complex<double>& c_ref = c;
+SOLU: An object reference must always be initialized with the address of an object - std::complex<double> c(0.0f, 0.0f); std::complex<double>& c_ref = c;
