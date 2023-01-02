@@ -67,7 +67,7 @@ void FractalNoise::ApplySquareNoiseArrayShape(FILEINFO_Obj& FileInfoObj)
 
                 // Calculate the midpoint values
                 SquareNoiseShapeElementsFloat64[xUInt64 + HalfLengthUInt64][yUint64 + HalfLengthUInt64] =
-                    (aUInt64 + bUInt64 + cUInt64 + dUInt64) / FileInfoObj.FractalNoiseSquaresSmoothnessValueFloat64 +
+                    (aUInt64 + bUInt64 + cUInt64 + dUInt64) / FileInfoObj.FractalNoiseSquaresSmoothnessFactorFloat64 +
                     dis(gen) * FileInfoObj.FractalNoiseRangeParameterFloat64 -
                     FileInfoObj.FractalNoiseRangeParameterFloat64 / 2;
             }
