@@ -1,4 +1,12 @@
 
+
+template<typename T>
+T operator"" _ghz(T iFloat64)
+{
+    return iFloat64 * 1e9;
+}
+
+
 /********************
 * HEADER DECLARATIONS
 *********************/
