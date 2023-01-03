@@ -16,6 +16,9 @@ using UE_FLOAT64PTR = long double*;
 using UE_FLOAT64REF = long double&;
 using UE_VECTOR1DFLOAT64REF = std::vector<UE_FLOAT64>&;
 
+const UE_FLOAT64 M_PI = 3.14159265358979323846L;
+
+// FLOAT64
 UE_FLOAT64 operator"" _dB(UE_FLOAT64 iFloat64)
 {
     return iFloat64;
@@ -41,6 +44,32 @@ UE_FLOAT64 operator"" _ghz(UE_FLOAT64 iFloat64)
     return iFloat64 * 1e9;
 }
 
+// INT64
+UE_UINT64 operator"" _dB(UE_UINT64 iFloat64)
+{
+    return iFloat64;
+}
+
+UE_UINT64 operator"" _hz(UE_UINT64 iFloat64)
+{
+    return iFloat64;
+}
+
+UE_UINT64 operator"" _khz(UE_UINT64 iFloat64)
+{
+    return iFloat64 * 1e3;
+}
+
+UE_UINT64 operator"" _mhz(UE_UINT64 iFloat64)
+{
+    return iFloat64 * 1e6;
+}
+
+UE_UINT64 operator"" _ghz(UE_UINT64 iFloat64)
+{
+    return iFloat64 * 1e9;
+}
+
 struct SETTINGS_OBJ
 {
     UE_FLOAT64 SampleRateUInt64 = 44'100.0_hz;
@@ -59,15 +88,16 @@ struct FILEINFO_Obj
     UE_FLOAT64 BlackNoisePersistenceValueFloat64;
     UE_UINT64 AudioFormatUInt64;
     UE_FLOAT64 AudioBitRateFloat64;
-    UE_FLOAT64 AudioSampleRateFloat64;
     /**
-    * Number of desired dolby audio channels. Default value is 2. This value
-    * can be adjusted.
+    * Audio sample rate of desired Dolby audio channels. Default: 192.0_khz
+    */
+    UE_FLOAT64 AudioSampleRateFloat64 = 192.0_khz;
+    /**
+    * Number of desired dolby audio channels. Default: 2
     */
     UE_UINT64 AudioNumberOfDolbyChannelsUInt64 = 2;
     /**
-    * Length, or desired length in BYTES of the file in question. This value
-    * can be adjusted.
+    * Length, or desired, in BYTES of the file.
     */
     UE_UINT64 LengthUInt64;
     /**  The fractal noise dynamic range,from 0 to this value. Default is 32.
