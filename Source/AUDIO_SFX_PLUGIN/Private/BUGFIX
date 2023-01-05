@@ -12,3 +12,6 @@ SOLU: Move std::uniform_real_distribution<UE_FLOAT64> declaration into global To
 
 SYMP: Error overloaded template not found - std::complex<double>& c_ref = c;
 SOLU: An object reference must always be initialized with the address of an object - std::complex<double> c(0.0f, 0.0f); std::complex<double>& c_ref = c;
+
+SYPM: Error C3861 ComplexVectorFloat64T not defined
+SOLU: using ComplexVectorFloat64T = <std::vector<std::complex<T>>>; ==> using ComplexVectorFloat64T = std::vector<std::complex<T>>;
