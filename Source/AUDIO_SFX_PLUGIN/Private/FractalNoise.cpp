@@ -3,35 +3,41 @@
 
 using namespace ToneLibrary;
 
-FractalNoise::FractalNoise()
+template<typename T, typename U>
+FractalNoise<T,U>::FractalNoise()
 {
 }
 
-void FractalNoise::ApplyDiamondNoiseArrayShape(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void FractalNoise<T,U>::ApplyDiamondNoiseArrayShape(FILEINFO_Obj<T,U>& FileInfoObj)
 {
 }
 
-void FractalNoise::ApplyTriangularNoiseArrayShape(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void FractalNoise<T,U>::ApplyTriangularNoiseArrayShape(FILEINFO_Obj<T,U>& FileInfoObj)
 {
 }
 
-void FractalNoise::ApplyCircularNoiseArrayShape(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void FractalNoise<T,U>::ApplyCircularNoiseArrayShape(FILEINFO_Obj<T,U>& FileInfoObj)
 {
 }
 
-void FractalNoise::ApplyRectangularNoiseArrayShape(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void FractalNoise<T,U>::ApplyRectangularNoiseArrayShape(FILEINFO_Obj<T,U>& FileInfoObj)
 {
 }
 
-void FractalNoise::ApplySquareNoiseArrayShape(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void FractalNoise<T,U>::ApplySquareNoiseArrayShape(FILEINFO_Obj<T,U>& FileInfoObj)
 {
     // Find the byte quota to determine the allotment of elements
     const short NumBytesPerElementShortInt = 4;
-    const UE_UINT64 NumberOfTotalElementsUInt64 = (FileInfoObj.LengthUInt64 / NumBytesPerElementShortInt) + 1; // int coerce
-    UE_UINT64 NumberOfSquareElementsUInt64 = (UE_UINT64)ceil(sqrt(NumberOfTotalElementsUInt64));
+    const U NumberOfTotalElementsUInt64 = (FileInfoObj.LengthUInt64 / NumBytesPerElementShortInt) + 1; // int coerce
+    U NumberOfSquareElementsUInt64 = static_cast<U>(ceil(sqrt(NumberOfTotalElementsUInt64)));
 
     // Init SquareNoiseShapeElementsFloat64[NumberOfSquareElementsUInt64][NumberOfSquareElementsUInt64]
-    std::vector<std::vector<UE_FLOAT64>> SquareNoiseShapeElementsFloat64(NumberOfSquareElementsUInt64, std::vector<UE_FLOAT64>(NumberOfSquareElementsUInt64));
+    Vector2DT<T> SquareNoiseShapeElementsFloat64(NumberOfSquareElementsUInt64, VectorT<T>(NumberOfSquareElementsUInt64));
 
     // Seed the random number generator
     std::random_device rd;
@@ -40,30 +46,30 @@ void FractalNoise::ApplySquareNoiseArrayShape(FILEINFO_Obj& FileInfoObj)
     std::mt19937_64 gen(rd());
 
     // Set the range of the noise signal
-    UniformRealDistributionFloat64 dis(0.0f, 1.0f);
+    std::uniform_real_distribution<T> dis(0.0f, 1.0f);
 
     // Initialize the corner values
-    UE_UINT64 LastValUInt64 = NumberOfSquareElementsUInt64 - 1;
+    U LastValUInt64 = NumberOfSquareElementsUInt64 - 1;
     SquareNoiseShapeElementsFloat64[0            ][0            ] = dis(gen) * FileInfoObj.FractalNoiseRangeParameterFloat64;
     SquareNoiseShapeElementsFloat64[0            ][LastValUInt64] = dis(gen) * FileInfoObj.FractalNoiseRangeParameterFloat64;
     SquareNoiseShapeElementsFloat64[LastValUInt64][0            ] = dis(gen) * FileInfoObj.FractalNoiseRangeParameterFloat64;
     SquareNoiseShapeElementsFloat64[LastValUInt64][LastValUInt64] = dis(gen) * FileInfoObj.FractalNoiseRangeParameterFloat64;
 
     // Initialize the modpoints
-    for (UE_UINT64 SideLengthUInt64 = LastValUInt64; SideLengthUInt64 >= 2; SideLengthUInt64 /= 2)
+    for (U SideLengthUInt64 = LastValUInt64; SideLengthUInt64 >= 2; SideLengthUInt64 /= 2)
     {
-        UE_UINT64 HalfLengthUInt64 = LastValUInt64 / 2;
+        U HalfLengthUInt64 = static_cast<U>(LastValUInt64 / 2);
 
         // Generate the new values
-        for (UE_UINT64 xUInt64 = 0; xUInt64 < LastValUInt64; xUInt64 += HalfLengthUInt64)
+        for (U xUInt64 = 0; xUInt64 < LastValUInt64; xUInt64 += HalfLengthUInt64)
         {
-            for (UE_UINT64 yUint64 = 0; yUint64 < LastValUInt64; yUint64 += HalfLengthUInt64)
+            for (U yUint64 = 0; yUint64 < LastValUInt64; yUint64 += HalfLengthUInt64)
             {
                 // Get the corner values
-                UE_FLOAT64 aUInt64 = SquareNoiseShapeElementsFloat64[xUInt64                   ][yUint64                   ];
-                UE_FLOAT64 bUInt64 = SquareNoiseShapeElementsFloat64[xUInt64 + HalfLengthUInt64][yUint64                   ];
-                UE_FLOAT64 cUInt64 = SquareNoiseShapeElementsFloat64[xUInt64                   ][yUint64 + HalfLengthUInt64];
-                UE_FLOAT64 dUInt64 = SquareNoiseShapeElementsFloat64[xUInt64 + HalfLengthUInt64][yUint64 + HalfLengthUInt64];
+                T aUInt64 = SquareNoiseShapeElementsFloat64[xUInt64                   ][yUint64                   ];
+                T bUInt64 = SquareNoiseShapeElementsFloat64[xUInt64 + HalfLengthUInt64][yUint64                   ];
+                T cUInt64 = SquareNoiseShapeElementsFloat64[xUInt64                   ][yUint64 + HalfLengthUInt64];
+                T dUInt64 = SquareNoiseShapeElementsFloat64[xUInt64 + HalfLengthUInt64][yUint64 + HalfLengthUInt64];
 
                 // Calculate the midpoint values
                 SquareNoiseShapeElementsFloat64[xUInt64 + HalfLengthUInt64][yUint64 + HalfLengthUInt64] =
@@ -75,17 +81,18 @@ void FractalNoise::ApplySquareNoiseArrayShape(FILEINFO_Obj& FileInfoObj)
     }
 
     // Write-back
-    UE_UINT64 zUInt64 = 0;
-    for (const std::vector<UE_FLOAT64>& xUInt64 : SquareNoiseShapeElementsFloat64)
+    U zUInt64 = 0;
+    for (const VectorT<T>& xUInt64 : SquareNoiseShapeElementsFloat64)
     {
-        for (const UE_FLOAT64& yUInt64 : xUInt64)
+        for (const T& yUInt64 : xUInt64)
         {
             FileInfoObj.NoiseBufferFloat64[zUInt64++] = yUInt64;
         }
     }
 }
 
-void FractalNoise::ApplyFractalNoiseFilter(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void FractalNoise<T,U>::ApplyFractalNoiseFilter(FILEINFO_Obj<T,U>& FileInfoObj)
 {
     // Choose the desired noise array 
     switch (FileInfoObj.FractalNoiseArrayShapeSettingEnum)
@@ -125,7 +132,8 @@ void FractalNoise::ApplyFractalNoiseFilter(FILEINFO_Obj& FileInfoObj)
 * used to retain details for the file.
 * @return [ void ] --- No return value.
 */
-void FractalNoise::GenerateFractalNoise(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void FractalNoise<T,U>::GenerateFractalNoise(FILEINFO_Obj<T,U>& FileInfoObj)
 {
     ApplyFractalNoiseFilter(FileInfoObj);
 }
