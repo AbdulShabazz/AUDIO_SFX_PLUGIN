@@ -1,30 +1,27 @@
 #pragma once
 
 #include "Tones.Default.Settings.h"
-
-struct FILEINFO_Obj;
+#include "CooleyTukeyFFT.h"
+#include "BluesteinFFT.h"
+#include "Radix2FFT.h"
 
 namespace ToneLibrary 
 {
-    using ComplexVectorFloat64 = std::vector<std::complex<UE_FLOAT64>>;
-
+    // Set Float(T) and Unsigned Int (U) resolution 
+    template<typename T, typename U>
     class AudioEqualization
     {
     public:
         AudioEqualization();
-        void GenerateAudioEqualization(FILEINFO_Obj& FileInfoObj);
+        void GenerateAudioEqualization(FILEINFO_Obj<T,U>&);
     protected:
-        void ApplyAudioEqualizationFilter(FILEINFO_Obj& FileInfoObj);
-        void CooleyTukeyFFT(
-            FILEINFO_Obj& FileInfoObj,
-            ComplexVectorFloat64& );
-        void BluesteinFFT(
-            FILEINFO_Obj& FileInfoObj,
-            ComplexVectorFloat64& );
-        void Radix2FFT(
-            FILEINFO_Obj& FileInfoObj,
-            ComplexVectorFloat64& );
-        void NormalizeAudio(ComplexVectorFloat64& m);
+        void ApplyAudioEqualizationFilterT(FILEINFO_Obj<T,U>&);
+        void NormalizeComplexAudioT(FILEINFO_Obj<T, U>&);
+        void NormalizeAudioForPlaybackT(FILEINFO_Obj<T, U>&);
+
+        CooleyTukeyFFT<T, U> iCooleyTukeyFFT;
+        BluesteinFFT<T, U> iBluesteinFFT;
+        Radix2FFT<T, U> iRadix2FFT;
     };
 }
 
