@@ -3,11 +3,13 @@
 
 using namespace ToneLibrary;
 
-BlueNoise::BlueNoise()
+template<typename T, typename U>
+BlueNoise<T,U>::BlueNoise()
 {
 }
 
-void BlueNoise::ApplyBlueFilter(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void BlueNoise<T,U>::ApplyBlueFilter(FILEINFO_Obj<T,U>& FileInfoObj)
 {
     // Seed the random number generator
     std::random_device rd;
@@ -36,7 +38,8 @@ void BlueNoise::ApplyBlueFilter(FILEINFO_Obj& FileInfoObj)
 * used to retain details for the file.
 * @return [ void ] --- No return value.
 */
-void BlueNoise::GenerateBlueNoise(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void BlueNoise<T,U>::GenerateBlueNoise(FILEINFO_Obj<T,U>& FileInfoObj)
 {
     ApplyBlueFilter(FileInfoObj);
 }
