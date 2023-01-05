@@ -4,12 +4,15 @@
 
 using namespace ToneLibrary;
 
-PinkNoise::PinkNoise()
+template<typename T, typename U>
+PinkNoise<T,U>::PinkNoise()
 {
+
 }
 
 // Apply 1/f^2 high-pass filter to shape noise spectrum
-void PinkNoise::ApplyPinkFilter(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void PinkNoise<T,U>::ApplyPinkFilter(FILEINFO_Obj<T,U>& FileInfoObj)
 {
     // Generate noise sample buffer
     UE_UINT64 iUInt64 = 0;
@@ -29,9 +32,10 @@ void PinkNoise::ApplyPinkFilter(FILEINFO_Obj& FileInfoObj)
 * used to retain details for the file.
 * @return [ void ] --- No return value.
 */
-void PinkNoise::GeneratePinkNoise(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void PinkNoise<T,U>::GeneratePinkNoise(FILEINFO_Obj<T,U>& FileInfoObj)
 {
-    WhiteNoise WhiteNoiseObj;
+    WhiteNoise<T,U> WhiteNoiseObj;
     WhiteNoiseObj.GenerateWhiteNoise(FileInfoObj);
     ApplyPinkFilter(FileInfoObj);
 }
