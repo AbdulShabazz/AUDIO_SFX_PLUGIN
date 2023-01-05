@@ -1,7 +1,10 @@
 #include "WhiteNoise.h"
 #include "Tones.Default.Settings.h"
 
-WhiteNoise::WhiteNoise()
+using namespace ToneLibrary;
+
+template<typename T, typename U>
+WhiteNoise<T,U>::WhiteNoise()
 {
 }
 /**
@@ -15,7 +18,8 @@ WhiteNoise::WhiteNoise()
 * used to retain details for the file.
 * @return [ void ] --- No return value.
 */
-void WhiteNoise::GenerateWhiteNoise(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void WhiteNoise<T,U>::GenerateWhiteNoise(FILEINFO_Obj<T,U>& FileInfoObj)
 {
     // Seed the random number generator
     std::random_device rd;
@@ -24,13 +28,13 @@ void WhiteNoise::GenerateWhiteNoise(FILEINFO_Obj& FileInfoObj)
     std::mt19937_64 gen(rd());
 
     // Generate noise sample buffer
-    UniformRealDistributionFloat64 dis(
+    std::uniform_real_distribution<T> dis(
         -TonesSettingsObj.AmplitudeFloat64, 
          TonesSettingsObj.AmplitudeFloat64
         );
 
     // Generate noise sample buffer
-    for (UE_FLOAT64REF SampleIdxFloat64Ref : FileInfoObj.NoiseBufferFloat64)
+    for (T& SampleIdxFloat64Ref : FileInfoObj.NoiseBufferFloat64)
     {
         SampleIdxFloat64Ref = dis(gen);
     }
