@@ -3,11 +3,13 @@
 
 using namespace ToneLibrary;
 
-SimplexNoise::SimplexNoise()
+template<typename T, typename U>
+SimplexNoise<T,U>::SimplexNoise()
 {
 }
 
-void SimplexNoise::ApplySimplexNoiseFilter(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void SimplexNoise<T,U>::ApplySimplexNoiseFilter(FILEINFO_Obj<T,U>& FileInfoObj)
 {
     // Create a random permutation table
     // Create a gradient table
@@ -32,7 +34,8 @@ void SimplexNoise::ApplySimplexNoiseFilter(FILEINFO_Obj& FileInfoObj)
 * used to retain details for the file.
 * @return [ void ] --- No return value.
 */
-void SimplexNoise::GenerateSimplexNoise(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void SimplexNoise<T,U>::GenerateSimplexNoise(FILEINFO_Obj<T,U>& FileInfoObj)
 {
     ApplySimplexNoiseFilter(FileInfoObj);
 }
