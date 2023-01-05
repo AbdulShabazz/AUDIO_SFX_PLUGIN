@@ -1,4 +1,81 @@
 
+        void BluesteinFFT(
+            FILEINFO_Obj<T,U>& FileInfoObj,
+            ComplexVector3DT<T>&
+            );
+        void Radix2FFT(
+            FILEINFO_Obj<T,U>& FileInfoObj,
+            ComplexVector3DT<T>&
+            );
+
+    /**
+    * TemporaryAudioFileComplexVector2DTRef[AudioChannel][Stream]
+    */
+    ComplexVector2DT<T>& TemporaryAudioFileComplexVector2DTRef;
+    /**
+    * ProjectFilesComplexVector2DFloat64T[AudioFile][AudioChannel][Stream]
+    */
+    ComplexVector3DT<T>& ProjectFileComplexVector3DTRef;
+
+    switch (FileInfoObj.AudioEqualizationAlgorithmEnum)
+    {
+        bool ProperCallBool = false;
+        case FILEINFO_Obj::AudioEqualizationENUM::Blustein:
+            BluesteinFFT(FileInfoObj, {});
+            break;
+        case FILEINFO_Obj::AudioEqualizationENUM::Radix2:
+            Radix2FFT(FileInfoObj, {});
+            break;
+        case FILEINFO_Obj::AudioEqualizationENUM::CooleyTukey:
+            ProperCallBool = true;
+        default:
+            if(!ProperCallBool)
+            {
+                std::cout << "Error - AudioEqualization<T>::ApplyAudioEqualizationFilterT : invalid FileInfoObj.AudioEqualizationAlgorithmEnum" << std::endl;
+            }
+            FileInfoObj.TemporaryAudioFileComplexVectorTRef =
+                ComplexVectorT<T>(FileInfoObj.NoiseBufferVectorTRef.size());
+            CooleyTukeyFFT(FileInfoObj, FileInfoObj.NoiseBufferVectorTRef);
+            NormalizeAudioT(NoiseBufferComplexVectorTRef);
+            CooleyTukeyFFT(FileInfoObj, {});
+            std::transform(
+                NoiseBufferComplexVectorTRef.begin(),
+                NoiseBufferComplexVectorTRef.end(),
+                [](ComplexT<T> x)
+                {
+                    return static_cast<T>(x / NoiseBufferComplexVectorTRef.size());
+                }
+            );
+            break;
+    }
+
+    ComplexVector2DT<T> NoiseBufferComplexVectorTRef = ComplexVector2DT<T>(FileInfoObj.NoiseBufferVectorTRef.size());
+
+    for (T idxComplexVectorT : NoiseBufferComplex2DT)
+    {
+        ComplexVectorT idxComplexVectorT = ComplexT<T>(
+            std::cos(2 * static_cast<T>(UE_FLOAT64_PI) / nUInt64),
+            std::sin(2 * static_cast<T>(UE_FLOAT64_PI) / nUInt64)
+            );
+    }
+
+    if(!AtHighestScopeLevelBool)
+    {
+        for (U iUInt64 = 0; iUInt64 < nHalfRangeUInt64; iUInt64++)
+        {
+            EvenComplexVectorT[iUInt64] = NoiseBufferComplexVectorTRef[iUInt64 * 2];
+            OddComplexVectorT[iUInt64] = NoiseBufferComplexVectorTRef[iUInt64 * 2 + 1];
+        }
+    }
+    else
+    {
+        for (U iUInt64 = 0; iUInt64 < nHalfRangeUInt64; iUInt64++)
+        {
+            EvenComplexVectorT[iUInt64].real(FileInfoObj.NoiseBufferVectorTRef[iUInt64 * 2]);
+            OddComplexVectorT[iUInt64].real(FileInfoObj.NoiseBufferVectorTRef[iUInt64 * 2 + 1]);
+        }
+    }
+
     bool AtHighestScopeLevelBool = false;
 
     UE_UINT64 nUInt64 = FileInfoObj.LengthUInt64;
