@@ -1,13 +1,14 @@
 #include "BlackNoise.h"
-#include "Tones.Default.Settings.h"
 
 using namespace ToneLibrary;
 
-BlackNoise::BlackNoise()
+template<typename T, typename U>
+BlackNoise<T,U>::BlackNoise()
 {
 }
 
-void BlackNoise::ApplyBlackFilter(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void BlackNoise<T,U>::ApplyBlackFilter(FILEINFO_Obj<T,U>& FileInfoObj)
 {
     // Seed the random number generator
     std::random_device rd;
@@ -16,12 +17,12 @@ void BlackNoise::ApplyBlackFilter(FILEINFO_Obj& FileInfoObj)
     std::mt19937_64 gen(rd());
 
     // Set the range of the noise signal
-    UniformRealDistributionFloat64 dis(-1.0f, 1.0f);
+    std::uniform_real_distribution<T> dis(-1.0f, 1.0f);
 
     // Generate noise sample buffer
-    for (UE_FLOAT64REF IdxSampleFloat64Ref : FileInfoObj.NoiseBufferFloat64)
+    for (T IdxSampleT : FileInfoObj.NoiseBufferVectorTRef)
     {
-        IdxSampleFloat64Ref = dis(gen);
+        IdxSampleT = dis(gen);
     }
 }
 
@@ -36,7 +37,8 @@ void BlackNoise::ApplyBlackFilter(FILEINFO_Obj& FileInfoObj)
 * used to retain details for the file.
 * @return [ void ] --- No return value.
 */
-void BlackNoise::GenerateBlackNoise(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void BlackNoise<T,U>::GenerateBlackNoise(FILEINFO_Obj<T,U>& FileInfoObj)
 {
     ApplyBlackFilter(FileInfoObj);
 }
