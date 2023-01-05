@@ -154,11 +154,19 @@ MENU
                 CONVOLUTION
                 ALGORITHMIC
                     SMALL ROOM
-                        WOOD
+                        WOODEN
                         GLASS
                         METAL
+                            TITANIUM
+                            IRON
+                            LEAD
+                            GOLD
+                            STEEL
+                            ALUMINUM
                         RUBBER
                         CERAMIC
+                        PLASTIC
+                        COTTON
                     MEDIUM HALL
                     CONCERT HALL
                     CATHEDRAL
@@ -175,6 +183,10 @@ MENU
         LINK TO MIDI
         OPEN FILE FOLDER
         CUSTOMIZE EDITOR
+        BUILD SETTINGS
+            SPEED..x.PRECISION // CHAR VS LONG DOUBLE, INTERNAL REPRESENTATION
+        PLAYBACK SETTINGS
+            SPEED..x.PRECISION // CHAR VS LONG DOUBLE, INTERNAL REPRESENTATION
     WINDOW
         ARRANGE WINDOWS
             CASCADE
@@ -245,3 +257,7 @@ MIXED DENSITY [6TRIS 5COS 4SQR]
 [ ]  0  [ ]
 [X] [X] [X]
  0  [ ]  0
+
+TODO
+
+CACHE USER SETTINGS IN ./AUDIO_SFX_PLUGIN.JSON
