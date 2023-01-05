@@ -2,11 +2,13 @@
 
 using namespace ToneLibrary;
 
-TimeStretch::TimeStretch()
+template<typename T, typename U>
+TimeStretch<T,U>::TimeStretch()
 {
 }
 
-void TimeStretch::ApplyTimeStretchFilter(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void TimeStretch<T,U>::ApplyTimeStretchFilter(FILEINFO_Obj<T,U>& FileInfoObj)
 {
     // Set up audio buffers
     // Set time-stretching ratio
@@ -14,7 +16,8 @@ void TimeStretch::ApplyTimeStretchFilter(FILEINFO_Obj& FileInfoObj)
     // Process input audio
 }
 
-void TimeStretch::GenerateTimeStretch(FILEINFO_Obj& FileInfoObj)
+template<typename T, typename U>
+void TimeStretch<T,U>::GenerateTimeStretch(FILEINFO_Obj<T,U>& FileInfoObj)
 {
     ApplyTimeStretchFilter(FileInfoObj);
 }
