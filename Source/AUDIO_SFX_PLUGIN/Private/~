@@ -1,4 +1,208 @@
 
+    bool AtHighestScopeLevelBool = false;
+
+    UE_UINT64 nUInt64 = FileInfoObj.LengthUInt64;
+
+    if (!NoiseBufferComplexVectorTRef.empty() && NoiseBufferComplexVectorTRef.size() < 2)
+    {
+        return;
+    }
+    else 
+    if (!NoiseBufferComplexVectorTRef.empty())
+    {
+        nUInt64 = NoiseBufferComplexVectorTRef.size();
+    }
+    else // NoiseBufferComplexVectorTRef.empty()
+    {
+        NoiseBufferComplexVectorTRef = ComplexVectorT<T>(nUInt64);
+
+        AtHighestScopeLevelBool = true;
+    }
+
+    enum class AudioSettingsENUM
+    {
+        Speed = 1,
+        Precision
+    };
+
+template<typename T, typename T>
+class RangeT
+
+
+template<short T>
+class PlaybackPrecision : public BuildPrecision
+{
+public:
+    // forbid an rvalue constructor //
+    explicit PlaybackPrecision(
+        T tl = 0, // Lower
+        T tu = 8, // Upper
+        T ts = 8  // Set
+        ) 
+    {
+        iSettings = BuildSettings(tl, tu, ts);
+    };
+    virtual std::string FloatPrecision(T ts) override
+    {   
+        return iSettings.FloatPrecision(ts);
+    };
+    virtual std::string IntPrecision(T ts) override
+    {
+        return iSettings.IntPrecision(ts);
+    };
+    virtual std::string UnsignedIntPrecision(T ts) override
+    {
+        return iSettings.UnsignedIntPrecision(ts);
+    };
+private:
+    BuildSettings iSettings;
+};{
+
+public:
+    explicit RangeT(
+        T tu = static_cast<T>(0), // Upper
+        T tl = static_cast<T>(8), // Lower
+        T ts = static_cast<T>(8) // Set
+        ) // forbid an rvalue constructor //
+    {
+        lvalT = static_cast<char>(std::abs<T>(tt%MaxRangeT));
+    };
+    std::string ValueT(T ts)
+    {
+        std::string ResultStdString = "UE_FLOAT64";
+        static_assert(std::is_integral<T>::value, "RangeT<T> : T must be an integer type");
+        T result = (ts != 0) ? static_cast<char>(std::abs<T>(ts % MaxRangeT)) : lvalT;
+        if (result <= 1)
+        {
+            ResultStdString = "char";
+        }
+        else
+        if(result <= 2)
+        { 
+            ResultStdString = "short"
+        }
+        else
+        if (result <= 3)
+        {
+            ResultStdString = "int"
+        }
+        else
+        if (result <= 4)
+        {
+            ResultStdString = "long";
+        }
+        else
+        if (result <= 5)
+        {
+            ResultStdString = "long long"
+        }
+        else
+        if (result <= 6)
+        {
+            ResultStdString = "UE_FLOAT16"
+        }
+        else
+        if (result <= 7)
+        {
+            ResultStdString = "UE_FLOAT32";
+        } // else  ResultStdString = "UE_FLOAT64";
+        return ResultStdString;
+    };
+private:
+    T MaxRangeT = static_cast<T>(5);
+    T lvalT = static_cast<T>(0);
+};
+
+void AudioEqualization::iCooleyTukeyFFT(
+    FILEINFO_Obj& FileInfoObj,
+    ComplexVectorFloat64T& NoiseBufferComplexFloat64
+)
+{
+    bool AtHighestScopeLevelBool = false;
+
+    UE_UINT64 nUInt64 = FileInfoObj.LengthUInt64;
+
+    if (!NoiseBufferComplexFloat64.empty() && NoiseBufferComplexFloat64.size() < 2)
+    {
+        return;
+    }
+    else 
+    if (!NoiseBufferComplexFloat64.empty())
+    {
+        nUInt64 = NoiseBufferComplexFloat64.size();
+    }
+    else // NoiseBufferComplexFloat64.empty()
+    {
+        NoiseBufferComplexFloat64 = ComplexVectorFloat64T(nUInt64);
+
+        AtHighestScopeLevelBool = true;
+    }
+
+    UE_UINT64 nHalfRangeUInt64 = static_cast<UE_UINT64>( nUInt64 / 2);
+
+    ComplexVectorFloat64T EvenComplexVectorFloat64T = ComplexVectorFloat64T(nHalfRangeUInt64);
+    ComplexVectorFloat64T OddComplexVectorFloat64T = ComplexVectorFloat64T(nHalfRangeUInt64);
+
+    if(!AtHighestScopeLevelBool)
+    {
+        for (UE_UINT64 iUInt64 = 0; iUInt64 < nHalfRangeUInt64; iUInt64++)
+        {
+            EvenComplexVectorFloat64T[iUInt64] = NoiseBufferComplexFloat64[iUInt64 * 2];
+            OddComplexVectorFloat64T[iUInt64] = NoiseBufferComplexFloat64[iUInt64 * 2 + 1];
+        }
+    }
+    else
+    {
+        for (UE_UINT64 iUInt64 = 0; iUInt64 < nHalfRangeUInt64; iUInt64++)
+        {
+            EvenComplexVectorFloat64T[iUInt64].real(FileInfoObj.NoiseBufferFloat64[iUInt64 * 2]);
+            OddComplexVectorFloat64T[iUInt64].real(FileInfoObj.NoiseBufferFloat64[iUInt64 * 2 + 1]);
+        }
+    }
+
+    iCooleyTukeyFFT(FileInfoObj, EvenComplexVectorFloat64T);
+    iCooleyTukeyFFT(FileInfoObj, OddComplexVectorFloat64T);
+
+    ComplexFloat64T 
+        wComplexFloat64 = ComplexFloat64T(1.0f), 
+        wnComplexFloat64 = ComplexFloat64T(std::cos(2 * M_PI / nUInt64), std::sin(2 * M_PI / nUInt64));
+
+    for (UE_UINT64 kUInt64 = 0; kUInt64 < nHalfRangeUInt64; kUInt64++)
+    {
+        ComplexFloat64T tComplexFloat64 = wComplexFloat64 + OddComplexVectorFloat64T[kUInt64];
+        NoiseBufferComplexFloat64[kUInt64] = EvenComplexVectorFloat64T[kUInt64] + tComplexFloat64;
+        NoiseBufferComplexFloat64[kUInt64 + nHalfRangeUInt64] = EvenComplexVectorFloat64T[kUInt64] - tComplexFloat64;
+        wComplexFloat64 *= wnComplexFloat64;
+    }
+
+    if (AtHighestScopeLevelBool)
+    {
+        NormalizeAudio(NoiseBufferComplexFloat64);
+    }
+}
+
+    for (UE_UINT64 kUInt64 = 0; kUInt64 < nHalfRangeUInt64; kUInt64++)
+    {
+        std::complex < UE_FLOAT64 > tComplexFloat64 = 
+            std::polar < UE_FLOAT64 > (1.0f, -2.0f * M_PI * kUInt64 / nUInt64) * 
+                OddComplexVectorFloat64T[kUInt64];
+        NoiseBufferComplexFloat64[kUInt64] = EvenComplexVectorFloat64T[kUInt64] + tComplexFloat64;
+        NoiseBufferComplexFloat64[kUInt64 + nHalfRangeUInt64] = EvenComplexVectorFloat64T[kUInt64] - tComplexFloat64;
+    }
+
+using PolarT = std::polar<UE_FLOAT64>;
+
+template <typename T>
+PolarT ComplexNumberToPolarT(const T real, const T imag)
+{
+    T magnitude = std::sqrt(real * real + imag * imag);
+    T phase = std::atan2(imag, real);
+    return std::polar<T>(magnitude, phase);     
+}
+
+using ComplexNumberToPolarFloat64T = ComplexNumberToPolarT<UE_FLOAT64>;
+
+bool AtHighestScopeLevelBool = EvenComplexVectorFloat64.size() == UE_UINT64(FileInfoObj.LengthUInt64 / 2);
 
 template<typename T>
 T operator"" _ghz(T iFloat64)
