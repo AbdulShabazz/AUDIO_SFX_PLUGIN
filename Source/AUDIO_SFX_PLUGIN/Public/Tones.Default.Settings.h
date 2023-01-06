@@ -245,17 +245,33 @@ using UniformRealDistributionFloat64 = std::uniform_real_distribution<UE_FLOAT64
 
 template <typename T>
 /**
-* USAGE: ComplexNumberToPairT<UE_FLOAT64> C = ComplexNumberToPairT<UE_FLOAT64>(3.0f,4.0f);
+* USAGE: ComplexNumberToPolarPairT<UE_FLOAT64> C = ComplexNumberToPolarPairT<UE_FLOAT64>(3.0f,4.0f);
 * C.first; // 5.0
 * C.second; // 0.9272952180016122
-* @param [ real ] --- The real component
-* @param [ imag ] ---  The imaginary component
-* @return [ std::pair<T, T> ] --- A pair value
+* @param [ real ] --- The magnitude component
+* @param [ imag ] ---  The phase component
+* @return [ std::pair<T, T> ] --- A polar pair value
 */
-std::pair<T, T> ComplexNumberToPairT( const T real, const T imag )
+std::pair<T, T> ComplexNumberToPolarPairT( const T real, const T imag )
 {
     T magnitude = std::sqrt(real * real + imag * imag);
     T phase = std::atan2(imag, real);
+    return std::make_pair<T>(magnitude, phase);
+}
+
+template <typename T>
+/**
+* USAGE: PolarPairProductT<UE_FLOAT64> C = PolarPairProductT<UE_FLOAT64>(A,B);
+* C.first; // 5.0
+* C.second; // 0.9272952180016122
+* @param [ real ] --- The magnitude component
+* @param [ imag ] ---  The phase component
+* @return [ std::pair<T, T> ] --- A polar pair value
+*/
+std::pair<T, T> PolarPairProductT(const std::pair<T, T> rval, const std::pair<T, T> lval)
+{
+    T magnitude = rval.first * lval.first;
+    T phase = rval.second + lval.second;
     return std::make_pair<T>(magnitude, phase);
 }
 
