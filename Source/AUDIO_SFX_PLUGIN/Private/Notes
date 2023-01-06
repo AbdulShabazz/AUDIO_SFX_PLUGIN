@@ -139,15 +139,17 @@ MENU
         ADVANCED MODULATION
             LOW FREQUENCY OSCILLATORS (LFO)
             ENVELOPE (TRACK MOTION) GENERATORS
-        AUDIO WARPING
-        AUDIO SAMPLING
+        AUDIO WARPINGSHIFT
+        AUDIO FILTER
             BANDPASS
             BANDREJECT
             HIGHPASS
             LOWPASS
             FIR IMPULSE RESPONSE
+        AUDIO SAMPLING
             TIME STRETCHING
-            PITCH SHIFT
+            ADJUST TEMPO
+            ADJUST PITCH 
             REVERB
                 PLATE
                 SPRING
