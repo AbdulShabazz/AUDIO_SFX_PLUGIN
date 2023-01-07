@@ -15,3 +15,8 @@ SOLU: An object reference must always be initialized with the address of an obje
 
 SYPM: Error C3861 ComplexVectorFloat64T not defined
 SOLU: using ComplexVectorFloat64T = <std::vector<std::complex<T>>>; ==> using ComplexVectorFloat64T = std::vector<std::complex<T>>;
+
+SYMP: Error C4430 Missing type specifier, int assumed: BuildPrecision, PlaybackPrecision
+SOLU: class IDEPlaybackPrecision : public BuildPrecision<short> ==> class IDEPlaybackPrecision : public IDEBuildPrecision<short>
+      class IDEBuildPrecision ... BuildPrecision(); ==> class IDEBuildPrecision ... IDEBuildPrecision();
+      class IDEPlaybackPrecision ... PlaybackPrecision(); ==> class ... IDEPlaybackPrecision();
