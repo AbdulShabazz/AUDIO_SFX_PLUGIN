@@ -25,6 +25,52 @@ NOISE BRUSH
 MENU
     FILE
         NEW PROJECT
+            BLANK
+            STATIC SOUND EFFECTS
+            CARTOON SOUND EFFECTS
+            CAMERA SOUND EFFECTS
+            MOVIE SOUND EFFECTS
+            WEATHER SOUND
+            TRAILER SOUND EFFECTS
+            EXPLOSION SOUND EFFECTS
+            DESTRUCTION SOUND EFFECTS
+            VEHICLE SOUND EFFECTS
+            SIREN SOUND EFFECTS
+            GUN SOUND EFFECTS
+            ROAD SOUND EFFECTS
+            TRAFFIC SOUND EFFECTS
+            CROWD SOUND EFFECTS
+            OFFICE SOUND EFFECTS
+            CONSTRUCTION SOUND EFFECTS
+            LAWNCARE SOUND EFFECTS
+            HOSPITAL SOUND EFFECTS
+            WAR SOUND EFFECTS
+            NATURE SOUND EFFECTS
+            FLUID SOUND EFFECTS
+            METALLIC SOUND EFFECTS
+            WOOD SOUND EFFECTS
+            PLASTICS SOUND EFFECTS
+            PAPER SOUND EFFECTS
+            FIRE SOUND EFFECTS
+            ORGANIC SOUND EFFECTS
+            BIOLOGICAL SOUND EFFECTS
+            SPACE SOUND EFFECTS
+            ORCHESTRAL SOUND EFFECTS
+            AIRPORT SOUND EFFECTS
+            GAS- / CHARGING- STATION SOUND EFFECTS
+            SCI-FI SOUND EFFECTS
+            ACOUSTIC SOUND EFFECTS
+            INDIE SOUND EFFECTS
+            SAVANNAH SOUND EFFECTS
+            TUNDRA SOUND EFFECTS
+            FOREST SOUND EFFECTS
+            SWAMP SOUND EFFECTS
+            MOUNTAINS SOUND EFFECTS
+            HILLS SOUND EFFECTS
+            WOODLANDS SOUND EFFECTS
+            TAIGA SOUND EFFECTS
+            POLAR SOUND EFFECTS
+            JUNGLE SOUND EFFECTS
         OPEN
             .GLTF + [.WAV .OGG .MP4 .AVI .VST2]
         SAVE
@@ -263,3 +309,21 @@ MIXED DENSITY [6TRIS 5COS 4SQR]
 TODO
 
 CACHE USER SETTINGS IN ./AUDIO_SFX_PLUGIN.JSON
+
+NOTE: A GOOD AUDIO SFX ENGINE SHOULD HAVE A POWERUL BUILTIN SYNTHESIZER!
+Note Fn = A_4 = 440hz;  w/ ea semitone 1.05946 * fn
+
+Common BPS 8 16 32
+Common Sample Rates 
+     8      khz    narrow band speech, telephony 
+    16      khz    wideband speech, telephony
+    44.1    khz    CD, Audio Equipment, Sound Cards
+    96      khz    DVD Audio, HD DVD, Blu-ray
+   192      khz    DVD Audio, Blu-ray
+
+100 cents/semitone
+1200 cents/octave
+
+Inverval between two frequencies f0,f1: delta = 1200 * ln(f0/f1)
+MIDI Pitch, f0: f0 = 69 + 12 * ln(f0 / 440_hz)
+Determine Frequency from MIDI note number: f0 = 2^((f0-69)/12) * 440_hz
