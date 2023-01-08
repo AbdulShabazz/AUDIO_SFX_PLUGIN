@@ -10,6 +10,7 @@
 #include <iostream>
 #include <assert.h>
 #include <type_traits>
+#include <vector>
 
 using UE_UINT16 = unsigned int;
 using UE_UINT64 = unsigned long long int;
@@ -118,15 +119,39 @@ using ComplexVector3DFloat64T = ComplexVector3DT<UE_FLOAT64>;
 template <typename T, typename U>
 struct FILEINFO_Obj
 {
+    U PlateReverbNumChannelsUint64T;
+    U PlateReverbNumSamplesUint64T;
+    U PlateReverbNumSamplesPerChannelUint64T;
+    T PlateReverbSampleRateFloat64T;
+    T PlateReverbWetLevelFloat64T;
+    T PlateReverbDryLevelFloat64T;
+    T PlateReverbDampingFloat64T;
+    T KarplusStrongDelayLineSynthesisFrequencyInHertzFloat64T;
+	U KarplusStrongDelayLineSynthesisDelayInNumberOfSamplesUInt64T;
+	VectorT<T> KarplusStrongDelayLineSynthesisRingBufferUInt64T;
+    U KarplusStrongDelayLineSynthesisDefaultRingBufferSizePrivateUint64;
+    U KarplusStrongDelayLineSynthesisReadIndexUInt64T;
+	U KarplusStrongDelayLineSynthesisWriteIndexUInt64T;
+    T WaveEquationCurrentTimeInSecondsFloat64T;
+    T WaveEquationWaveSpeedInMetersPerSecondFloat64T;
+    T WaveEquationWaveLengthInMetersFloat64T;
+    T WaveEquationStartTimeInSecondsFloat64T;
+    T WaveEquationResultFloat64TRef;
+    // VectorGradientTable2DForSimplexNoiseFilterFloat64TRef
+    Vector2DT<T> VectorGradientTable2DForSimplexNoiseFilterFloat64TRef;
+    // DefaultPermutatioTableSizeForSimplexNoiseFilterUInt64 = 1024
+    U DefaultPermutatioTableSizeForSimplexNoiseFilterUInt64 = 1024;
+    // VectorPermutatioTableForSimplexNoiseUInt64T
+    VectorT<U> VectorPermutatioTableForSimplexNoiseUInt64TRef;
     // TemporaryAudioPlaybackFileVector4DTRef[AudioFile][UndoBuffer][AudioChannel][Stream]
-    Vector4DT<T>& TemporaryAudioPlaybackFileVector4DTRef;
+    Vector4DT<T> TemporaryAudioPlaybackFileVector4DTRef;
     // TemporaryAudioFileComplexVector4DTRef[AudioFile][UndoBuffer][AudioChannel][Stream]
-    ComplexVector4DT<T>& TemporaryAudioFileComplexVector4DTRef;
+    ComplexVector4DT<T> TemporaryAudioFileComplexVector4DTRef;
     // TemporaryAudioPlaybackFileVector4DTRef[Stream]
-    VectorT<T>& TemporaryAudioPlaybackFileVectorTRef;
+    VectorT<T> TemporaryAudioPlaybackFileVectorTRef;
     // TemporaryAudioFileComplexVectorTRef[Stream]
-    ComplexVectorT<T>& TemporaryAudioFileComplexVectorTRef;
-    VectorT<T>& NoiseBufferVectorTRef;
+    ComplexVectorT<T> TemporaryAudioFileComplexVectorTRef;
+    VectorT<T> NoiseBufferVectorTRef;
     T NumOctavesFloat64 = 7.25f;
     U OptionalSeedValueUInt16;
     U PerlinNoiseWidthUInt64;
@@ -217,12 +242,12 @@ T DotProductT(
 
 template <typename T>
 T BilinearInterpolationT(
-    const UE_UINT64 n0, 
-    const UE_UINT64 n1, 
-    const UE_UINT64 n2, 
-    const UE_UINT64 n3, 
-    const T wx, 
-    const T wy
+    const UE_UINT64& n0, 
+    const UE_UINT64& n1, 
+    const UE_UINT64& n2, 
+    const UE_UINT64& n3, 
+    const T& wx, 
+    const T& wy
     )
 {
     T wx_offset = (1 - wx);
@@ -252,7 +277,7 @@ template <typename T>
 * @param [ imag ] ---  The phase component
 * @return [ std::pair<T, T> ] --- A polar pair value
 */
-std::pair<T, T> ComplexNumberToPolarPairT( const T real, const T imag )
+std::pair<T, T> ComplexNumberToPolarPairT( const T& real, const T& imag )
 {
     T magnitude = std::sqrt(real * real + imag * imag);
     T phase = std::atan2(imag, real);
@@ -268,7 +293,7 @@ template <typename T>
 * @param [ imag ] ---  The phase component
 * @return [ std::pair<T, T> ] --- A polar pair value
 */
-std::pair<T, T> PolarPairProductT(const std::pair<T, T> rval, const std::pair<T, T> lval)
+std::pair<T, T> PolarPairProductT(const std::pair<T, T>& rval, const std::pair<T, T>& lval)
 {
     T magnitude = rval.first * lval.first;
     T phase = rval.second + lval.second;
@@ -276,11 +301,11 @@ std::pair<T, T> PolarPairProductT(const std::pair<T, T> rval, const std::pair<T,
 }
 
 template <typename T>
-class BuildPrecision
+class IDEBuildPrecision
 {
 public: 
     // forbid an rvalue constructor //
-    explicit BuildPrecision(
+    explicit IDEBuildPrecision(
         T tl = 0, // Lower
         T tu = 8, // Upper
         T ts = 8  // Set
@@ -288,7 +313,7 @@ public:
     {
         
     };
-    virtual std::string FloatPrecision(T ts)
+    virtual std::string FloatPrecision(T& ts)
     {
         std::vector<std::string> lvalT = std::vector<std::string>{
             "float", "UE_FLOAT16", "UE_FLOAT32", "UE_FLOAT64"
@@ -297,7 +322,7 @@ public:
         std::string ResultStdString = "UE_FLOAT64";
         return ResultStdString;
     };
-    std::string IntPrecision(T ts)
+    std::string IntPrecision(T& ts)
     {
         std::vector<std::string> lvalT = std::vector<std::string>{
             "char", "short", "int", "long", "long long"
@@ -318,14 +343,14 @@ protected:
 };
 
 template <short T>
-class PlaybackPrecision : public BuildPrecision<short>
+class IDEPlaybackPrecision : public IDEBuildPrecision<short>
 {
 public:
-    // forbid an rvalue constructor //
-    explicit PlaybackPrecision(
-        short tl = 0, // Lower
-        short tu = 8, // Upper
-        short ts = 8  // Set
+    // forbid any rvalue constructor //
+    explicit IDEPlaybackPrecision(
+        short& tl = 0, // Lower
+        short& tu = 8, // Upper
+        short& ts = 8  // Set
         )
     {
         tlShort = tl;
