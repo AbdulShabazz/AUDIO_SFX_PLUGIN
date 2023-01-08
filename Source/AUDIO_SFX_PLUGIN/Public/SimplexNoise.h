@@ -1,7 +1,6 @@
 #pragma once
 
-template<typename T, typename U>
-struct FILEINFO_Obj;
+#include "Tones.Default.Settings.h"
 
 namespace ToneLibrary
 {
@@ -10,9 +9,11 @@ namespace ToneLibrary
     {
     public:
         SimplexNoise();
-        void GenerateSimplexNoise(FILEINFO_Obj<T,U>& FileInfoObj);
+        void GenerateSimplexNoise(FILEINFO_Obj<T,U>&);
     protected:
-        void ApplySimplexNoiseFilter(FILEINFO_Obj<T,U>& FileInfoObj);
+        void ApplySimplexNoiseFilter(FILEINFO_Obj<T,U>&);
+        void GenerateRandomPermutationTable(FILEINFO_Obj<T, U>&);
+        void GenerateRandomGradientTable(FILEINFO_Obj<T, U>&);
     };
 }
 
