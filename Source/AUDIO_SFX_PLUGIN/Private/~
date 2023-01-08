@@ -1,4 +1,15 @@
 
+	VectorT<T> TimeVector;
+	VectorT<U> AmplitudeVector;
+	T GlobalSampleRate;
+	T WaveSpeed;
+	T WaveLength;
+	T StartTime;
+	T GlobalAmplitude;
+	T GlobalFrequency;
+	T AmplitudeDecibels;
+	T AmplitudeDecibelsNormalized;
+
         void BluesteinFFT(
             FILEINFO_Obj<T,U>& FileInfoObj,
             ComplexVector3DT<T>&
