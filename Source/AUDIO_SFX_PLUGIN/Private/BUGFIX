@@ -20,3 +20,6 @@ SYMP: Error C4430 Missing type specifier, int assumed: BuildPrecision, PlaybackP
 SOLU: class IDEPlaybackPrecision : public BuildPrecision<short> ==> class IDEPlaybackPrecision : public IDEBuildPrecision<short>
       class IDEBuildPrecision ... BuildPrecision(); ==> class IDEBuildPrecision ... IDEBuildPrecision();
       class IDEPlaybackPrecision ... PlaybackPrecision(); ==> class ... IDEPlaybackPrecision();
+
+SYMP: error C2955: 'Vector2DT': use of alias template requires template argument list
+SOLU: Vector2DT ==> Vector2DT<T>;
