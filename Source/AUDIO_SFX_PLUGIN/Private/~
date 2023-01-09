@@ -1,4 +1,8 @@
 
+		// Average the audio for the entire channel
+		FileInfoObjRef.AudioMixMixedAudioResultVector2DTRef[nChannelUInt64] /= 
+			FileInfoObjRef.AudioMixFileAVector2DTRef.size();
+            
 	VectorT<T> TimeVector;
 	VectorT<U> AmplitudeVector;
 	T GlobalSampleRate;
