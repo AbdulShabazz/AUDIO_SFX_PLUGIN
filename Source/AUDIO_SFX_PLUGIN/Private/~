@@ -1,3 +1,64 @@
+
+	public:
+		void SetSize(FILEINFO_Obj<T, U>&);
+		void SetDamping(FILEINFO_Obj<T, U>&);
+		void SetWetLevel(FILEINFO_Obj<T, U>&);
+		void SetDryLevel(FILEINFO_Obj<T, U>&);
+	private:
+		T& AudioBufferPrivateFloat64TRef;
+		T& AudioBufferTempPrivateFloat64TRef;
+		U NumChannelsPrivateUint64T;
+		U NumSamplesPrivateUint64T;
+		U NumSamplesPerChannelPrivateUint64T;
+		U SampleRatePrivateUint64T;
+		U SizePrivateUint64T;
+		T WetLevelPrivateFloat64T;
+		T DryLevelPrivateFloat64T;
+		T DampingPrivateFloat64T;
+
+    U PlateReverbNumChannelsUint64T;
+    U PlateReverbNumSamplesUint64T;
+    U PlateReverbNumSamplesPerChannelUint64T;
+    T PlateReverbSampleRateFloat64T;
+    T PlateReverbWetLevelFloat64T;
+    T PlateReverbDryLevelFloat64T;
+    T PlateReverbDampingFloat64T;
+
+/**
+* Plate Reverb synthesis tool
+* @param [ PlateReverbDamping ] --- Damping level
+* @param [ PlateReverbDrynessFloat64T ] --- Dryness of the reverb
+* @param [ PlateReverbWetnessFloat64T ] --- Wetness of the reverb
+* @param [ PlateReverb3DVectorTRef[0] ] --- Original file
+* @returns [ PlateReverb3DVectorTRef[1] ] --- Returns result
+*/
+template<typename T, typename U>
+void PlateReverb<T, U>::GeneratePlateReverb(
+	FILEINFO_Obj<T, U>& FileInfoObj_Ref
+	)
+{
+	// Loop through the channels
+	for (U nChannelUInt64 = 0; nChannelUInt64 < FileInfoObj_Ref.PlateReverb3DVectorTRef[0].size(); nChannelUInt64++)
+	{
+		// Loop through the samples
+		for (U nSampleIdxUInt64 = 0; nSampleIdxUInt64 < PlateReverb3DVectorTRef[0][nChannelUInt64].size(); nSampleIdxUInt64++)
+		{
+			// Apply the plate algorithm
+			FileInfoObj_Ref.PlateReverb3DVectorTRef[1][nChannelUInt64][nSampleIdxUInt64] =
+				FileInfoObj_Ref.PlateReverb3DVectorTRef[0][nChannelUInt64][nSampleIdxUInt64] *
+				(1 - FileInfoObj_Ref.PlateReverbWetnessFloat64T) +
+				(
+					(
+						FileInfoObj_Ref.PlateReverbWetnessFloat64T * 
+						FileInfoObj_Ref.PlateReverbDampingFloat64T
+					) *
+					FileInfoObj_Ref.PlateReverb3DVectorTRef[0][nChannelUInt64][nSampleIdxUInt64] +
+					FileInfoObj_Ref.PlateReverb3DVectorTRef[1][nChannelUInt64][nSampleIdxUInt64 - 1]
+				);
+		}
+	}
+}
+
 template <typename T>
 std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>> PopulateConvolutionReverbHashTableT()
 {
