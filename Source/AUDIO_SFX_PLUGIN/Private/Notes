@@ -112,13 +112,19 @@ MENU
             FREQUENCY
             CHANNEL
         FADE
-            IN
-            OUT
+            FADE IN // CURRENT SETTINGS
+            FADE OUT // CURRENT SETTINGS
+            FADE IN EDITOR
+            FADE OUT EDITOR
         CROSSFADE
             L > R
             R > L
-            BOTH
-        SAMPLE SELECTION (CREATE BRUSH)
+            CHANNEL MIX
+            L > R EDITOR
+            R > L EDITOR
+            CROSSFADE EDITOR
+            CHANNEL MIX EDITOR
+        SAMPLE SELECTION (NEW BRUSH)
         SYMMETRY BRUSH
         NOISE BRUSH
             BLACK- | BROWN- | YELLOW-
@@ -200,7 +206,6 @@ MENU
                 PLATE
                 SPRING
                 CONVOLUTION
-                ALGORITHMIC
                     SMALL ROOM
                         WOODEN
                         GLASS
@@ -219,8 +224,9 @@ MENU
                     CONCERT HALL
                     CATHEDRAL
                     CONCERT STADIUM
+                ALGORITHMIC EDITOR // MULTIPLE OSCILLATORS: FILTERS[ COMB, DELAY, ALL PASS, BANDPASS, BAND REJECT, HIPASS, LOPASS]
         GRANULAR SYNTHESIS
-        COMPILE TO UREAL ENGINE BLUEPRINTS AUDIO NODE
+        COMPILE TO UNREAL ENGINE AUDIO NODE
     DEVICE
         ADD TRACK- AND OR RACK- DEVICE
         EDIT DEVICE
