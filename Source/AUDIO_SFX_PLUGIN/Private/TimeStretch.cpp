@@ -13,6 +13,12 @@ void TimeStretch<T,U>::ApplyTimeStretchFilter(FILEINFO_Obj<T,U>& FileInfoObjRef)
     
     // Set time-stretching ratio
 	U StretchRatio = FileInfoObjRef.TimeStretchStretchRatioInNumberOfSamplesUInt64T;
+	if (StretchRatio < 1)
+	{
+		std::cout << "error -  TimeStretch<T,U>::ApplyTimeStretchFilter - FileInfoObjRef.invalidTimeStretchStretchRatioInNumberOfSamplesUInt64TLessThan1" << std::endl;
+		return
+	}
+	T StretchRatioTimeStep = 1 / FileInfoObjRef.TimeStretchStretchRatioInNumberOfSamplesUInt64T;
 	
     // Set up audio buffers
 	U NumChannels = FileInfoObjRef.TimeStretchVector3DT[0].size();;
@@ -36,15 +42,21 @@ void TimeStretch<T,U>::ApplyTimeStretchFilter(FILEINFO_Obj<T,U>& FileInfoObjRef)
 	U OutputSampleIndex = 0;  StretchRatio;
 	for (U Channel = 0; Channel < NumChannels; Channel++)
 	{
+		U SampleIndexUInt64T = 0;
 		oBuffer[Channel] = VectorT<T>(NumSamples);
-		for (U Sample = 0; Sample < NumSamples; Sample++)
+		for (U Sample = 0; Sample < NumSamples - 1; Sample++)
 		{
-			oBuffer[Channel][Sample] = oBufferTemp[Channel][OutputSampleIndex];
+			T TimeStepFloat64T = StretchRatioTimeStep;
+			for(U StepUInt64T = 0; StepUInt64T < StretchRatio; StepUInt64T++)
+			{
+				oBuffer[Channel][SampleIndexUInt64T] = 
+					TimeStepFloat64T * oBufferTemp[Channel][Sample + 1] + 
+					(1 - TimeStepFloat64T) * oBufferTemp[Channel][Sample];
+				TimeStepFloat64T += StretchRatioTimeStep;
+				SampleIndexUInt64T++;
+			}
 		}
-		OutputSampleIndex += StretchRatio;
 	}
-	
-	// TODO: Stretch the audio using precise- or bilinear- interpolation
 	
 }
 
