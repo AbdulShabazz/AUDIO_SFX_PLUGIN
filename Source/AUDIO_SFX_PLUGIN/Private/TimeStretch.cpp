@@ -10,54 +10,53 @@ TimeStretch<T,U>::TimeStretch()
 template<typename T, typename U>
 void TimeStretch<T,U>::ApplyTimeStretchFilter(FILEINFO_Obj<T,U>& FileInfoObjRef)
 {
-	// TODO: Add FileInfoObjRef properties to Tones.Default.Settings.h
-
-    // Set up audio buffers
-	U NumChannels = FileInfoObjRef.NumChannels;
-	U NumSamples = FileInfoObjRef.NumSamples;
-	U NumSamplesPerChannel = NumSamples / NumChannels;
-	T& AudioBuffer = FileInfoObjRef.AudioBuffer;
-	T& AdioBufferTemp = FileInfoObjRef.AudioBufferTemp;
     
     // Set time-stretching ratio
-	T StretchRatio = FileInfoObjRef.StretchRatio;
+	U StretchRatio = FileInfoObjRef.TimeStretchStretchRatioInNumberOfSamplesUInt64T;
+	
+    // Set up audio buffers
+	U NumChannels = FileInfoObjRef.TimeStretchVector3DT[0].size();;
+	U NumSamples = FileInfoObjRef.TimeStretchVector3DT[0][0].size() * StretchRatio;
+	Vector2DT<T>& oBuffer = FileInfoObjRef.TimeStretchVector3DT[1];
+	Vector2DT<T>& oBufferTemp = FileInfoObjRef.TimeStretchVector3DT[0];
     
     // Set pitch-scaling ratio
-	T PitchRatio = FileInfoObjRef.PitchRatio;
+	T PitchRatio = FileInfoObjRef.TimeStretchPitchRatioFloat64T;
     
-	// Process input audio 	
+	// Apply pitch scaling	
 	for (U Channel = 0; Channel < NumChannels; Channel++)
 	{
-		for (U Sample = 0; Sample < NumSamplesPerChannel; Sample++)
+		for (U Sample = 0; Sample < NumSamples; Sample++)
 		{
-			U SampleIndex = Sample * NumChannels + Channel;
-			oBufferTemp[SampleIndex] = oBuffer[SampleIndex];
+			oBufferTemp[Channel][SampleIndex] *= PitchRatio;
 		}
 	}
 
-	// Apply pitch scaling
+	// Apply time stretching
+	U OutputSampleIndex = 0;  StretchRatio;
 	for (U Channel = 0; Channel < NumChannels; Channel++)
 	{
-		for (U Sample = 0; Sample < NumSamplesPerChannel; Sample++)
+		oBuffer[Channel] = VectorT<T>(NumSamples);
+		for (U Sample = 0; Sample < NumSamples; Sample++)
 		{
-			U SampleIndex = Sample * NumChannels + Channel;
-			oBuffer[SampleIndex] = oBufferTemp[SampleIndex] * PitchRatio;
+			oBuffer[Channel][Sample] = oBufferTemp[Channel][OutputSampleIndex];
 		}
-	}	
-	
-	// Apply time-stretching filter
-	U OutputSampleIndex = 0;
-	for (U Channel = 0; Channel < NumChannels; Channel++)
-	{
-		for (U Sample = 0; Sample < NumSamplesPerChannel; Sample++)
-		{
-			U SampleIndex = Sample * NumChannels + Channel;
-			oBuffer[OutputSampleIndex] = oBufferTemp[SampleIndex];
-			OutputSampleIndex += StretchRatio;
-		}
+		OutputSampleIndex += StretchRatio;
 	}
+	
+	// TODO: Stretch the audio using precise- or bilinear- interpolation
+	
 }
 
+/**
+* GenerateTimeStretch Tool
+* @param [ TimeStretchVector3DT[0].size() ] -- Number of channels
+* @param [ TimeStretchVector3DT[0][0].size() ] --- Number of precomputed samples
+* @param [ TimeStretchStretchRatioInNumberOfSamplesUInt64T ] --- Time-stretch in number of samples
+* @param [ TimeStretchPitchRatio ] --- Pitch-scaling ratio
+* @param [ TimeStretchVector3DT[0] ] --- Input
+* @returns [ TimeStretchVector3DT[1] ] --- Output
+*/
 template<typename T, typename U>
 void TimeStretch<T,U>::GenerateTimeStretch(FILEINFO_Obj<T,U>& FileInfoObjRef)
 {
