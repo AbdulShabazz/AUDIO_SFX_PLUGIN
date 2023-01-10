@@ -341,41 +341,6 @@ Inverval between two frequencies f0,f1: delta = 1200 * ln(f0/f1)
 MIDI Pitch, f0: f0 = 69 + 12 * ln(f0 / 440_hz)
 Determine Frequency from MIDI note number: f0 = 2^((f0-69)/12) * 440_hz
 
-// LIST THE 44 (MOST COMMON) ENGLISH PHONEMES
-/p/ as in "pat"
-/b/ as in "bat"
-/t/ as in "tap"
-/d/ as in "dog"
-/k/ as in "cat"
-/g/ as in "go"
-/f/ as in "fish"
-/v/ as in "vat"
-/θ/ as in "think"
-/ð/ as in "this"
-/s/ as in "sip"
-/z/ as in "zip"
-/ʃ/ as in "sheep"
-/ʒ/ as in "measure"
-/h/ as in "hat"
-/m/ as in "mat"
-/n/ as in "nap"
-/ŋ/ as in "sing"
-/l/ as in "lip"
-/r/ as in "rip"
-/j/ as in "yacht"
-/w/ as in "wet"
-
-/i/ as in "beet"
-/ɪ/ as in "bit"
-/e/ as in "bait"
-/ɛ/ as in "bet"
-/æ/ as in "bat"
-/a/ as in "father"
-/ɑ/ as in "bought"
-/ɔ/ as in "bawl"
-/o/ as in "oat"
-/ʊ/ as in "foot"
-/u/ as in "boot"
     
     
 
