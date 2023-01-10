@@ -341,7 +341,7 @@ Inverval between two frequencies f0,f1: delta = 1200 * ln(f0/f1)
 MIDI Pitch, f0: f0 = 69 + 12 * ln(f0 / 440_hz)
 Determine Frequency from MIDI note number: f0 = 2^((f0-69)/12) * 440_hz
 
-// LIST THE 44 ENGLISH PHONEMES
+// LIST THE 44 (MOST COMMON) ENGLISH PHONEMES
 /p/ as in "pat"
 /b/ as in "bat"
 /t/ as in "tap"
