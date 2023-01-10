@@ -2,7 +2,7 @@
 
 #include "AudioEqualization.h"
 #include "AudioMix.h"
-#include "AudioSumation.h"
+#include "AudioSummation.h"
 #include "BlackNoise.h"
 #include "BlueNoise.h"
 #include "BluesteinFFT.h"
