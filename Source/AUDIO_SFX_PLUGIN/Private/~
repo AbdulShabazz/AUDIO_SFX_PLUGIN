@@ -1,4 +1,40 @@
 
+
+	// Apply time stretching
+	U OutputSampleIndex = 0;  StretchRatio;
+	for (U Channel = 0; Channel < NumChannels; Channel++)
+	{
+		oBuffer[Channel] = VectorT<T>(NumSamples);
+		for (U Sample = 0; Sample < NumSamples; Sample++)
+		{
+			oBuffer[Channel][Sample] = (1 - Sample) * oBuffer[Channel][Sample] + Sample * oBufferTemp[Channel][Sample];
+		}
+	}
+
+    // Apply time stretching
+	U OutputSampleIndex = 0;  StretchRatio;
+	for (U Channel = 0; Channel < NumChannels; Channel++)
+	{
+		oBuffer[Channel] = VectorT<T>(NumSamples);
+		for (U Sample = 0; Sample < NumSamples; Sample++)
+		{
+			oBuffer[Channel][Sample] = oBufferTemp[Channel][OutputSampleIndex];
+		}
+		OutputSampleIndex++;
+	}
+    
+    // Apply time stretching
+	U OutputSampleIndex = 0;  StretchRatio;
+	for (U Channel = 0; Channel < NumChannels; Channel++)
+	{
+		oBuffer[Channel] = VectorT<T>(NumSamples);
+		for (U Sample = 0; Sample < NumSamples; Sample++)
+		{
+			oBuffer[Channel][Sample] = oBufferTemp[Channel][OutputSampleIndex];
+		}
+		OutputSampleIndex += StretchRatio;
+	}
+
 	public:
 		void SetSize(FILEINFO_Obj<T, U>&);
 		void SetDamping(FILEINFO_Obj<T, U>&);
