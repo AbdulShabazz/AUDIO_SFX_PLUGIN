@@ -1,3 +1,90 @@
+template <typename T>
+std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>> PopulateConvolutionReverbHashTableT()
+{
+    ConvolutionReverbHashTableT<ConvolutionReverbEnumFLAGS, Vector2DT<T>> ConvolutionReverbHashTableT;
+    
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlateEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::PlateFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSpringEnumFlag] =
+        ConvolutionReverbFIRObj<T>::SpringFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConvoluteEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::ConvolutionFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbWoodenEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::WoodenRoomFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGlassEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::GlassRoomFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbTitaniumEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::TitaniumRoomFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbIronEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::IronRoomFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbLeadEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::LeadRoomFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGoldEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::GoldRoomFiniteImpulseResponse;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSteelEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::SteelRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbAluminumEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::AluminumRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbRubberEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::RubberRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCeramicEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CeramicRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlasticEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::PlasticRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCottonEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CottonRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbMediumHallEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj.MediumHallFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertHallEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertHallFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCathedralEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::CathedralFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertStadiumEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertStadiumFiniteImpulseResponseFIRVector2DT;
+	return ConvolutionReverbHashTableT;
+}
+
+template <typename T>
+ConvolutionReverbHashTableT<T>[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlateEnumFlag] = ConvolutionReverbFIRObj<T>::PlateFiniteImpulseResponseFIRVector2DT;
+
+	switch (FileInfoObjRef.ConvolutionReverbMethodEnumFlag)
+	{
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbPlateEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbSpringEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConvoluteEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbWoodenEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbGlassEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbTitaniumEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbIronEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbLeadEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbGoldEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbSteelEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbAluminumEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbRubberEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCeramicEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbPlasticEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCottonEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbMediumHallEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConcertHallEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCathedralEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConcertStadiumEnumFlag:
+		ConvolutionTargetFIRVector2DTREF = 
+			FileInfoObjRef.ConvolutionReverbImpulseResponseTObj.ConcertHallFiniteImpulseResponseFIRVector2DT;
+		break;
+
+	default: // FileInfoObjRef.ConvolutionReverbNoneSelectedEnumFlag
+		std::cout << "Error - ConvolutionReverb::GenerateConvolutionReverb FileInfoObjRef.ConvolutionReverbNoneSelectedEnumFlag. " << std::endl;
+		return;
+	}	
+
+template <typename T, typename U>
+using HashMapT = std::unordered_map<T, U>;
+
+template <typename T>
+HashMapT <enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>> ConvolutionReverbHashTableT = HashMapT<ConvolutionReverbEnumFLAGS, Vector2DT<T>>;
+
+template <typename T, typename U>
+ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlateEnumFlag] = ConvolutionReverbFIRObj<T, U>::PlateFiniteImpulseResponseFIRVector2DT<T, U>;
 
 		// Average the audio for the entire channel
 		FileInfoObjRef.AudioMixMixedAudioResultVector2DTRef[nChannelUInt64] /= 
