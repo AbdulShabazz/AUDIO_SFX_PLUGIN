@@ -9,13 +9,18 @@ namespace ToneLibrary
     {
     public:
         BluesteinFFT();
-        void GenerateBluesteinFFT(
+        void InitializeBluesteinFFT(
+            FILEINFO_Obj<T, U>& FileInfoObjRef
+            );
+        void ApplyBluesteinTransform(
             FILEINFO_Obj<T, U>& FileInfoObjRef
             );
     private:
         void ApplyBluesteinFFTFilter(
             FILEINFO_Obj<T, U>& FileInfoObjRef
             );
+		ComplexVectorT<T> ForwardTwiddleFactorComplexVectorT;
+		ComplexVectorT<T> InverseTwiddleFactorComplexVectorT;
     };
 }
 
