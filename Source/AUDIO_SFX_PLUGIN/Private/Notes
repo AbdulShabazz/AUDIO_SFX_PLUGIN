@@ -71,6 +71,7 @@ MENU
             TAIGA SOUND EFFECTS
             POLAR SOUND EFFECTS
             JUNGLE SOUND EFFECTS
+            TEXT TO SPEECH SYNTHESIS
         OPEN
             .GLTF + [.WAV .OGG .MP4 .AVI .VST2]
         SAVE
@@ -178,6 +179,7 @@ MENU
         ADD TAG
     GENERATE
         AUDIO TRACK
+        TEXT TO SPEECH SYNTHESIS
         AUDIO TRACK EFFECT
         DOLBY CHANNEL
         MIDI TRACK
