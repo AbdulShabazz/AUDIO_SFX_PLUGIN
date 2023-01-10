@@ -11,6 +11,7 @@
 #include <assert.h>
 #include <type_traits>
 #include <vector>
+#include <unordered_map>
 
 using UE_UINT16 = unsigned int;
 using UE_UINT64 = unsigned long long int;
@@ -50,29 +51,29 @@ UE_FLOAT64 operator"" _ghz(UE_FLOAT64 iFloat64)
 }
 
 // INT64
-UE_UINT64 operator"" _dB(UE_UINT64 iFloat64)
+UE_UINT64 operator"" _dB(UE_UINT64 iUInt64)
 {
-    return iFloat64;
+    return iUInt64;
 }
 
-UE_UINT64 operator"" _hz(UE_UINT64 iFloat64)
+UE_UINT64 operator"" _hz(UE_UINT64 iUInt64)
 {
-    return iFloat64;
+    return iUInt64;
 }
 
-UE_UINT64 operator"" _khz(UE_UINT64 iFloat64)
+UE_UINT64 operator"" _khz(UE_UINT64 iUInt64)
 {
-    return iFloat64 * 1e3;
+    return iUInt64 * 1e3;
 }
 
-UE_UINT64 operator"" _mhz(UE_UINT64 iFloat64)
+UE_UINT64 operator"" _mhz(UE_UINT64 iUInt64)
 {
-    return iFloat64 * 1e6;
+    return iUInt64 * 1e6;
 }
 
-UE_UINT64 operator"" _ghz(UE_UINT64 iFloat64)
+UE_UINT64 operator"" _ghz(UE_UINT64 iUInt64)
 {
-    return iFloat64 * 1e9;
+    return iUInt64 * 1e9;
 }
 
 struct SETTINGS_OBJ
@@ -116,16 +117,153 @@ using ComplexVectorFloat64T = ComplexVectorT<UE_FLOAT64>;
 using ComplexVector2DFloat64T = ComplexVector2DT<UE_FLOAT64>;
 using ComplexVector3DFloat64T = ComplexVector3DT<UE_FLOAT64>;
 
+template <typename T>
+struct ConvolutionReverbFIRObj
+{
+    Vector2DT<T> PlateFiniteImpulseResponseFIRVector2DT; // PLATE
+    Vector2DT<T> SpringFiniteImpulseResponseFIRVector2DT; // SPRING
+    Vector2DT<T> ConvolutionFiniteImpulseResponseFIRVector2DT; // CONVOLUTION
+    struct ALGORITHMIC
+    {
+        struct SMALL_ROOM
+        {
+            Vector2DT<T> WoodenRoomFiniteImpulseResponseFIRVector2DT; // WOODEN
+            Vector2DT<T> GlassRoomFiniteImpulseResponseFIRVector2DT; // GLASS
+            struct METAL
+            {
+                Vector2DT<T> TitaniumRoomFiniteImpulseResponseFIRVector2DT; // TITANIUM
+                Vector2DT<T> IronRoomFiniteImpulseResponseFIRVector2DT; // IRON
+                Vector2DT<T> LeadRoomFiniteImpulseResponseFIRVector2DT; // LEAD
+                Vector2DT<T> GoldRoomFiniteImpulseResponseFIRVector2DT; // GOLD
+                Vector2DT<T> SteelRoomFiniteImpulseResponseFIRVector2DT; // STEEL
+                Vector2DT<T> AluminumRoomFiniteImpulseResponseFIRVector2DT; // ALUMINUM
+            } MetalObj;
+            Vector2DT<T> RubberRoomFiniteImpulseResponseFIRVector2DT; // RUBBER
+            Vector2DT<T> CeramicRoomFiniteImpulseResponseFIRVector2DT; // CERAMIC
+            Vector2DT<T> PlasticRoomFiniteImpulseResponseFIRVector2DT; // PLASTIC
+            Vector2DT<T> CottonRoomFiniteImpulseResponseFIRVector2DT; // COTTON
+        } SmallRoomObj;
+        Vector2DT<T> MediumHallFiniteImpulseResponseFIRVector2DT; // MEDIUM HALL
+        Vector2DT<T> ConcertHallFiniteImpulseResponseFIRVector2DT; //CONCERT HALL
+        Vector2DT<T> CathedralFiniteImpulseResponseFIRVector2DT; // CATHEDRAL
+        Vector2DT<T> ConcertStadiumFiniteImpulseResponseFIRVector2DT; // STADIUM
+    } AlgorithmicObj;
+};
+
+enum class ConvolutionReverbEnumFLAGS
+{
+    ConvolutionReverbPlateEnumFlag = 1,
+    ConvolutionReverbSpringEnumFlag,
+    ConvolutionReverbConvoluteEnumFlag,
+    ConvolutionReverbWoodenEnumFlag,
+    ConvolutionReverbGlassEnumFlag,
+    ConvolutionReverbTitaniumEnumFlag,
+    ConvolutionReverbIronEnumFlag,
+    ConvolutionReverbLeadEnumFlag,
+    ConvolutionReverbGoldEnumFlag,
+    ConvolutionReverbSteelEnumFlag,
+    ConvolutionReverbAluminumEnumFlag,
+    ConvolutionReverbRubberEnumFlag,
+    ConvolutionReverbCeramicEnumFlag,
+    ConvolutionReverbPlasticEnumFlag,
+    ConvolutionReverbCottonEnumFlag,
+    ConvolutionReverbMediumHallEnumFlag,
+    ConvolutionReverbConcertHallEnumFlag,
+    ConvolutionReverbCathedralEnumFlag,
+    ConvolutionReverbConcertStadiumEnumFlag
+};
+
+// Populate 
+template <typename T>
+std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>>& PopulateConvolutionReverbHashTableT()
+{
+    ConvolutionReverbHashTableT<ConvolutionReverbEnumFLAGS, Vector2DT<T>> ConvolutionReverbHashTableT;
+    
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlateEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::PlateFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSpringEnumFlag] =
+        ConvolutionReverbFIRObj<T>::SpringFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConvoluteEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::ConvolutionFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbWoodenEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::WoodenRoomFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGlassEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::GlassRoomFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbTitaniumEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::TitaniumRoomFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbIronEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::IronRoomFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbLeadEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::LeadRoomFiniteImpulseResponseFIRVector2DT;
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGoldEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::GoldRoomFiniteImpulseResponse;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSteelEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::SteelRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbAluminumEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::AluminumRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbRubberEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::RubberRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCeramicEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CeramicRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlasticEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::PlasticRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCottonEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CottonRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbMediumHallEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::MediumHallFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertHallEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertHallFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCathedralEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::CathedralFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertStadiumEnumFlag] = 
+        ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertStadiumFiniteImpulseResponseFIRVector2DT;
+	return ConvolutionReverbHashTableT;
+}
+
+// Convolution Reverb FIR library lookup table (by flag)
+template <typename T>
+std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>>& ConvolutionReverbLibraryEnumHashTableT = PopulateConvolutionReverbHashTableT();
+
 template <typename T, typename U>
 struct FILEINFO_Obj
 {
-    U PlateReverbNumChannelsUint64T;
-    U PlateReverbNumSamplesUint64T;
-    U PlateReverbNumSamplesPerChannelUint64T;
-    T PlateReverbSampleRateFloat64T;
-    T PlateReverbWetLevelFloat64T;
-    T PlateReverbDryLevelFloat64T;
+    T TimeStretchPitchRatioFloat64T;
+    U TimeStretchStretchRatioInNumberOfSamplesUInt64T;
+    Vector3DT<T> TimeStretchVector3DT;
+	ComplexVector3DT<T> TimeStretcComplexVector3DT;
+    T AudioEqualizationSampleRateFloat64T;
+    T AudioEqualizationLowCutOffFrequencyInHertzFloat64T;
+    T AudioEqualizationHighCutOffFrequencyInHertzFloat64T;
+    T AudioEqualizationLowGainMultiplierBetween0And10Float64T;
+    T AudioEqualizationHighGainMultiplierBetween0And10Float64T;
+    ComplexVector3DT<T> AudioEqualizationComplexVector3DTRef;
+	Vector3DT<T> AudioEqualizationVector3DTRef;
+    T SpringReverbDelayInSamplesFloat64T;
+    T SpringReverbDecayInSecondsFloat64T;
+    T SpringReverbDampingFactorBetween0And1Float64T;
+    T SpringReverbSampleRateInHertzFloat64T;
     T PlateReverbDampingFloat64T;
+    T PlateReverbDrynessFloat64T;
+	T PlateReverbWetnessFloat64T;
+    Vector3DT<T> PlateReverb3DVectorTRef;
+    // Convolution Reverb Method
+    ConvolutionReverbEnumFLAGS ConvolutionReverbMethodEnumFlag;
+    // ConvolutionReverb Impulse Response (FIR/IIR) library
+    ConvolutionReverbFIRObj<T> ConvolutionReverbImpulseResponseTObj;
+    // Contains the AudioMix result at AudioMixMixedAudioResultVector3DTRef[0],
+    // and the original source file at AudioMixMixedAudioResultVector3DTRef[1]. 
+    // Add FIR / IIR targets to the buffer as needed.
+    Vector3DT<T> ConvolutionReverbAudioResultVector3DTRef;
+    // Contains the AudioMix result at AudioMixMixedAudioResultVector3DTRef[0]. Add files to the buffer as needed.
+    Vector3DT<T> AudioMixMixedAudioResultVector3DTRef;
+    Vector2DT<T> BluesteinAudioFileComplexVector2DT;
+    // Use to designate the inverse Bluestein Transform
+    bool BluesteinInverseFlag;
+    U BlueSteinNumSamplesUInt64;
+    Vector2DT<T> AudioSummationSummedAudioVector2DTRef;
+	Vector2DT<T> AudioSummationFileAVector2DTRef;
+	Vector2DT<T> AudioSummationFileBVector2DTRef;
+    bool AudioSummationNormalizeFlag;
     T KarplusStrongDelayLineSynthesisFrequencyInHertzFloat64T;
 	U KarplusStrongDelayLineSynthesisDelayInNumberOfSamplesUInt64T;
 	VectorT<T> KarplusStrongDelayLineSynthesisRingBufferUInt64T;
