@@ -18,7 +18,7 @@ namespace ToneLibrary
 	template <typename T, typename U>
 	VectorT<MIDINoteObjT<T,U>> MIDINoteLibrary =
 	{
-		{"C0", 16.35, 0 },
+		{ "C0", 16.35, 0 },
 		{ "C#0", 17.32, 1 },
 		{ "D0", 18.35, 2 },
 		{ "D#0", 19.45, 3 },
