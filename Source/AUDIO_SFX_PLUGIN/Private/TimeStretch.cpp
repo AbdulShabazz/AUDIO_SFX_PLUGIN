@@ -26,15 +26,18 @@ void TimeStretch<T,U>::ApplyTimeStretchFilter(FILEINFO_Obj<T,U>& FileInfoObjRef)
 	Vector2DT<T>& oBuffer = FileInfoObjRef.TimeStretchVector3DT[1];
 	Vector2DT<T>& oBufferTemp = FileInfoObjRef.TimeStretchVector3DT[0];
     
-    // Set pitch-scaling ratio
-	T PitchRatio = FileInfoObjRef.TimeStretchPitchRatioFloat64T;
-    
-	// Apply pitch scaling	
-	for (U Channel = 0; Channel < NumChannels; Channel++)
+	if (FileInfoObjRef.TimeStretchPreservePitchFlag)
 	{
-		for (U Sample = 0; Sample < NumSamples; Sample++)
+		// Set pitch-scaling ratio
+		T PitchRatio = FileInfoObjRef.TimeStretchPitchRatioFloat64T;
+
+		// Apply pitch scaling	
+		for (U Channel = 0; Channel < NumChannels; Channel++)
 		{
-			oBufferTemp[Channel][SampleIndex] *= PitchRatio;
+			for (U Sample = 0; Sample < NumSamples; Sample++)
+			{
+				oBufferTemp[Channel][SampleIndex] *= PitchRatio;
+			}
 		}
 	}
 
@@ -65,9 +68,10 @@ void TimeStretch<T,U>::ApplyTimeStretchFilter(FILEINFO_Obj<T,U>& FileInfoObjRef)
 * @param [ TimeStretchVector3DT[0].size() ] -- Number of channels
 * @param [ TimeStretchVector3DT[0][0].size() ] --- Number of precomputed samples
 * @param [ TimeStretchStretchRatioInNumberOfSamplesUInt64T ] --- Time-stretch in number of samples
+* @param [ TimeStretchPreservePitchFlag ] --- Employ pitch-scaling
 * @param [ TimeStretchPitchRatio ] --- Pitch-scaling ratio
 * @param [ TimeStretchVector3DT[0] ] --- Input
-* @returns [ TimeStretchVector3DT[1] ] --- Output
+* @returns [ TimeStretchVector3DT[1] ] --- Result
 */
 template<typename T, typename U>
 void TimeStretch<T,U>::GenerateTimeStretch(FILEINFO_Obj<T,U>& FileInfoObjRef)
