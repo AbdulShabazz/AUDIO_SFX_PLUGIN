@@ -227,6 +227,7 @@ std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>>& Convolu
 template <typename T, typename U>
 struct FILEINFO_Obj
 {
+    bool TimeStretchPreservePitchFlag;
     T TimeStretchPitchRatioFloat64T;
     U TimeStretchStretchRatioInNumberOfSamplesUInt64T;
     Vector3DT<T> TimeStretchVector3DT;
