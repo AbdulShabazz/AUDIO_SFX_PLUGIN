@@ -7,15 +7,14 @@
 
 namespace ToneLibrary 
 {
-    // Set Float(T) and Unsigned Int (U) resolution 
     template<typename T, typename U>
     class AudioEqualization
     {
     public:
         AudioEqualization();
         void GenerateAudioEqualization(FILEINFO_Obj<T,U>&);
+        void ApplyAudioEqualizationFilterT(FILEINFO_Obj<T, U>& );
     protected:
-        void ApplyAudioEqualizationFilterT(FILEINFO_Obj<T,U>&);
         void NormalizeComplexAudioT(FILEINFO_Obj<T, U>&);
         void NormalizeAudioForPlaybackT(FILEINFO_Obj<T, U>&);
 
