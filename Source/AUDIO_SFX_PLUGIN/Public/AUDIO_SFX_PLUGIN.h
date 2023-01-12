@@ -5,6 +5,7 @@
 #include <memory>
 #include <GameFramework/PlayerController.h>
 #include <Camera/CameraActor.h>
+#include "Tones.h"
 
 class UMGViewportComponent : public SWindow
 {
