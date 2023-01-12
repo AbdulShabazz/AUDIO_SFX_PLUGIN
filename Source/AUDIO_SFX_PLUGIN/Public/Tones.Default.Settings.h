@@ -25,63 +25,64 @@ const UE_FLOAT16 UE_FLOAT16_PI = 3.1415926535897932f;
 const UE_FLOAT32 UE_FLOAT32_PI = 3.14159265358979323846f;
 const UE_FLOAT64 UE_FLOAT64_PI = 3.141592653589793238462643383279502884197169399f;
 
-UE_FLOAT64 operator"" _dB(UE_FLOAT64 iFloat64)
-{
-    return iFloat64;
-}
-
-UE_FLOAT64 operator"" _hz(UE_FLOAT64 iFloat64)
-{
-    return iFloat64;
-}
-
-UE_FLOAT64 operator"" _khz(UE_FLOAT64 iFloat64)
-{
-    return iFloat64 * 1e3;
-}
-
-UE_FLOAT64 operator"" _mhz(UE_FLOAT64 iFloat64)
-{
-    return iFloat64 * 1e6;
-}
-
-UE_FLOAT64 operator"" _ghz(UE_FLOAT64 iFloat64)
-{
-    return iFloat64 * 1e9;
-}
+//UE_FLOAT64 operator"" _dB(UE_FLOAT64 iFloat64)
+//{
+//    return iFloat64;
+//}
+//
+//UE_FLOAT64 operator"" _hz(UE_FLOAT64 iFloat64)
+//{
+//    return iFloat64;
+//}
+//
+//UE_FLOAT64 operator"" _khz(UE_FLOAT64 iFloat64)
+//{
+//    return iFloat64 * 1e3;
+//}
+//
+//UE_FLOAT64 operator"" _mhz(UE_FLOAT64 iFloat64)
+//{
+//    return iFloat64 * 1e6;
+//}
+//
+//UE_FLOAT64 operator"" _ghz(UE_FLOAT64 iFloat64)
+//{
+//    return iFloat64 * 1e9;
+//}
 
 // INT64
-UE_UINT64 operator"" _dB(UE_UINT64 iUInt64)
-{
-    return iUInt64;
-}
+//UE_UINT64 operator"" _dB(UE_UINT64 iUInt64)
+//{
+//    return iUInt64;
+//}
+//
+//UE_UINT64 operator"" _hz(UE_UINT64 iUInt64)
+//{
+//    return iUInt64;
+//}
+//
+//UE_UINT64 operator"" _khz(UE_UINT64 iUInt64)
+//{
+//    return iUInt64 * 1e3;
+//}
+//
+//UE_UINT64 operator"" _mhz(UE_UINT64 iUInt64)
+//{
+//    return iUInt64 * 1e6;
+//}
+//
+//UE_UINT64 operator"" _ghz(UE_UINT64 iUInt64)
+//{
+//    return iUInt64 * 1e9;
+//}
 
-UE_UINT64 operator"" _hz(UE_UINT64 iUInt64)
-{
-    return iUInt64;
-}
-
-UE_UINT64 operator"" _khz(UE_UINT64 iUInt64)
-{
-    return iUInt64 * 1e3;
-}
-
-UE_UINT64 operator"" _mhz(UE_UINT64 iUInt64)
-{
-    return iUInt64 * 1e6;
-}
-
-UE_UINT64 operator"" _ghz(UE_UINT64 iUInt64)
-{
-    return iUInt64 * 1e9;
-}
-
+template <typename T, typename U>
 struct SETTINGS_OBJ
 {
-    UE_FLOAT64 DefaultSampleRateFloat64 = 192.0_khz;
-    UE_UINT16 TableSizeUInt16 = 256;
-    UE_FLOAT64 AmplitudeFloat64 = 1.0f;
-} TonesSettingsObj;
+    T DefaultSampleRateFloat64 = 192.0_khz;
+    U TableSizeUInt16 = 256;
+    T AmplitudeFloat64 = 1.0f;
+};
 
 template <typename T>
 using VectorT = std::vector<T>;
@@ -397,13 +398,13 @@ T BilinearInterpolationT(
         n3 * wx * wy ;
 }
 
-UE_FLOAT64 DotProductFloat64(
-    const std::vector<UE_FLOAT64>& a, 
-    const std::vector<UE_FLOAT64>& b
-    )
-{
-    return  DotProductT<UE_FLOAT64>(a, b);
-}
+//UE_FLOAT64 DotProductFloat64(
+//    const std::vector<UE_FLOAT64>& a, 
+//    const std::vector<UE_FLOAT64>& b
+//    )
+//{
+//    return  DotProductT<UE_FLOAT64>(a, b);
+//}
 
 using UniformRealDistributionFloat64 = std::uniform_real_distribution<UE_FLOAT64>;
 
