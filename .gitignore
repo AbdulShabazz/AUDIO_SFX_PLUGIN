@@ -2,6 +2,7 @@
 /Intermediate/*
 /RTX_DX12_Viewport/bin/*
 /RTX_DX12_Viewport/intermediate/*
+/Tools/wn3.1/*
 /.vs/*
 
 # Prerequisites
