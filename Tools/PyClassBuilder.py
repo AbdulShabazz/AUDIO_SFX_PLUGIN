@@ -79,17 +79,16 @@ $U<T, U>::$U()
 }
 ''')
 
-FileH = Template('$U.h')
-FileCPP = Template('$U.cpp')
-IncludeFileH = Template('#include "$U.h"\n')
+FileH = Template('sfx_$U.h')
+FileCPP = Template('sfx_$U.cpp')
+IncludeFileH = Template('#include "sfx_$U.h"\n')
 
 with open("includes.generated.h",'w') as h:
     for fn in lib:
-        #with open(FileH.safe_substitute(U=fn),'w') as f:
-            #f.write(classDECLARATION.safe_substitute(U=fn))
-        #with open(FileCPP.safe_substitute(U=fn),'w') as g:
-            #g.write(classDEFIINITION.safe_substitute(U=fn))
-        h.writelines(IncludeFileH.safe_substitute(U=fn))
+        with open(FileH.safe_substitute(U=fn),'w') as f:
+            f.write('sfx_' + classDECLARATION.safe_substitute(U=fn))
+        with open(FileCPP.safe_substitute(U=fn),'w') as g:
+            g.write('sfx_' + classDEFIINITION.safe_substitute(U=fn))
+        h.writelines('sfx_' + IncludeFileH.safe_substitute(U=fn))
 
-#print( classDEFIINITION.safe_substitute(U=lib[0]) )
 print("Q.E.D.")
