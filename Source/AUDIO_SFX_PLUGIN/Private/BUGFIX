@@ -29,3 +29,16 @@ SOLU: [no namespace] ==> using namespace ToneLibrary;
 
 SYMP: error Multiple object definitions, ignoring.
 SOLU: Ensure includes don't branch into (compiled) unused source files; ensure there is only one project Main.
+
+INCLUDES HIERARCHY
+
+Tones.Default.Settings.h
+.
+.
+ToneLibrary[App Modules + Tools + Filters etc.]
+.
+.
+Tones.h
+.
+.
+AUDIO_SFX_PLUGIN.h
