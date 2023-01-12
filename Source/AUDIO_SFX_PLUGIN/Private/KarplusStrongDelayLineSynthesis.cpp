@@ -5,10 +5,10 @@ using namespace ToneLibrary;
 template<typename T, typename U>
 KarplusStrongDelayLineSynthesis<T, U>::KarplusStrongDelayLineSynthesis(
 	T FrequencyInHertzFloat64T,
-	U DelayFloat64T = 1,
-	U ReadIndexFloat64T = 0,
-	U WriteIndexFloat64T = 0,
-	U DefaultRingBufferSizePrivateUInt64 = 1024
+	U DelayUInt64T,
+	U ReadIndexUInt64T,
+	U WriteIndeUInt64T,
+	U DefaultRingBufferSizePrivateUInt64
 	) 
 	: 
 	FrequencyPrivateFloat64T(FrequencyInHertzFloat64T),
