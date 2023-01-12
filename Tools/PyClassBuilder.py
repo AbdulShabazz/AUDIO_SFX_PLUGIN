@@ -54,8 +54,6 @@ lib = [
 classDECLARATION = Template('''
 #pragma once
 
-#include "Tones.Default.Settings.h"
-
 namespace ToneLibrary
 {
 
@@ -65,6 +63,7 @@ namespace ToneLibrary
 	public:
 		sfx_$U();
 	};
+    
 }''')
 
 classDEFIINITION = Template('''
