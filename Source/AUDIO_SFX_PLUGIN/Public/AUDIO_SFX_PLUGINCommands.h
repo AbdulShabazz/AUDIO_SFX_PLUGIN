@@ -11,7 +11,12 @@ class FAUDIO_SFX_PLUGINCommands : public TCommands<FAUDIO_SFX_PLUGINCommands>
 public:
 
     FAUDIO_SFX_PLUGINCommands()
-        : TCommands<FAUDIO_SFX_PLUGINCommands>(TEXT("AUDIO_SFX_PLUGIN"), NSLOCTEXT("Contexts", "AUDIO_SFX_PLUGIN", "AUDIO_SFX_PLUGIN Plugin"), NAME_None, FAUDIO_SFX_PLUGINStyle::GetStyleSetName())
+        : TCommands<FAUDIO_SFX_PLUGINCommands>(
+            TEXT("AUDIO_SFX_PLUGIN"), 
+            NSLOCTEXT("Contexts", "AUDIO_SFX_PLUGIN", "AUDIO_SFX_PLUGIN Plugin"), 
+            NAME_None, 
+            FAUDIO_SFX_PLUGINStyle::GetStyleSetName()
+            )
     {
     }
 
