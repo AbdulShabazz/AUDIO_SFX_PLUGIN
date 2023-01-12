@@ -1,6 +1,8 @@
 ﻿#pragma once
 
-#include "Tones.Default.Settings.h"
+#include <unordered_map>
+#include <complex>
+#include <vector>
 
 namespace ToneLibrary
 {
@@ -12,6 +14,8 @@ namespace ToneLibrary
 		nlp();
 
 		template<typename T>
-		std::unordered_map<std::string, ComplexVector2DT<T>> nlp_has();
+		static std::unordered_map<std::string, 
+		std::vector<std::vector<std::complex<T>>>> nlp_has_phoneme;
 	};
+
 }
