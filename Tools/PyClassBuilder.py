@@ -89,6 +89,6 @@ with open("includes.generated.h",'w') as h:
             f.write('sfx_' + classDECLARATION.safe_substitute(U=fn))
         with open(FileCPP.safe_substitute(U=fn),'w') as g:
             g.write('sfx_' + classDEFIINITION.safe_substitute(U=fn))
-        h.writelines('sfx_' + IncludeFileH.safe_substitute(U=fn))
+        h.writelines(IncludeFileH.safe_substitute(U=fn))
 
 print("Q.E.D.")
