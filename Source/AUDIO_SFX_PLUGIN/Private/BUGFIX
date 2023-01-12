@@ -26,3 +26,6 @@ SOLU: Vector2DT ==> Vector2DT<T>;
 
 SYMP: error SpringReverb.cpp: SpringReverb is not a template
 SOLU: [no namespace] ==> using namespace ToneLibrary;
+
+SYMP: error Multiple object definitions, ignoring.
+SOLU: Ensure includes don't branch into (compiled) unused source files; ensure there is only one project Main.
