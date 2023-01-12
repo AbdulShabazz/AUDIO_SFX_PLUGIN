@@ -19,10 +19,10 @@ namespace ToneLibrary
 		void GenerateKarplusStrongDelayLineSynthesis(FILEINFO_Obj<T, U>&);
 	private:
 		T FrequencyInHertzPrivateFloat64T;
-		U DelayInNumberOfSamplesPrivateUInt64T;
-		U ReadIndexPrivateUIntt64T;
-		U WriteIndexPrivateUInt64T;
-		U DefaultRingBufferSizePrivateUInt64;
+		U DelayInNumberOfSamplesPrivateUInt64T = 1;
+		U ReadIndexPrivateUIntt64T = 0;
+		U WriteIndexPrivateUInt64T = 0;
+		U DefaultRingBufferSizePrivateUInt64 = 1024;
 		VectorT<T> RingBufferPrivateVectorT;
 	};
 }
