@@ -1,8 +1,6 @@
 
 #pragma once
 
-#include "Tones.Default.Settings.h"
-
 namespace ToneLibrary
 {
 
@@ -12,4 +10,5 @@ namespace ToneLibrary
 	public:
 		sfx_FLUID();
 	};
+    
 }
