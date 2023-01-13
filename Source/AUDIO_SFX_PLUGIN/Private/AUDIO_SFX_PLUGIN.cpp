@@ -144,8 +144,6 @@ void FAUDIO_SFX_PLUGINModule::RegisterMenus()
 
 	// Get the main menu builder
 	FMenuBarBuilder MenuBarBuilder = FMenuBarBuilder(TSharedPtr<FUICommandList>());
-
-	MenuBarBuilder.AddMenuEntry(FAUDIO_SFX_PLUGINCommands::Get().FillMyMenu);
 }
 
 #undef LOCTEXT_NAMESPACE
