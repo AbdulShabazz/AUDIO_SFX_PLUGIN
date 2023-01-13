@@ -9,7 +9,9 @@ namespace ToneLibrary
     {
     public:
         nlp_lib();
-        static std::unordered_map<std::string, U> nlp_has_glyphs;
+
+        // Natural Language Processing Text for Synthesis (TFS)
+        static std::unordered_map<std::string, U> nlp_tfs;
 
     };
 }
