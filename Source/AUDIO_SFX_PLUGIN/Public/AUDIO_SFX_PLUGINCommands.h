@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Framework/Commands/Commands.h"
+#include "Framework/Commands/UICommandList.h"
 #include "AUDIO_SFX_PLUGINStyle.h"
 
 class FAUDIO_SFX_PLUGINCommands : public TCommands<FAUDIO_SFX_PLUGINCommands>
