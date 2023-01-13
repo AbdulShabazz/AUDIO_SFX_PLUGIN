@@ -38,10 +38,11 @@ void AudioEqualization<T, U>::ApplyAudioEqualizationFilterT(FILEINFO_Obj<T,U>& F
     // Normalize (complex form)
     // Normalize (for playback)
     // Perform an FFT (Cooley-Tukey or Bluestein etc.) of the modified data
+    
+    bool ProperCallBool = false;
 
     switch (FileInfoObjRef.AudioEqualizationAlgorithmEnum)
     {
-        bool ProperCallBool = false;
         case FILEINFO_Obj::AudioEqualizationENUM::Blustein:
             iBluesteinFFT.GenerateBluesteinFFT(FileInfoObjRef);
             NormalizeComplexAudioT(FileInfoObjRef);
