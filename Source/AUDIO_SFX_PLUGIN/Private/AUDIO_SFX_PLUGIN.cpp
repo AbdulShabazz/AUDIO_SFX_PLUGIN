@@ -49,7 +49,7 @@ void FAUDIO_SFX_PLUGINModule::StartupModule()
         FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
     )
     .SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
-    .SetMenuType(ETabSpawnerMenuType::Hidden);
+    .SetMenuType(ETabSpawnerMenuType::Enabled);
 }
 
 void FAUDIO_SFX_PLUGINModule::ShutdownModule()
@@ -132,6 +132,20 @@ void FAUDIO_SFX_PLUGINModule::RegisterMenus()
             }
         }
     }
+
+	// Register the menu for the 3D viewport
+	{
+		UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.ViewportContextMenu");
+		{
+			FToolMenuSection& Section = Menu->FindOrAddSection("LevelEditorViewport");
+			Section.AddMenuEntryWithCommandList(FAUDIO_SFX_PLUGINCommands::Get().OpenPluginWindow, PluginCommands);
+		}
+	}
+
+	// Get the main menu builder
+	FMenuBarBuilder MenuBarBuilder = FMenuBarBuilder(TSharedPtr<FUICommandList>());
+
+	MenuBarBuilder.AddMenuEntry(FAUDIO_SFX_PLUGINCommands::Get().FillMyMenu);
 }
 
 #undef LOCTEXT_NAMESPACE
@@ -140,8 +154,8 @@ IMPLEMENT_MODULE(FAUDIO_SFX_PLUGINModule, AUDIO_SFX_PLUGIN)
 
 void UMGViewportComponent::Construct(const FArguments& InArgs)
 {
-    this->SetTitle(FText::FromString(TEXT("The Audio SFX Designer")));
-
+    this->SetTitle(FText::FromString(TEXT("The Audio SFX Design Tool")));
+    
     this->bCreateTitleBar = true; 
     
     FText TTip = FText::FromString(
