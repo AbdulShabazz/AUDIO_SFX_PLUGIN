@@ -1,5 +1,30 @@
 ﻿
 
+    this->ChildSlot
+        [
+            SNew(SVerticalBox)
+            
+            + SVerticalBox::Slot()
+            .Padding(0.0f, 10.0f)
+            .AutoHeight()
+            [
+                SNew(SBox)
+                .MinDesiredHeight(320.0f)
+                .MinDesiredWidth(450.0f)
+                .RenderOpacity(0.5f)
+            ]
+    
+            + SVerticalBox::Slot()
+            .AutoHeight()
+            .Padding(2)
+            [
+                SNew(SBox)
+                .MinDesiredHeight(320.0f)
+                .MinDesiredWidth(450.0f)
+                .RenderOpacity(0.25f)
+            ]
+        ];
+
     return SNew(SDockTab)
         .TabRole(ETabRole::MajorTab)
         .Label(inAttributesTXT)
