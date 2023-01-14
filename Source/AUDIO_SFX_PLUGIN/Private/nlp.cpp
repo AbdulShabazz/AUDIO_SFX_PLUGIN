@@ -1,4 +1,5 @@
 ﻿#include "nlp.h"
+#include "Tones.Default.Settings.h"
 
 using namespace ToneLibrary;
 
@@ -41,4 +42,59 @@ nlp<T, U>::nlp()
 	nlp_phoneme["o"] = nlpVector2DTOAt;	// as in "oat"
 	nlp_phoneme["ʊ"] = nlpVector2DTfOOt; // as in "foot"
 	nlp_phoneme["u"] = nlpVector2DTbOOt; // as in "boot"
+}
+
+/**
+* A parallel wave-shaping strategy around the fundamental frequency, F0.
+* @param [] ---
+* @returns [] ---
+*/
+template<typename T, typename U>
+void nlp<T, U>::nlp_ParallelHiddenMarkov_tts()
+{
+}
+
+
+
+/**
+* A fourty-four state (44) phoneme cascading state-machine 
+* with intra-state wave-shaping hand - off, for smoother 
+* wave-shaping between ingress and egress.
+* @param [] ---
+* @returns [] ---
+*/
+template<typename T, typename U>
+void nlp<T, U>::nlp_SerialHiddenMarkov_tts()
+{
+	U nSizeUInt64T = 100;
+	U NumChannelsUInt64T = 2;
+
+	Vector2DT<T> VecFloat64T = Vector2DT<T>(VectorT<T>(NumChannelsUInt64T), nSizeUInt64T);	// two-channel audio result 
+	VectorT<T> TransitionProbabilityVectorFloat64T = VectorT<T>(nSizeUInt64T); // Where, Sum(TransitionProbabilityVectorFloat64T) == 1
+
+	// TEMP Placeholders
+	bool HiddenMarkovModelSingleModeGaussianDensityBool = true;
+	T O_t = 2.0f; // t is the current place in the sample
+	T Mu_j = 1.0f; // j is the current state of the model
+	T Sigma_j(T valT)
+	{
+		return valT;
+	};
+
+	for (VectorT<T>& ChannelVectorFloat64T : VecFloat64T)
+	{
+		U nIdxUInt64T = 0;
+		for (T& valFloat64T : ChannelVectorFloat64T)
+		{
+			if (HiddenMarkovModelSingleModeGaussianDensityBool)
+			{
+				valFloat64T = (1.0 / std::sqrt(2 * UE_FLOAT64_PI * TransitionProbabilityVectorFloat64T[nIdxUInt64T++])) *
+					std::exp(-0.5f * std::pow((O_t - Mu_j)) * Sigma_j(O_t - Mu_j));
+			}
+			else // The Gaussian Mixture Model (GMM) provides richer modeling qualities
+			{
+				valFloat64T;// = Cmj
+			}
+		}
+	}
 }
