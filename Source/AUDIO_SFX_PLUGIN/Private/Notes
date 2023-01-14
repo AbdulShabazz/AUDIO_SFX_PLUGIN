@@ -340,18 +340,28 @@ Common Sample Rates
 100 cents/semitone
 1200 cents/octave
 
-Inverval between two frequencies f0,f1: delta = 1200 * ln(f0/f1)
-MIDI Pitch, f0: f0 = 69 + 12 * ln(f0 / 440_hz)
-Determine Frequency from MIDI note number: f0 = 2^((f0-69)/12) * 440_hz
+Inverval between two frequencies F0,F1: delta = 1200 * ln(f0/f1)
 
-NOTE: TEXT TO SPEECH SYNTHESIS INCLUDES A BUILTIN ARTICULATION TOOL 
-FOR ADDED EXPRESSIVENESS AND VARIATION. A BUILTIN RAINBOW RIBBON 
-ACROSS THE BOTTOM OF THE WAVEFORM, USES COLOR TO INDICATE 
-VOCAL DYNAMICS AT EACH SAMLPE - WITH RED FOR HIGHEST EMOTIONAL INTENSITY 
-AND VIOLET FOR LOWEST. PITCH AND PROSITY ARE COMBINED IN THIS TOOL FOR 
-EASE OF USE, WITH ADDITIONAL ARTICULATION PARAMETERS, FOR EXAMPLE 
-PRONUNCIATION SELECTORS FOR NUMBERS, ABBREVIATIONS, AND POLYSEMUOUS 
-WORDS- SUCH AS RECORD, FOR FURTHER FINE TUNING.
+MIDI Pitch: F0 = 69 + 12 * ln(F0 / 440_hz)
+
+Determine Frequency from MIDI note number: F0 = 2^((F0-69)/12) * 440_hz
+
+NOTE: Our text to speech synthesis strategy includes a builtin articulation tool 
+to add expressiveness and variation. The builtin rainbow ribbon will span
+the bottom of the waveform, using color to indicate 
+vocal dynamics at each sample- with Red for highest emotional intensity 
+and Violet for lowest. Pitch and prosity are combined with the tool, for 
+ease of use, with additional articulation parameters, for example 
+pronunciation selectors for numbers, abbreviations, and polysemuous 
+words- such as record/re'cord, for further fine tuning.
+
+NOTE: There are two (2) current speech synthesis strategies - 
+(1) nlp_a: A parallel wave-shaping strategy around the fundamental frequency, F0; or
+(2) nlp_b: A fourty-four state (44) phoneme cascading state-machine with intra-state wave-shaping 
+hand-off, for smoother wave-shaping between igress and egress. nlp_a is appealing 
+for performance reasons, however syncing the shaping parameters may prove difficult. 
+nlp_b may be the most straightforawrd to implement, but it may not offer the best processing performance.
+
 
     
     
