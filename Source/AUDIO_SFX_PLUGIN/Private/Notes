@@ -358,11 +358,6 @@ words- such as record/re'cord, for further fine tuning.
 NOTE: There are two (2) current speech synthesis strategies - 
 (1) nlp_a: A parallel wave-shaping strategy around the fundamental frequency, F0; or
 (2) nlp_b: A fourty-four state (44) phoneme cascading state-machine with intra-state wave-shaping 
-hand-off, for smoother wave-shaping between igress and egress. nlp_a is appealing 
+hand-off, for smoother wave-shaping between ingress and egress. nlp_a is appealing 
 for performance reasons, however syncing the shaping parameters may prove difficult. 
-nlp_b may be the most straightforawrd to implement, but it may not offer the best processing performance.
-
-
-    
-    
-
+nlp_b may be the most straightforawrd to implement, but it may not offer the best performance.
