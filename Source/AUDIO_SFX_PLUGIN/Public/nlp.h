@@ -20,6 +20,8 @@ namespace ToneLibrary
 	{
 	public:
 		nlp();
+		void nlp_ParallelHiddenMarkov_tts();
+		void nlp_SerialHiddenMarkov_tts();
 
 		template<typename T>
 		static std::unordered_map<std::string, 
