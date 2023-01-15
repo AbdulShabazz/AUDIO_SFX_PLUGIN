@@ -39,7 +39,7 @@ $U
 
 with open("nlp.generated.h", 'w') as g:
     g.write(nlpH)
-with open("corpus.generated.log",'r') as f:
+with open("database.corpus.generated.log",'r') as f:
     for fStr in f.readlines():
         has_result = re.search("^([^\n])+",fStr)
         is_valid = re.search("^[^#]",fStr)
