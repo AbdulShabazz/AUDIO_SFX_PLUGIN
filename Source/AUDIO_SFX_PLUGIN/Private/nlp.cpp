@@ -54,8 +54,6 @@ void nlp<T, U>::nlp_ParallelHiddenMarkov_tts()
 {
 }
 
-
-
 /**
 * A fourty-four state (44) phoneme cascading state-machine 
 * with intra-state wave-shaping hand - off, for smoother 
