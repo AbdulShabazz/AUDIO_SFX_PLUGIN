@@ -346,7 +346,9 @@ MIDI Pitch: F0 = 69 + 12 * ln(F0 / 440_hz)
 
 Determine Frequency from MIDI note number: F0 = 2^((F0-69)/12) * 440_hz
 
-NOTE: Our text to speech synthesis strategy includes a builtin articulation tool 
+NOTE: 
+
+Our text to speech synthesis strategy includes a builtin articulation tool 
 to add expressiveness and variation. The builtin rainbow ribbon will span
 the bottom of the waveform, using color to indicate 
 vocal dynamics at each sample- with Red for highest emotional intensity 
@@ -355,9 +357,23 @@ ease of use, with additional articulation parameters, for example
 pronunciation selectors for numbers, abbreviations, and polysemuous 
 words- such as record/re'cord, for further fine tuning.
 
-NOTE: There are two (2) current speech synthesis strategies - 
-(1) nlp_a: A parallel wave-shaping strategy around the fundamental frequency, F0; or
-(2) nlp_b: A fourty-four state (44) phoneme cascading state-machine with intra-state wave-shaping 
-hand-off, for smoother wave-shaping between ingress and egress. nlp_a is appealing 
-for performance reasons, however syncing the shaping parameters may prove difficult. 
-nlp_b may be the most straightforawrd to implement, but it may not offer the best performance.
+NOTE: 
+
+There are two (2) current speech synthesis strategies - 
+(1) nlp_parallehiddenmarkov_tts: A parallel wave-shaping strategy around the fundamental frequency, F0; or
+(2) nlp_serialhiddenmarkov_tts: A fourty-four state (44) phoneme cascading state-machine with intra-state wave-shaping 
+hand-off, for smoother wave-shaping between ingress and egress. (1) is appealing 
+for performance reasons, however syncing the shaping parameters may prove difficult;
+(2) may be the most straightforawrd to implement, but it may not offer superior performance.
+
+NOTE: 
+
+Implement spellcheck or branch and archive database.corpus.generated.log; 
+Add a phonetic tool for customization.
+
+Beware exponential explosion (ie The Branching Problem)
+
+Consider implementing a signal variance parameter, radius, or allowed volatility window
+to smooth signal transitions between synth modules
+
+Implementing tone in speech: Adjectives are noun modifiers which speech can capture in the form of Tone (eg cynical)
