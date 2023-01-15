@@ -344,7 +344,7 @@ Inverval between two frequencies F0,F1: delta = 1200 * ln(f0/f1)
 
 MIDI Pitch: F0 = 69 + 12 * ln(F0 / 440_hz)
 
-Determine Frequency from MIDI note number: F0 = 2^((F0-69)/12) * 440_hz
+Determine Frequency from MIDI note number: F0 = 2^((F0-69)/12) * 440_hz.
 
 NOTE: 
 
@@ -371,9 +371,11 @@ NOTE:
 Implement spellcheck or branch and archive database.corpus.generated.log; 
 Add a phonetic tool for customization.
 
-Beware exponential explosion (ie The Branching Problem)
+Beware exponential growth (ie The Branching Problem).
 
 Consider implementing a signal variance parameter, radius, or allowed volatility window
-to smooth signal transitions between synth modules
+to smooth signal transitions between phoneme synthesis modules.
 
-Implementing tone in speech: Adjectives are noun modifiers which speech can capture in the form of Tone (eg cynical)
+Catalog the International Phonetic Alphabet (IPA).
+
+Implementing tone in speech: Adjectives are noun modifiers which speech can capture in the form of Tone (eg cynical).
