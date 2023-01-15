@@ -4,44 +4,69 @@
 using namespace ToneLibrary;
 
 template<typename T, typename U>
+nlp_phoneme<T, U>::nlp_phoneme()
+{
+
+}
+
+template<typename T, typename U>
+void nlp_phoneme<T, U>::tts_generate(PHONEME_STRUCT<T, U>&)
+{
+
+}
+
+template<typename T, typename U>
 nlp<T, U>::nlp()
 {
+	// USAGE: information >> [in-fer-mey-shuhn] >> [i][n]-[f][er]-[m][e][y]-[sh][uh][n]
+	
 	// 1. CONSONANTS
-	nlp_phoneme["p"] = nlpVector2DTPat;	// as in "pat"
-	nlp_phoneme["b"] = nlpVector2DTBat;	// as in "bat"	
-	nlp_phoneme["t"] = nlpVector2DTap;	// as in "tap"
-	nlp_phoneme["d"] = nlpVector2DTDog;	// as in "dog"		
-	nlp_phoneme["k"] = nlpVector2DTCat;	// as in "cat"
-	nlp_phoneme["g"] = nlpVector2DTGo;	// as in "go"
-	nlp_phoneme["f"] = nlpVector2DTFish;	// as in "fish"
-	nlp_phoneme["v"] = nlpVector2DTVat;	// as in "vat"
-	nlp_phoneme["θ"] = nlpVector2DTTHink;// as in "think"
-	nlp_phoneme["ð"] = nlpVector2DTTHis; // as in "this"
-	nlp_phoneme["s"] = nlpVector2DTSip;	// as in "sip"
-	nlp_phoneme["z"] = nlpVector2DTZip;	// as in "zip"
-	nlp_phoneme["ʃ"] = nlpVector2DTSHeep;	// as in "sheep"
-	nlp_phoneme["ʒ"] = nlpVector2DTMeasure;	// as in "measure"
-	nlp_phoneme["h"] = nlpVector2DTHat;	// as in "hat"
-	nlp_phoneme["m"] = nlpVector2DTMat;	// as in "mat"
-	nlp_phoneme["n"] = nlpVector2DTNap;	// as in "nap"
-	nlp_phoneme["ŋ"] = nlpVector2DTsINg; // as in "sing"
-	nlp_phoneme["l"] = nlpVector2DTLip;	// as in "lip"
-	nlp_phoneme["r"] = nlpVector2DTRip;	// as in "rip"
-	nlp_phoneme["j"] = nlpVector2DTYacht;// as in "yacht"
-	nlp_phoneme["w"] = nlpVector2DTWet;	// as in "wet"
+	nlp_phoneme_hash["b"] = nlp_phoneme();	// as in "bat"	
+	nlp_phoneme_hash["d"] = nlp_phoneme();	// as in "dog"
+	nlp_phoneme_hash["f"] = nlp_phoneme();// as in "fish"
+	nlp_phoneme_hash["g"] = nlp_phoneme();	// as in "go"
+	nlp_phoneme_hash["h"] = nlp_phoneme();	// as in "hat"
+	nlp_phoneme_hash["j"] = nlp_phoneme();	// as in "jump, budget"	
+	nlp_phoneme_hash["k"] = nlp_phoneme();	// as in "cat"
+	nlp_phoneme_hash["l"] = nlp_phoneme();	// as in "lip"
+	nlp_phoneme_hash["m"] = nlp_phoneme();	// as in "mat"
+	nlp_phoneme_hash["n"] = nlp_phoneme();	// as in "nap"
+	nlp_phoneme_hash["ng"] = nlp_phoneme(); // as in "sing"
+	nlp_phoneme_hash["p"] = nlp_phoneme();	// as in "pat"
+	nlp_phoneme_hash["r"] = nlp_phoneme();	// as in "rip"
+	nlp_phoneme_hash["s"] = nlp_phoneme();	// as in "sip"
+	nlp_phoneme_hash["sh"] = nlp_phoneme();	// as in "sheep"
+	nlp_phoneme_hash["t"] = nlp_phoneme();	// as in "tap"	
+	nlp_phoneme_hash["ch"] = nlp_phoneme();	// as in "church, witch"
+	nlp_phoneme_hash["th"] = nlp_phoneme();// as in "think, math, nothing"
+	nlp_phoneme_hash["th-italic"] = nlp_phoneme(); // as in "this, breathe"
+	nlp_phoneme_hash["v"] = nlp_phoneme();	// as in "vat"
+	nlp_phoneme_hash["w"] = nlp_phoneme();	// as in "wet"
+	nlp_phoneme_hash["hw"] = nlp_phoneme();	// as in "where, somewhat"
+	nlp_phoneme_hash["y"] = nlp_phoneme();// as in "yacht, yes, onion"
+	nlp_phoneme_hash["z"] = nlp_phoneme();	// as in "zoo, zip, easy"
+	nlp_phoneme_hash["zh"] = nlp_phoneme();	// as in "measure, television, beige"
 
 	// 2. VOWELS
-	nlp_phoneme["i"] = nlpVector2DTbEEt; // as in "beet"
-	nlp_phoneme["ɪ"] = nlpVector2DTbIt;	// as in "bit"
-	nlp_phoneme["e"] = nlpVector2DTbAIt; // as in "bait"
-	nlp_phoneme["ɛ"] = nlpVector2DTbEt;	// as in "bet"
-	nlp_phoneme["æ"] = nlpVector2DTbAt;	// as in "bat"
-	nlp_phoneme["a"] = nlpVector2DTfAther;	// as in "father"
-	nlp_phoneme["ɑ"] = nlpVector2DTbOUGHt;	// as in "bought"
-	nlp_phoneme["ɔ"] = nlpVector2DTbAWl; // as in "bawl"
-	nlp_phoneme["o"] = nlpVector2DTOAt;	// as in "oat"
-	nlp_phoneme["ʊ"] = nlpVector2DTfOOt; // as in "foot"
-	nlp_phoneme["u"] = nlpVector2DTbOOt; // as in "boot"
+	nlp_phoneme_hash["a"] = nlp_phoneme();	// as in "apple, hat, bat"
+	nlp_phoneme_hash["ey"] = nlp_phoneme(); // as in "aid, bait, day"
+	nlp_phoneme_hash["ah"] = nlp_phoneme();	// as in "arm, father, aha"
+	nlp_phoneme_hash["air"] = nlp_phoneme();	// as in "air, careful, wear"
+	nlp_phoneme_hash["ɑw"] = nlp_phoneme();	// as in "bought"
+	nlp_phoneme_hash["e"] = nlp_phoneme();	// as in "bet, ever, head"
+	nlp_phoneme_hash["ee"] = nlp_phoneme(); // as in "beet, eat, seed, need"
+	nlp_phoneme_hash["eer"] = nlp_phoneme(); // as in "teacher, murderer"
+	nlp_phoneme_hash["i"] = nlp_phoneme(); // as in "it, finishes"
+	nlp_phoneme_hash["ahy"] = nlp_phoneme(); // as in "I, ice, deny"
+	nlp_phoneme_hash["o"] = nlp_phoneme(); // as in "odd, waffle"
+	nlp_phoneme_hash["oh"] = nlp_phoneme(); // as in "owe, road"
+	nlp_phoneme_hash["oo"] = nlp_phoneme(); // as in "good, soup"
+	nlp_phoneme_hash["oo-italic"] = nlp_phoneme(); // as in "put, book"
+	nlp_phoneme_hash["ou"] = nlp_phoneme(); // as in "out, how, loud"
+	nlp_phoneme_hash["uh"] = nlp_phoneme(); // as in "up, mother"
+	nlp_phoneme_hash["uh-italic"] = nlp_phoneme(); // as in "about, problem, circus"
+	nlp_phoneme_hash["ur"] = nlp_phoneme(); // as in "early, stirring"
+
 }
 
 /**
