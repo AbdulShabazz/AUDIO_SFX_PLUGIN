@@ -14,7 +14,7 @@ namespace ToneLibrary
 		U ControlNumberUInt64T;
 	};
 
-	// A vector of note names, their frequencies in Hertz, and their MIDI control numbers (from 0 to 191)
+	// A vector array of note names, their frequencies in Hertz, and their MIDI control numbers (from 0 to 191)
 	template <typename T, typename U>
 	VectorT<MIDINoteObjT<T,U>> MIDINoteLibrary =
 	{
