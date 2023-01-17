@@ -368,14 +368,23 @@ for performance reasons, however syncing the shaping parameters may prove diffic
 
 NOTE: 
 
-Implement spellcheck or branch and archive database.corpus.generated.log; 
-Add a phonetic tool for customization.
+Implement spellcheck or branch archive database.corpus.generated.log; 
+Add a IPA phonetic tool for phrase customization;
+Perform reverse lookup of a misspelled word, based on the miss-spelling's attempted IPA pronounciation.
+
+Add smart (word) suggestions.
+
+Add word tense find and matching (eg singular(cactus), plural(cacti), -e, -y, -ed, -ize, -ized, -ing, -ly)
+
+Add a Share Usage & Statistics option, so crash reports create a new issue page on github
 
 Beware exponential growth (ie The Branching Problem).
 
-Consider implementing a signal variance parameter, radius, or allowed volatility window
-to smooth signal transitions between phoneme synthesis modules.
+Consider implementing a signal deviation/variance parameter-, radius-, or allowed volatility- window,
+to smooth the signal transitions between phoneme synthesis modules.
 
 Catalog the International Phonetic Alphabet (IPA).
 
 Implementing tone in speech: Adjectives are noun modifiers which speech can capture in the form of Tone (eg cynical).
+
+Phoneme phrases, separated by hyphens, can be synthesized in parallel.
