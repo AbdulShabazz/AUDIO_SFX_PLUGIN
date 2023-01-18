@@ -1,5 +1,4 @@
 from string import Template
-import os
 import re
 import http.client
 import threading
