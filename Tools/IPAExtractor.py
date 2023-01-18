@@ -1,4 +1,5 @@
-#python
+import re
+
 with open("TODO/AllEntries.log","r") as f:
     for txt in f.readlines():
         txt = re.sub("_", "-", txt)
