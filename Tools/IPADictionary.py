@@ -89,4 +89,4 @@ IPADictionary = {
     "ur": True # as in "early, stirring"
 }
 
-# Ex 'IPADictionary.Consonant["ch"] # (True)', 'IPADictionary.Vowel["a"] # (True)'
+# Ex 'IPADictionary["ch"] # (True)', 'IPADictionary["a"] # (True)'
