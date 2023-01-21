@@ -1,10 +1,8 @@
 import os
 import re
-import json
 import time as time
 import openai
 import threading
-from string import Template
 
 myprompt = '''(1) Seperate each word by a newline, and (2) split each word into syllables, separated by underscores: '''
 
@@ -31,8 +29,10 @@ MAX_TOKENS = 4097 # allotted total syllables (prompt + completions)
 MAX_SEND_TOKENS = 425
 MAXTHREADS = 18
 RESUME_KEYWORD = "hobson"
+
 resume_ready = False
 worker = []
+
 with open("database.corpus.generated.optimized.log","r") as f:
     with open("pronounciation.corpus.generated." + str(time.time_ns()) + ".log","a") as g:
         for wd in f.readlines():
@@ -48,4 +48,5 @@ with open("database.corpus.generated.optimized.log","r") as f:
                         worker = []
                 except Exception as e:
                     print(e)
-                    time.sleep(1.1)
+                    if re.search("exceeds",e):
+                        time.sleep(2)
