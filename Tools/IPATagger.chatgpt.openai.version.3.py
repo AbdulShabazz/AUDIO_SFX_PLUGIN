@@ -9,7 +9,7 @@ archive = {}
 completed_archive = {}
 todo_archive = {}
 
-def populate_todo_archive(_):
+def populate_todo_archive():
     RESUME_KEYWORD = ""
     resume_ready = True
     with open("database.corpus.generated.optimized.log","r") as f:
@@ -20,18 +20,18 @@ def populate_todo_archive(_):
                 wd = re.sub("[\'\.]+", "", wd)
                 todo_archive[wd] = True
 
-def populate_archive(_): # the latest archive
-    with open("pronounciation.corpus.generated.1674285811714235900.log","r") as g:
+def populate_archive(): # the latest archive
+    with open("pronounciation.corpus.generated.1674299232.2774985.log","r") as g:
         for wd in g.readlines():
             wd = wd.lower()
             completed_archive[wd] = True
             word = re.sub("[_]+", "", wd)
-            if word <> wd and word in completed_archive: # remove unformatted dups
+            if word != wd and word in completed_archive: # remove unformatted dups
                 completed_archive.pop(word)
             archive[word] = True
 
-th_0000 = threading.Thread(target=populate_todo_archive, args=("",))
-th_0001 = threading.Thread(target=populate_archive, args=("",))
+th_0000 = threading.Thread(target=populate_todo_archive)
+th_0001 = threading.Thread(target=populate_archive)
 
 th_0000.start()
 th_0001.start()
@@ -59,7 +59,6 @@ myprompt = '''(1) Seperate each word by a newline, and (2) split each word into 
 # @param - presence_penalty [1.0 - 0.0] DisAllowed repetitiveness/Use synonyms. Ratio of input tokens allowed in the response
 # @returns  - { choices[{ engine:[davinci, curie], finish_reason:[stop,length], index:N, logprob:[], text:[response]},] }
 def issueQuery(word,g):
-    time.sleep(1.2)
     openai.api_key = os.getenv("OPENAI_API_KEY") # Set before callig this module
     response = openai.Completion.create(model="text-davinci-003", max_tokens=1600, presence_penalty=0.0, top_p=1.0, temperature = 1.0, prompt=myprompt + json.dumps(word) + "?")
     for choice in response.choices:
@@ -83,7 +82,8 @@ with open("pronounciation.corpus.generated." + str(time.time_ns()) + ".log","w")
                 if SINGLE_THREADED:
                     issueQuery(worker,g)
                 else:
-                    th = threading.Thread(target=populate_todo_archive, args=(worker,g))
+                    time.sleep(0.001)
+                    th = threading.Thread(target=issueQuery, args=(worker,g))
                     th.start()
                     alltasks += [th]
                 worker = []
