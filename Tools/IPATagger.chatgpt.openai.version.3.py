@@ -54,15 +54,15 @@ myprompt = '''(1) Seperate each word by a newline, and (2) split each word into 
 # @param - presence_penalty [1.0 - 0.0] DisAllowed repetitiveness/Use synonyms. Ratio of input tokens allowed in the response
 # @returns  - { choices[{ engine:[davinci, curie], finish_reason:[stop,length], index:N, logprob:[], text:[response]},] }
 def issueQuery(word,g):
-    time.sleep(1.1)
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    #time.sleep(1.1)
+    openai.api_key = os.getenv("OPENAI_API_KEY") # Set before callig this module
     response = openai.Completion.create(model="text-davinci-003", max_tokens=1600, presence_penalty=0.0, top_p=1.0, temperature = 1.0, prompt=myprompt + json.dumps(word) + "?")
     for choice in response.choices:
         #result = word + " = " + choice.text
         g.writelines(choice.text + "\n")
         #print(choice.text)
 
-MAX_TOKENS = 4097 # allotted total syllables = prompt + completions
+MAX_TOKENS = 4097 # total syllables = prompt + completions
 MAX_SEND_TOKENS = 425
 
 with open("pronounciation.corpus.generated." + str(time.time_ns()) + ".log","a") as g:
@@ -70,13 +70,15 @@ with open("pronounciation.corpus.generated." + str(time.time_ns()) + ".log","a")
     for word in todos:
         try:
             if len(worker) < MAX_SEND_TOKENS:
-                worker += [word]
+                worker += [re.sub("[\n]+","",word)]
             else:
                 issueQuery(worker,g)
                 worker = []
         except Exception as e:
             print(e)
-            time.sleep(1)
+            #time.sleep(1)
     if len(worker):
         issueQuery(worker,g)
         worker = []
+    for word in dict.keys(archive):
+        g.writelines(word) # preserve newlines
