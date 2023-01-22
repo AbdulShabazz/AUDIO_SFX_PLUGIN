@@ -2,7 +2,6 @@ import os
 import re
 import json
 import time as time
-import openai
 import threading
 
 archive = {}
