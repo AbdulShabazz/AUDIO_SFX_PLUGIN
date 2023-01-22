@@ -1,3 +1,56 @@
+result = []
+
+with open("pronunciation.corpus.generated.2.log","r") as f:
+    for wd in f.readlines():
+        wd = re.sub("\n", "", wd)
+        result += [wd]
+
+syllables = {}
+
+for wd in sorted(result):
+    syllables[re.sub("[_]+", "", wd)] = wd
+
+with open("pronunciation.corpus.generated.3.log","w") as g:
+    g.writelines( json.dumps( syllables, indent=2))
+
+#
+
+syllables = {
+    "a":True,
+    "e":True,
+    "i":True,
+    "ian":True,
+    "ion":True,
+}
+
+with open("pronunciation.corpus.generated.2.log","r") as f:
+    for wd in f.readlines():
+        wd = re.sub("[\n]+", "", wd)
+        for syllab in wd.split("_"):
+            if len(syllab) > 2:
+                syllables[syllab] = True
+
+wordArray = []
+
+for wd in words:
+    result = ""
+    buff = ""
+    for letter in list(wd):
+        buff += letter
+        if buff in syllables:
+            result += buff
+            buff = ""
+            if len(result) + 1 < len(wd):
+                result += "_"
+    result += buff
+    if not re.findall("[_]+",result):
+        syllables[wd] = True
+    wordArray += [result]
+
+print( json.dumps( wordArray, indent=2))
+
+#
+
 import re
 import time as time
 
