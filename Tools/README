@@ -19,6 +19,7 @@ IPAReformat.pronunciation.corpus.py
 IPASpellToSpeech.py
 IPASyllable.builder.from.corpus.tool.py
 IPASyllable.generator.from.corpus.tool.py
+IPATagger.2.py
 IPATagger.chatgpt.openai.py
 IPATagger.chatgpt.openai.version.2.py
 IPATagger.chatgpt.openai.version.3.py
@@ -26,7 +27,6 @@ IPATagger.chatgpt.openai.version.4.py
 IPATAgger.chatgpt.selenium.example.py
 IPATagger.log
 IPATagger.py
-IPATagger2.py
 log
 move_include_files.bat
 pronunciation.corpus.generated.1.log
