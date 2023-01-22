@@ -39,7 +39,7 @@ MAX_SEND_TOKENS = 425
 MAX_THREADS = 18
 SINGLE_THREADED = False
 
-with open("pronounciation.corpus.generated." + str(time.time_ns()) + ".log","w") as g:
+with open("pronunciation.corpus.generated." + str(time.time_ns()) + ".log","w") as g:
     alltasks = []
     worker = []
     for word in todos:
