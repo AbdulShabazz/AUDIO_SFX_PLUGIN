@@ -23,7 +23,7 @@ class update_todos:
                     self.todo_archive[wd] = True
 
     def _populate_archive(self): # the latest archive
-        with open("pronounciation.corpus.generated.1674299232.2774985.log","r") as g:
+        with open("pronunciation.corpus.generated.1674299232.2774985.log","r") as g:
             for wd in g.readlines():
                 wd = wd.lower()
                 self.completed_archive[wd] = True
@@ -45,7 +45,7 @@ class update_todos:
 
         self.todos = []
 
-        with open("pronounciation.corpus.todo.generated.log","w") as f:
+        with open("pronunciation.corpus.todo.generated.log","w") as f:
             for word in dict.keys(self.todo_archive):
                 if word not in self.archive:
                     self.todos += [word]
