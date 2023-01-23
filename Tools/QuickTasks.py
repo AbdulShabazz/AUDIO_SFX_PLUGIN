@@ -1,19 +1,16 @@
 import re
 import json
 
-result = []
+result = {}
+corpus = {}
 
-with open("pronunciation.corpus.generated.2.log","r") as f:
-    for wd in f.readlines():
-        wd = re.sub("\n", "", wd)
-        result += [wd]
+with open("pronunciation.corpus.generated.1.log","r") as f:
+    result = json.loads( f.read())
 
-syllables = {}
+for wd in dict.keys(result):
+    corpus[ re.sub("[_]+","",wd)] = "_".join( list( wd))
 
-for wd in sorted(result):
-    syllables[re.sub("[_]+", "", wd)] = wd
-
-with open("pronunciation.corpus.generated.3.log","w") as g:
-    g.writelines( json.dumps( syllables, indent=2))
+with open("pronunciation.corpus.generated.4.log","w") as g:
+    g.writelines( json.dumps( corpus, indent=2))
 
 print("Q.E.D.")
