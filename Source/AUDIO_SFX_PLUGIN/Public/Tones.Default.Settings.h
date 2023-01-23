@@ -98,6 +98,9 @@ using Vector3DT = std::vector<std::vector<std::vector<T>>>;
 template <typename T>
 using Vector4DT = std::vector<std::vector<std::vector<std::vector<T>>>>;
 
+template <typename U>
+using Vector4DU = std::vector<std::vector<std::vector<std::vector<U>>>>;
+
 template <typename T>
 using ComplexVectorT = std::vector<std::complex<T>>;
 
@@ -225,9 +228,18 @@ std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>>& Populat
 template <typename T>
 std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>>& ConvolutionReverbLibraryEnumHashTableT = PopulateConvolutionReverbHashTableT();
 
+template<typename U>
+struct PhoneStruct
+{
+    U nIndexUInt64T;
+    std::string LetterStdStr;
+};
+
 template <typename T, typename U>
 struct FILEINFO_Obj
 {
+    std::vector<std::string>& nlp_ipa_WordVectorStdStrBuffRef;
+    Vector4DU<U>& nlp_ipa_PhonesVector2DUInt64TBuffRef;
     bool TimeStretchPreservePitchFlag;
     T TimeStretchPitchRatioFloat64T;
     U TimeStretchStretchRatioInNumberOfSamplesUInt64T;
