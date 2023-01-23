@@ -1,6 +1,5 @@
-IPA_Dictionary = ( 
-
-    #Consonant = Sounds like
+[
+    #Consonant Sounds
     "b", # as in "bat"
     "d", # as in "dog"
     "f", # as in "fish"
@@ -14,6 +13,7 @@ IPA_Dictionary = (
     "p", # as in "pat"
     "r", # as in "rip"
     "s", # as in "sip"
+    "s3", # as in "thousand"; "s3" == "z"
     "sh", # as in "sheep"
     "t", # as in "tap"
     "ch", # as in "church, witch"
@@ -23,7 +23,7 @@ IPA_Dictionary = (
     "w", # as in "wet"
     "hw", # as in "where, somewhat"
     "y", # as in "yacht, yes, onion"
-    "z", # as in "zoo, zip, easy"
+    "z", # as in "zoo, zip, easy"; "z" == "s3"
     "z2", # as in "measure, television, beige"
 
     #"Vowel":
@@ -41,41 +41,36 @@ IPA_Dictionary = (
     "u", # as in "up, mother"
     "u2", # as in rude, brute  
     
-    #Letter = Sounds like
-    "a2", # Sounds like "A",
-    "b2", # Sounds like "B",
-    "c2", # Sounds like "C",
-    "d2", # Sounds like "D",
-    "e2", # Sounds like "E",
-    "f2", # Sounds like "F",
-    "g2", # Sounds like "G",
-    "h2", # Sounds like "H",
-    "i2", # Sounds like "I",
-    "j2", # Sounds like "J",
-    "k2", # Sounds like "K",
-    "l2", # Sounds like "L",
-    "m2", # Sounds like "M",
-    "n2", # Sounds like "N",
-    "o2", # Sounds like "O",
-    "p2", # Sounds like "P",
-    "q2", # Sounds like "Q",
-    "r2", # Sounds like "R",
-    "s2", # Sounds like "S",
-    "t2", # Sounds like "T",
-    "u2", # Sounds like "U",
-    "v2", # Sounds like "V",
-    "w2", # Sounds like "W",
-    "x2", # Sounds like "X",
-    "y2", # Sounds like "Y",
-    "z2", # Sounds like "Z",
-    
-    #ordinal
-    "1st", # Sounds like "f_i3_r_s_t",
-    "2nd", # Sounds like # "s_e_k_o_n_d",
-    "3rd", # Sounds like # "th_i3_r_d",
-    "D*Nth", # Where D contains zero or more digits, and N is a digit greater than 4, as 104th, 4th, 1004th, 106th,
+    #Letter Sounds
+    "a2", # Sounds like "a2",
+    "b2", # Sounds like "b_e2",
+    "c2", # Sounds like "s_e2",
+    "d2", # Sounds like "d_e2",
+    "e2", # Sounds like "e2",
+    "f2", # Sounds like "e_f",
+    "g2", # Sounds like "j_e2",
+    "h2", # Sounds like "a2_ch",
+    "i2", # Sounds like "i2",
+    "j2", # Sounds like "j_a2",
+    "k2", # Sounds like "k_a2",
+    "l2", # Sounds like "e_l",
+    "m2", # Sounds like "e_m",
+    "n2", # Sounds like "e_n",
+    "o2", # Sounds like "o2",
+    "p2", # Sounds like "p_e2",
+    "q2", # Sounds like "k_y_o3",
+    "r2", # Sounds like "a3_r",
+    "s2", # Sounds like "e_s",
+    "t2", # Sounds like "t_e2",
+    "u2", # Sounds like "y_o3",
+    "v2", # Sounds like "v_e2",
+    "w2", # Sounds like "d_u3_b_e_l_y_u2",
+    "x2", # Sounds like "e_k_s",
+    "y2", # Sounds like "w_i2",
+    "z2", # Sounds like "z_e2",
 
-    #Number
+    #Number Sounds
+    "#", # (optional) Sound like "a_n_d"
     "0", # Sounds like "z2_e2_r_o2",
     "1", # Sounds like "w_o_n",
     "2", # Sounds like "t_o3",
@@ -86,6 +81,17 @@ IPA_Dictionary = (
     "7", # Sounds like "s_e_v_n2",
     "8", # Sounds like "a2_t",
     "9", # Sounds like "n_i2_n", 
-)
+    "00", # Sounds like "h_u_n_d_r_e_d"
+    "000", # Sounds like "th_ow_s2_and"
+    "000_000", # Sounds like "m_i_l_y_o_n"
+    "000_000_000", # Sounds like "b_i_l_y_o_n"
+    "000_000_000_000", # Sounds like "t_r_i_l_y_o_n"
+    
+    #Ordinal Sounds
+    "_st", # Sounds like "i3_r_s_t", Used exclusively with ordinals that end in 1: 1st, 101st 1001st
+    "_nd", # Sounds like "e_k_o_n_d", Used exclusively with ordinals that end in 2: 2nd (2_nd), 102nd (100_2_nd), 1002nd (1_000_2_nd or (1_000_#_2_nd)
+    "_rd", # Sounds like "i3_r_d", Used exclusively with ordinals that end in 3: 3rd (3_rd), 103rd (100_3_rd), 1003rd (1_000_3_rd)
+    "_th", # Sounds like "e_n_th" in D_N_th, Where D is zero or more digits; and N, is zero or greater than 4, as D_N_th: 100th (100_th), 104th (100_4_th), 4th (4_th), 1004th (1_000_4_th), 106th (100_6_th).
+]
 
 # Ex 'IPADictionary["ch"] # (True)', 'IPADictionary["a"] # (True)'
