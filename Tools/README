@@ -5,6 +5,7 @@ CPPHeadersClassBuilder.py
 database.corpus.generated.log
 database.corpus.generated.optimized.log
 geckodriver.log
+IPADictionary.log
 IPADictionary.py
 IPAExtractor.py
 IPAGenerator.py
@@ -33,6 +34,7 @@ pronunciation.corpus.generated.1.log
 pronunciation.corpus.generated.1674299232.2774985.log
 pronunciation.corpus.generated.2.log
 pronunciation.corpus.generated.3.log
+pronunciation.corpus.generated.4.log
 pronunciation.corpus.generated.log
 pronunciation.corpus.patch_addin.generated.log
 pronunciation.corpus.todo.generated.log
