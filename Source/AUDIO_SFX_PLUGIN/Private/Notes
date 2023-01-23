@@ -1,4 +1,10 @@
-﻿// RANDOM Keygen Algorithm
+﻿// NOTICE: The author generated this text in part with GPT-3, 
+OpenAI’s large-scale language-generation model. Upon generating 
+C++, the author,AbdulShabazz, reviewed, edited, and revised 
+the language to their liking and takes full and ultimate 
+responsibility for the content of this and related publication.
+
+// RANDOM Keygen Algorithm
 unsigned long long a = 1103515245;
 unsigned long long c = 12345;
 unsigned long long m = 1ull << 31;
