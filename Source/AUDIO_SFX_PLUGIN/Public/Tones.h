@@ -22,6 +22,7 @@
 #include "WaveEquation.h"
 #include "WhiteNoise.h"
 #include "WhitePerlinNoise.h"
+#include "nlp.ipa.dictionary.h"
 #include "nlp.generated.h"
 #include "nlp.h"
 
