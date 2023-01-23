@@ -1,4 +1,14 @@
 ﻿
+	std::vector<std::string>& WordVectorBuffRef = FileInfoObjRefT.nlp_ipa_WordVectorBuffRef;
+	const U nIndexConstUInt64 = FileInfoObjRefT.nlp_ipa_nIndexUInt64;
+
+    using WordVectorBuffConstRef[nIndexUInt64] as LetterAttributesObjRef;
+	const std::string& LetterStrConstRef = LetterAttributesObjRef.LetterStrConstRef;
+    bool SilentPronunciateFlag = LetterAttributesObjRef.SilentPronunciateFlag;
+    bool LongVowelFlag = LetterAttributesObjRef.LongVowelFlag;
+    bool LongConsonantFlag = LetterAttributesObjRef.LongConsonantFlag;
+
+    //
 
     this->ChildSlot
         [
