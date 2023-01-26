@@ -28,17 +28,7 @@ SYMP: error SpringReverb.cpp: SpringReverb is not a template
 SOLU: [no namespace] ==> using namespace ToneLibrary;
 
 SYMP: error object already defined in seperate module. Multiple object definitions, ignoring.
-SOLU: Ensure includes don't branch into (compiled) unused source files; ensure there is only one project Main.
+SOLU: Ensure includes don't branch into branching (compiled) unused source files; ensure there is only one Main. INCLUDES HIERARCHY: Tones.Default.Settings.h > ToneLibrary[App Modules + Tools + Filters etc.] > Tones.h > AUDIO_SFX_PLUGIN.h
 
-INCLUDES HIERARCHY
-
-Tones.Default.Settings.h
-.
-.
-ToneLibrary[App Modules + Tools + Filters etc.]
-.
-.
-Tones.h
-.
-.
-AUDIO_SFX_PLUGIN.h
+SYMP: error no overloaded function accepts the following parameters 
+SOLU: PluginCommands->MapAction(..., FExecuteAction::CreateRaw(this, &GeneratePerlinNoiseMenuAPI),...); ==> PluginCommands->MapAction(...,  FExecuteAction::CreateRaw(this, &UMGViewportComponent::GeneratePerlinNoiseMenuAPI), ...);
