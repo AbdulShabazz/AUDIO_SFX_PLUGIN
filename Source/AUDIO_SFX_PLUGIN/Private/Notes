@@ -394,3 +394,7 @@ Catalog the International Phonetic Alphabet (IPA).
 Implementing tone in speech: Adjectives are noun modifiers which speech can capture in the form of Tone (eg cynical).
 
 Phoneme phrases, separated by hyphens, can be synthesized in parallel.
+
+NOTE:
+
+UE Widget Reflector (Viewer) : Ctl + SHIFT + W
