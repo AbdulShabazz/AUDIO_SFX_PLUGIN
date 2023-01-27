@@ -30,5 +30,5 @@ SOLU: [no namespace] ==> using namespace ToneLibrary;
 SYMP: error object already defined in seperate module. Multiple object definitions, ignoring.
 SOLU: Ensure includes don't branch into branching (compiled) unused source files; ensure there is only one Main. INCLUDES HIERARCHY: Tones.Default.Settings.h > ToneLibrary[App Modules + Tools + Filters etc.] > Tones.h > AUDIO_SFX_PLUGIN.h
 
-SYMP: error no overloaded function accepts the following parameters 
+SYMP: error no instance of overloaded functions matches the argument list
 SOLU: PluginCommands->MapAction(..., FExecuteAction::CreateRaw(this, &GeneratePerlinNoiseMenuAPI),...); ==> PluginCommands->MapAction(...,  FExecuteAction::CreateRaw(this, &UMGViewportComponent::GeneratePerlinNoiseMenuAPI), ...);
