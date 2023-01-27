@@ -1,4 +1,23 @@
 ﻿
+    TSharedPtr<FExtender> MyExtender = MakeShareable(new FExtender);
+    MyExtender->AddToolBarExtension("Settings", EExtensionHook::After, NULL, FToolBarExtensionDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::GenerateNoise));
+
+  //
+  
+    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+        AUDIO_SFX_PLUGINTabName,
+        FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab))
+        .SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
+        .SetMenuType(ETabSpawnerMenuType::Enabled)
+        .SetIcon(FSlateIcon( FName(TEXT("HIcon")), FName(TEXT("HIcon"))));
+
+//
+
+        .RenderOpacity(0.25f)
+        [
+            SNWin
+        ];
+
 //#include <Widgets/SWindow.h>
 //#include <Engine/Classes/Engine/GameInstance.h>
 //#include <Engine/GameViewportClient.h>
