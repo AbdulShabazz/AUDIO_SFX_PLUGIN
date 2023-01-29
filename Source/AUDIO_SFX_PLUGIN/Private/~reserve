@@ -1,4 +1,15 @@
 ﻿
+    //UI_COMMAND(GeneratePerlinNoise, "Generate Perlin Noise", "Bring up Noise Generation settings.", EUserInterfaceActionType::Button, FInputChord());
+
+    GeneratePerlinNoise = FUICommandInfo::MakeCommandInfo(
+        "GeneratePerlinNoise",
+        FText::FromString("Generate Perlin Noise"),
+        FText::FromString("Bring up the Perlin Noise Generation settings."),
+        FSlateIcon(FEditorStyle::GetStyleSetName(),"PlaceholderButtinIcon.svg"),
+        FInputGesture(),
+        EUserInterfaceActionType::Button, FInputChord());
+
+        //
 
 void FAUDIO_SFX_PLUGINModule::FillToolBar()
 {
