@@ -13,17 +13,16 @@ public:
 
     FAUDIO_SFX_PLUGINCommands()
         : TCommands<FAUDIO_SFX_PLUGINCommands>(
-            TEXT("AUDIO_SFX_PLUGIN"), 
-            NSLOCTEXT("Contexts", "AUDIO_SFX_PLUGIN", "AUDIO_SFX_PLUGIN Plugin"), 
-            NAME_None, 
-            FAUDIO_SFX_PLUGINStyle::GetStyleSetName()
-            )
+            TEXT("AUDIO_SFX_PLUGIN"),
+            NSLOCTEXT("Contexts", "AUDIO_SFX_PLUGIN", "AUDIO_SFX_PLUGIN Plugin"),
+            NAME_None,
+            FAUDIO_SFX_PLUGINStyle::GetStyleSetName())
     {
-    }
+    };
 
-    // TCommands<> interface
+    /** TCommands<> interface */
     virtual void RegisterCommands() override;
 
 public:
-    TSharedPtr< FUICommandInfo > OpenPluginWindow;
+    TSharedPtr<FUICommandInfo> OpenPluginWindow;
 };
