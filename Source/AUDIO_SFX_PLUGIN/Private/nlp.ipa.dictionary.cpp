@@ -106,7 +106,7 @@ void nlp_ipa_Dictionary<T, U>::GenerateSound(
         case "z2": // Sounds like "z_e2":
 
         // Number Sounds
-        case "#": // (optional) Sounds like "and"
+        case "#": // (optional) Sounds like "and" 
         case "0": // Sounds like "z2_e2_r_o2" or silent when used in ordinals
         case "1": // Sounds like "w_o_n" or "f_i3_r_" when used in ordinals
         case "2": // Sounds like "t_o3" or "s_e_k_o_" when used in ordinals
