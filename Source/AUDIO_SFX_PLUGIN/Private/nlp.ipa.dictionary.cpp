@@ -10,8 +10,7 @@ nlp_ipa_Dictionary<T, U>::nlp_ipa_Dictionary()
 
 template<typename T, typename U>
 void nlp_ipa_Dictionary<T, U>::RepackStream(
-    FILEINFO_Obj<T, U>& FileInfoObjRefT
-    )
+    FILEINFO_Obj<T, U>& FileInfoObjRefT)
 {
 
 }
@@ -28,8 +27,7 @@ void nlp_ipa_Dictionary<T, U>::RepackStream(
 template<typename T, typename U>
 void nlp_ipa_Dictionary<T, U>::GenerateSound(
     FILEINFO_Obj<T, U>& FileInfoObjRefT, 
-    const PhoneStruct<U> PhonemeStructReadOnly
-    )
+    const PhoneStruct<U> PhonemeStructReadOnly)
 {
     std::vector<std::string>& WordVectorStdStrBuffRef = FileInfoObjRefT.nlp_ipa_WordVectorStdStrBuffRef;
     Vector4DU<U>& nlp_ipa_PhonesVector2DUInt64TBuffRef = FileInfoObjRefT.nlp_ipa_PhonesVector2DUInt64TBuffRef;
@@ -102,13 +100,13 @@ void nlp_ipa_Dictionary<T, U>::GenerateSound(
         case "t2": // Sounds like "t_e2":
         case "u2": // Sounds like "y_o3":
         case "v2": // Sounds like "v_e2":
-        case "w2": // Sounds like "d_u3_b_e_l_y_u2":
+        case "w2": // Sounds like "d_u3_b_u3_l_y_u2":
         case "x2": // Sounds like "e_k_s":
         case "y2": // Sounds like "w_i2":
         case "z2": // Sounds like "z_e2":
 
         // Number Sounds
-        case "#": // (optional) Sounds like "a_n_d"
+        case "#": // (optional) Sounds like "and"
         case "0": // Sounds like "z2_e2_r_o2" or silent when used in ordinals
         case "1": // Sounds like "w_o_n" or "f_i3_r_" when used in ordinals
         case "2": // Sounds like "t_o3" or "s_e_k_o_" when used in ordinals
@@ -129,7 +127,7 @@ void nlp_ipa_Dictionary<T, U>::GenerateSound(
         case "_st": // Sounds like "i3_r_s_t": Used exclusively with ordinals that end in 1: 1st, 101st 1001st
         case "_nd": // Sounds like "e_k_o_n_d": Used exclusively with ordinals that end in 2: 2nd (2_nd), 102nd (100_2_nd), 1002nd (1_000_2_nd or (1_000_#_2_nd)
         case "_rd": // Sounds like "i3_r_d": Used exclusively with ordinals that end in 3: 3rd (3_rd), 103rd (100_3_rd), 1003rd (1_000_3_rd)
-        case "_th": // Sounds like "e_n_th" in D_N_th, Where D is zero or more digits; and N, is zero or greater than 4, as D_N_th: 100th (100_th), 104th (100_4_th), 4th (4_th), 1004th (1_000_4_th), 106th (100_6_th).
+        case "_th": // Sounds like "e_n_th" as in D_N_th, Where D is zero or more digits; and N, is zero or greater than 4, as D_N_th: 100th (100_th), 104th (100_4_th), 4th (4_th), 1004th (1_000_4_th), 106th (100_6_th).
 
 	default:
 		break;
