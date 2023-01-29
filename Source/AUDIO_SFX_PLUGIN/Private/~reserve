@@ -1,4 +1,7 @@
 ﻿
+    TSharedPtr<FUICommandInfo> GenerateNoise;
+
+    UI_COMMAND(GenerateNoise, "Generate Noise", "Bring up the Noise Generation settings.", EUserInterfaceActionType::Button, FInputChord());
 
     CommandListFUI->MapAction(
         CommandActions.GenerateNoise,
