@@ -36,13 +36,11 @@ FName FAUDIO_SFX_PLUGINStyle::GetStyleSetName()
 const FVector2D Icon16x16(16.0f, 16.0f);
 const FVector2D Icon20x20(20.0f, 20.0f);
 
-TSharedRef< FSlateStyleSet > FAUDIO_SFX_PLUGINStyle::Create()
+TSharedRef<FSlateStyleSet> FAUDIO_SFX_PLUGINStyle::Create()
 {
-    TSharedRef< FSlateStyleSet > Style = MakeShareable(new FSlateStyleSet("AUDIO_SFX_PLUGINStyle"));
+    TSharedRef<FSlateStyleSet> Style = MakeShareable(new FSlateStyleSet("AUDIO_SFX_PLUGINStyle"));
     Style->SetContentRoot(IPluginManager::Get().FindPlugin("AUDIO_SFX_PLUGIN")->GetBaseDir() / TEXT("Resources"));
-
     Style->Set("AUDIO_SFX_PLUGIN.OpenPluginWindow", new IMAGE_BRUSH_SVG(TEXT("PlaceholderButtonIcon"), Icon20x20));
-
     return Style;
 }
 
