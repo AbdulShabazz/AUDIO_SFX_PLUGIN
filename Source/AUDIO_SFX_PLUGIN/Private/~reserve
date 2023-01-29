@@ -1,4 +1,14 @@
 ﻿
+
+void FAUDIO_SFX_PLUGINModule::FillToolBar()
+{
+    FUIAction ActFUI;
+    TSharedPtr<FToolBarBuilder> FTB = MakeShareable(new FToolBarBuilder(ActFUI));
+    FTB->AddToolBarButton(ActFUI);
+}
+
+//
+
     TSharedPtr<FUICommandInfo> GenerateNoise;
 
     UI_COMMAND(GenerateNoise, "Generate Noise", "Bring up the Noise Generation settings.", EUserInterfaceActionType::Button, FInputChord());
