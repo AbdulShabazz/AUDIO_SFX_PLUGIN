@@ -1,4 +1,35 @@
 ﻿
+    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+        AUDIO_SFX_PLUGINTabName,
+        FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
+    )
+    .SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
+    .SetMenuType(ETabSpawnerMenuType::Hidden) // Hide TabSpawner menu button
+    .SetIcon(Icon);
+//
+    const TSharedPtr<SWindow> SWin = SpawnTabArgs.GetOwnerWindow();
+    const FTabId& TabID = SpawnTabArgs.GetTabId();
+
+    const SWindow::FArguments InArgsSWin;
+    SWin->Construct(InArgsSWin);
+
+    //
+
+    TSharedRef<UMGViewportComponent> SNWin = SNew(UMGViewportComponent);
+    UMGViewportComponent::FArguments InArgs;
+
+    SNWin.Get().Construct(InArgs);
+    TAttribute<FText> inAttributesTXT;
+    FText WidgetLabel = FText(LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool"));
+    inAttributesTXT.Set(WidgetLabel);
+    return SNew(SDockTab)
+        .TabRole(ETabRole::MajorTab)
+        .Label(inAttributesTXT)
+        [
+            SNWin
+        ];
+
+        //
 
    FLevelEditorModule& LevelEditorModuleRef = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor.MainMenu");
     TSharedPtr<FExtender> Extender = MakeShareable(new FExtender);
