@@ -32,3 +32,7 @@ SOLU: Ensure includes don't branch into branching (compiled) unused source files
 
 SYMP: error no instance of overloaded functions matches the argument list
 SOLU: PluginCommands->MapAction(..., FExecuteAction::CreateRaw(this, &GeneratePerlinNoiseMenuAPI),...); ==> PluginCommands->MapAction(...,  FExecuteAction::CreateRaw(this, &UMGViewportComponent::GeneratePerlinNoiseMenuAPI), ...);
+
+SYMP: UE crashes on close, Assertion Failed: GetFName() == NAME_None
+SOLU: TSharedPtr<UToolMenu> MenuPtr = TSharedPtr<UToolMenu>(...); >> UToolMenu* MenuPtr = ...;
+NOTE: TSharedPtr<>, TSharedRef<>, etc. are dynamic objects that should be inlined and not declared in classes 
