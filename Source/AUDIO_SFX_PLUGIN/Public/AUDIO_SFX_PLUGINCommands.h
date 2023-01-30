@@ -16,7 +16,8 @@ public:
             TEXT("AUDIO_SFX_PLUGIN"),
             NSLOCTEXT("Contexts", "AUDIO_SFX_PLUGIN", "AUDIO_SFX_PLUGIN Plugin"),
             NAME_None,
-            FAUDIO_SFX_PLUGINStyle::GetStyleSetName())
+            FAUDIO_SFX_PLUGINStyle::GetStyleSetName()
+            )
     {
     };
 
@@ -25,4 +26,5 @@ public:
 
 public:
     TSharedPtr<FUICommandInfo> OpenPluginWindow;
+    TSharedPtr<FUICommandInfo> GeneratePerlinNoise;
 };
