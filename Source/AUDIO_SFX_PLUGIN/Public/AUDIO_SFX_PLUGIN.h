@@ -6,6 +6,7 @@
 #include <GameFramework/PlayerController.h>
 #include <Camera/CameraActor.h>
 #include "Tones.h"
+#include "AUDIO_SFX_PLUGINCommands.h"
 
 class UMGViewportComponent : public SWindow
 {
@@ -16,14 +17,9 @@ public:
     SLATE_END_ARGS()
 
     void Construct(const FArguments& InArgs);
-
-public:
-
-    TSharedPtr<UMGViewportComponent> toSharedPtr();
-    //TSharedRef<UMGViewportComponent> toSharedRef();
-
+    void GeneratePerlinNoiseMenuAPI();
+    
 private:
-
     TObjectPtr<UWorld> World;
     TObjectPtr<ACameraActor> Camera;
     TObjectPtr<APlayerController> PlayerController;
@@ -43,15 +39,16 @@ public:
     
     /** This function will be bound to Command (by default it will bring up plugin window) */
     void PluginButtonClicked();
+
+public:
+    void GeneratePerlinNoise();
+    bool OnGeneratePerlinNoise();
+    void FillToolBar();
+    void AddMenuBarExtension(FMenuBarBuilder&);
+    void FillMenu(FMenuBuilder&);
     
 private:
-
     void RegisterMenus();
-
     TSharedRef<class SDockTab> OnSpawnPluginTab(const class FSpawnTabArgs& SpawnTabArgs);
-
-private:
-
-    TSharedPtr<class FUICommandList> PluginCommands;
 
 };
