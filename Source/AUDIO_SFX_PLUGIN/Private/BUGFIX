@@ -35,4 +35,4 @@ SOLU: PluginCommands->MapAction(..., FExecuteAction::CreateRaw(this, &GeneratePe
 
 SYMP: UE crashes on close, Assertion Failed: GetFName() == NAME_None
 SOLU: TSharedPtr<UToolMenu> MenuPtr = TSharedPtr<UToolMenu>(...); >> UToolMenu* MenuPtr = ...;
-NOTE: TSharedPtr<>, TSharedRef<>, etc. are dynamic objects that should be inlined and not declared in classes 
+NOTE: To mitigate hard-to-find-bugs -- TSharedPtr<>, TSharedRef<>, etc. are dynamic objects that should be inlined instead of declared in classes 
