@@ -82,7 +82,7 @@ void AudioEqualization<T, U>::ApplyAudioEqualizationFilterT(FILEINFO_Obj<T,U>& F
 * @param [ AudioEqualizationVectorMultibandFlag ] --- Enables multiband equalization [OPTION 2]
 * @param [ AudioEqualizationAlgorithmEnum ] --- Algorithm to use for the Fast Fourier Transform FFT during multi-band equalization [OPTION 2]
 * @param [ AudioEqualizationFrequenciesInHertzWithMidbandGainMultipliersBetween0And10VectorTFloat64 ] --- Vector array of multi band target frequencies in hertz and their gain multipliers [OPTION 2]
-* @returns [ AudioEqualizationVector3DTRef[1] ] --- Output signal
+* @return [ AudioEqualizationVector3DTRef[1] ] --- Output signal
 */
 template <typename T, typename U>
 void AudioEqualization<T, U>::GenerateAudioEqualization(FILEINFO_Obj<T,U>& FileInfoObjRef)
