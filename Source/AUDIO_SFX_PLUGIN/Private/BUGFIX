@@ -34,5 +34,8 @@ SYMP: error no instance of overloaded functions matches the argument list
 SOLU: PluginCommands->MapAction(..., FExecuteAction::CreateRaw(this, &GeneratePerlinNoiseMenuAPI),...); ==> PluginCommands->MapAction(...,  FExecuteAction::CreateRaw(this, &UMGViewportComponent::GeneratePerlinNoiseMenuAPI), ...);
 
 SYMP: UE crashes on close, Assertion Failed: GetFName() == NAME_None
-SOLU: TSharedPtr<UToolMenu> MenuPtr = TSharedPtr<UToolMenu>(...); >> UToolMenu* MenuPtr = ...;
-NOTE: To mitigate hard-to-find-bugs -- TSharedPtr<>, TSharedRef<>, etc. are dynamic objects that should be inlined instead of declared in classes 
+SOLU: Modify TSharedPtr<UToolMenu> MenuPtr = TSharedPtr<UToolMenu>(...); >> UToolMenu* MenuPtr = ...;
+NOTE: To mitigate hard-to-find-bugs -- when TSharedPtr<>, TSharedRef<>, etc. are dynamic non-persistent objects, they should be inlined instead of declared within classes 
+
+SYMP: PluginCommands->MapAction(...) and FAUDIO_SFX_PLUGINModule::RegisterMenus() Fail to open plugin window, with the following error: LevelEditor.MainMenu.Window not found
+SOLU: AUDIO_SFX_PLUGIN.CPP: Del TSharedPtr<FUICommandList> PluginCommands; AUDIO_SFX_PLUGIN.H: Add private: TSharedPtr<FUICommandList> PluginCommands, to make PluginsCommands settings persistent
