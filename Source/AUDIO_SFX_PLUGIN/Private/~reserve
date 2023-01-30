@@ -1,4 +1,26 @@
 ﻿
+                TCHAR* ResultTCHPTR = ResultFStr.GetCharArray().GetData();
+
+                //
+
+            DECLARE_LOG_CATEGORY_EXTERN(AudioDebug, Log, All);
+
+            //
+
+                FText NameStr = FText::Format( 
+                    LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "Extender found: %s"), 
+                    CommandListRefT.GetUObject()->GetFName().ToString()
+                    );
+                FString ResultFStr = NameStr.ToString();
+                TCHAR* ResultTCHPTR = ResultFStr.GetCharArray().GetData();
+
+                //
+
+#include <Logging/LogMacros.h>
+#include <Logging/LogVerbosity.h>
+UE_LOG(LogTemp, [Error (Red), Warning (Yellow)], TEXT("...") [,...])
+
+//
     //UI_COMMAND(GeneratePerlinNoise, "Generate Perlin Noise", "Bring up Noise Generation settings.", EUserInterfaceActionType::Button, FInputChord());
 
     GeneratePerlinNoise = FUICommandInfo::MakeCommandInfo(
@@ -63,27 +85,27 @@ std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>>& Populat
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::LeadRoomFiniteImpulseResponseFIRVector2DT;
     ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGoldEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::GoldRoomFiniteImpulseResponse;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSteelEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSteelEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::SteelRoomFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbAluminumEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbAluminumEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::AluminumRoomFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbRubberEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbRubberEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::RubberRoomFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCeramicEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCeramicEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CeramicRoomFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlasticEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlasticEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::PlasticRoomFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCottonEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCottonEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CottonRoomFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbMediumHallEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbMediumHallEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::MediumHallFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertHallEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertHallEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertHallFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCathedralEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCathedralEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::CathedralFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertStadiumEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertStadiumEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertStadiumFiniteImpulseResponseFIRVector2DT;
-	return ConvolutionReverbHashTableT;
+    return ConvolutionReverbHashTableT;
 }
 
 //
@@ -198,59 +220,59 @@ std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>>& Convolu
 #include <Framework/Commands/UIAction.h>
 class FAUDIO_SFX_MENU_Class : public FMenuExtensionDelegate
 {
-	// This is the class that will be used to create the menu extension
+    // This is the class that will be used to create the menu extension
 public:
-	 FAUDIO_SFX_MENU_Class();
-	~FAUDIO_SFX_MENU_Class();
+     FAUDIO_SFX_MENU_Class();
+    ~FAUDIO_SFX_MENU_Class();
 
-	void GeneratePerlinNoiseMenuAPI();
+    void GeneratePerlinNoiseMenuAPI();
 
-	// This is the function that will be called when the menu extension is created
-	virtual void AddMenuExtension(FMenuBuilder& Builder) override;
+    // This is the function that will be called when the menu extension is created
+    virtual void AddMenuExtension(FMenuBuilder& Builder) override;
 
-	// This is the function that will be called when the menu extension is destroyed
-	virtual void RemoveMenuExtension(FMenuBuilder& Builder) override;
+    // This is the function that will be called when the menu extension is destroyed
+    virtual void RemoveMenuExtension(FMenuBuilder& Builder) override;
 
-	// This is the function that will be called when the menu extension is ticked
-	virtual void TickMenuExtension(float DeltaTime) override;
+    // This is the function that will be called when the menu extension is ticked
+    virtual void TickMenuExtension(float DeltaTime) override;
 
-	// This is the function that will be called when the menu extension is rendered
-	virtual void RenderMenuExtension(FViewport* Viewport, const FSceneView* View, FPrimitiveDrawInterface* PDI) override;
+    // This is the function that will be called when the menu extension is rendered
+    virtual void RenderMenuExtension(FViewport* Viewport, const FSceneView* View, FPrimitiveDrawInterface* PDI) override;
 
-	// This is the function that will be called when the menu extension is rendered
-	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas) override;
+    // This is the function that will be called when the menu extension is rendered
+    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas) override;
 
-	// This is the function that will be called when the menu extension is rendered
-	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize) override;
+    // This is the function that will be called when the menu extension is rendered
+    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize) override;
 
-	// This is the function that will be called when the menu extension is rendered
-	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize) override;
+    // This is the function that will be called when the menu extension is rendered
+    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize) override;
 
-	// This is the function that will be called when the menu extension is rendered
-	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize, FVector2D ViewportPos) override;
+    // This is the function that will be called when the menu extension is rendered
+    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize, FVector2D ViewportPos) override;
 
-	// This is the function that will be called when the menu extension is rendered
-	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize, FVector2D ViewportPos, FVector2D ViewportSizeFraction) override;
+    // This is the function that will be called when the menu extension is rendered
+    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize, FVector2D ViewportPos, FVector2D ViewportSizeFraction) override;
 
-	// This is the function that will be called when the menu extension is rendered
-	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize, FVector2D ViewportPos, FVector2D ViewportSizeFraction, FVector2D ViewportPosFraction) override;
+    // This is the function that will be called when the menu extension is rendered
+    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize, FVector2D ViewportPos, FVector2D ViewportSizeFraction, FVector2D ViewportPosFraction) override;
 
-	// This is the function that will be called when the menu extension is rendered
-	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D DCanvasSize, FVector2D ViewportSize, FVector2D ViewportPos, FVector2D ViewportSizeFraction, FVector2D ViewportPosFraction, FVector2D ViewportSizeFractionFraction) override;
+    // This is the function that will be called when the menu extension is rendered
+    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D DCanvasSize, FVector2D ViewportSize, FVector2D ViewportPos, FVector2D ViewportSizeFraction, FVector2D ViewportPosFraction, FVector2D ViewportSizeFractionFraction) override;
 };
 
 
 
 FAUDIO_SFX_MENU_Class::FAUDIO_SFX_MENU_Class()
 {
-	// Register the menu for the 3D viewport
-	{
-		UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.ViewportContextMenu");
-		{
-			FToolMenuSection& Section = Menu->FindOrAddSection("LevelEditorViewport");
-			Section.AddMenuEntryWithCommandList(FAUDIO_SFX_PLUGINCommands::Get().OpenPluginWindow, PluginCommands);
-		}
-	}
+    // Register the menu for the 3D viewport
+    {
+        UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.ViewportContextMenu");
+        {
+            FToolMenuSection& Section = Menu->FindOrAddSection("LevelEditorViewport");
+            Section.AddMenuEntryWithCommandList(FAUDIO_SFX_PLUGINCommands::Get().OpenPluginWindow, PluginCommands);
+        }
+    }
 }
 
 FAUDIO_SFX_MENU_Class::~FAUDIO_SFX_MENU_Class()
@@ -260,11 +282,11 @@ FAUDIO_SFX_MENU_Class::~FAUDIO_SFX_MENU_Class()
 
 void FAUDIO_SFX_MENU_Class::AddMenuExtension(FMenuBuilder& Builder)
 {
-	Builder.AddMenuEntry(
-		FText::FromString("Generate Noise"),
-		FText::FromString("Generate Perlin Noise"),
-		FSlateIcon(),
-		FUIAction( FExecuteAction::CreateRaw( this, &FAUDIO_SFX_MENU_Class::GeneratePerlinNoiseMenuAPI)));
+    Builder.AddMenuEntry(
+        FText::FromString("Generate Noise"),
+        FText::FromString("Generate Perlin Noise"),
+        FSlateIcon(),
+        FUIAction( FExecuteAction::CreateRaw( this, &FAUDIO_SFX_MENU_Class::GeneratePerlinNoiseMenuAPI)));
 }
 
 void FAUDIO_SFX_MENU_Class::RemoveMenuExtension(FMenuBuilder& Builder)
@@ -347,11 +369,11 @@ void FAUDIO_SFX_MENU_Class::RenderMenuExtension(
 
 //
 
-	std::vector<std::string>& WordVectorBuffRef = FileInfoObjRefT.nlp_ipa_WordVectorBuffRef;
-	const U nIndexConstUInt64 = FileInfoObjRefT.nlp_ipa_nIndexUInt64;
+    std::vector<std::string>& WordVectorBuffRef = FileInfoObjRefT.nlp_ipa_WordVectorBuffRef;
+    const U nIndexConstUInt64 = FileInfoObjRefT.nlp_ipa_nIndexUInt64;
 
     using WordVectorBuffConstRef[nIndexUInt64] as LetterAttributesObjRef;
-	const std::string& LetterStrConstRef = LetterAttributesObjRef.LetterStrConstRef;
+    const std::string& LetterStrConstRef = LetterAttributesObjRef.LetterStrConstRef;
     bool SilentPronunciateFlag = LetterAttributesObjRef.SilentPronunciateFlag;
     bool LongVowelFlag = LetterAttributesObjRef.LongVowelFlag;
     bool LongConsonantFlag = LetterAttributesObjRef.LongConsonantFlag;
@@ -426,110 +448,110 @@ void FAUDIO_SFX_MENU_Class::RenderMenuExtension(
 namespace ToneLibrary
 {
 
-	template<typename T, typename U>
-	class nlp
-	{
-	public:
-		nlp();
-	};
-	
-	template<typename T>
-	std::unordered_map<std::string, ComplexVector2DT<T>> GetNLPMap()
-	{
-		// LIST THE 44 (MOST COMMON) ENGLISH PHONEMES
-		std::unordered_map<std::string, ComplexVector2DT<T>> NLPMap;
-		
-		// 1. VOWELS
-		NLPMap["p"] = nlpVector2DTPat;	// as in "pat"
-		NLPMap["b"] = nlpVector2DTBat;	// as in "bat"	
-		NLPMap["t"] = nlpVector2DTap;	// as in "tap"
-		NLPMap["d"] = nlpVector2DTDog;	// as in "dog"		
-		NLPMap["k"] = nlpVector2DTCat;	// as in "cat"
+    template<typename T, typename U>
+    class nlp
+    {
+    public:
+        nlp();
+    };
+    
+    template<typename T>
+    std::unordered_map<std::string, ComplexVector2DT<T>> GetNLPMap()
+    {
+        // LIST THE 44 (MOST COMMON) ENGLISH PHONEMES
+        std::unordered_map<std::string, ComplexVector2DT<T>> NLPMap;
+        
+        // 1. VOWELS
+        NLPMap["p"] = nlpVector2DTPat;	// as in "pat"
+        NLPMap["b"] = nlpVector2DTBat;	// as in "bat"	
+        NLPMap["t"] = nlpVector2DTap;	// as in "tap"
+        NLPMap["d"] = nlpVector2DTDog;	// as in "dog"		
+        NLPMap["k"] = nlpVector2DTCat;	// as in "cat"
         NLPMap["g"] = nlpVector2DTGo;	// as in "go"
-		NLPMap["f"] = nlpVector2DTFish;	// as in "fish"
-		NLPMap["v"] = nlpVector2DTVat;	// as in "vat"
-		NLPMap["θ"] = nlpVector2DTTHink;// as in "think"
-		NLPMap["ð"] = nlpVector2DTTHis; // as in "this"
-		NLPMap["s"] = nlpVector2DTSip;	// as in "sip"
-		NLPMap["z"] = nlpVector2DTZip;	// as in "zip"
-		NLPMap["ʃ"] = nlpVector2DTSHeep;	// as in "sheep"
-		NLPMap["ʒ"] = nlpVector2DTMeasure;	// as in "measure"
-		NLPMap["h"] = nlpVector2DTHat;	// as in "hat"
-		NLPMap["m"] = nlpVector2DTMat;	// as in "mat"
-		NLPMap["n"] = nlpVector2DTNap;	// as in "nap"
-		NLPMap["ŋ"] = nlpVector2DTsINg; // as in "sing"
-		NLPMap["l"] = nlpVector2DTLip;	// as in "lip"
-		NLPMap["r"] = nlpVector2DTRip;	// as in "rip"
-		NLPMap["j"] = nlpVector2DTYacht;// as in "yacht"
-		NLPMap["w"] = nlpVector2DTWet;	// as in "wet"
+        NLPMap["f"] = nlpVector2DTFish;	// as in "fish"
+        NLPMap["v"] = nlpVector2DTVat;	// as in "vat"
+        NLPMap["θ"] = nlpVector2DTTHink;// as in "think"
+        NLPMap["ð"] = nlpVector2DTTHis; // as in "this"
+        NLPMap["s"] = nlpVector2DTSip;	// as in "sip"
+        NLPMap["z"] = nlpVector2DTZip;	// as in "zip"
+        NLPMap["ʃ"] = nlpVector2DTSHeep;	// as in "sheep"
+        NLPMap["ʒ"] = nlpVector2DTMeasure;	// as in "measure"
+        NLPMap["h"] = nlpVector2DTHat;	// as in "hat"
+        NLPMap["m"] = nlpVector2DTMat;	// as in "mat"
+        NLPMap["n"] = nlpVector2DTNap;	// as in "nap"
+        NLPMap["ŋ"] = nlpVector2DTsINg; // as in "sing"
+        NLPMap["l"] = nlpVector2DTLip;	// as in "lip"
+        NLPMap["r"] = nlpVector2DTRip;	// as in "rip"
+        NLPMap["j"] = nlpVector2DTYacht;// as in "yacht"
+        NLPMap["w"] = nlpVector2DTWet;	// as in "wet"
 
-		// 2. CONSONANTS
-		NLPMap["i"] = nlpVector2DTbEEt; // as in "beet"
-		NLPMap["ɪ"] = nlpVector2DTbIt;	// as in "bit"
-		NLPMap["e"] = nlpVector2DTbAIt; // as in "bait"
-		NLPMap["ɛ"] = nlpVector2DTbEt;	// as in "bet"
-		NLPMap["æ"] = nlpVector2DTbAt;	// as in "bat"
-		NLPMap["a"] = nlpVector2DTfAther;	// as in "father"
-		NLPMap["ɑ"] = nlpVector2DTbOUGHt;	// as in "bought"
-		NLPMap["ɔ"] = nlpVector2DTbAWl; // as in "bawl"
-		NLPMap["o"] = nlpVector2DTOAt;	// as in "oat"
-		NLPMap["ʊ"] = nlpVector2DTfOOt; // as in "foot"
-		NLPMap["u"] = nlpVector2DTbOOt; // as in "boot"
-		return NLPMap;
-	}	
+        // 2. CONSONANTS
+        NLPMap["i"] = nlpVector2DTbEEt; // as in "beet"
+        NLPMap["ɪ"] = nlpVector2DTbIt;	// as in "bit"
+        NLPMap["e"] = nlpVector2DTbAIt; // as in "bait"
+        NLPMap["ɛ"] = nlpVector2DTbEt;	// as in "bet"
+        NLPMap["æ"] = nlpVector2DTbAt;	// as in "bat"
+        NLPMap["a"] = nlpVector2DTfAther;	// as in "father"
+        NLPMap["ɑ"] = nlpVector2DTbOUGHt;	// as in "bought"
+        NLPMap["ɔ"] = nlpVector2DTbAWl; // as in "bawl"
+        NLPMap["o"] = nlpVector2DTOAt;	// as in "oat"
+        NLPMap["ʊ"] = nlpVector2DTfOOt; // as in "foot"
+        NLPMap["u"] = nlpVector2DTbOOt; // as in "boot"
+        return NLPMap;
+    }	
 }
 
-	// Apply time stretching
-	U OutputSampleIndex = 0;  StretchRatio;
-	for (U Channel = 0; Channel < NumChannels; Channel++)
-	{
-		oBuffer[Channel] = VectorT<T>(NumSamples);
-		for (U Sample = 0; Sample < NumSamples; Sample++)
-		{
-			oBuffer[Channel][Sample] = (1 - Sample) * oBuffer[Channel][Sample] + Sample * oBufferTemp[Channel][Sample];
-		}
-	}
+    // Apply time stretching
+    U OutputSampleIndex = 0;  StretchRatio;
+    for (U Channel = 0; Channel < NumChannels; Channel++)
+    {
+        oBuffer[Channel] = VectorT<T>(NumSamples);
+        for (U Sample = 0; Sample < NumSamples; Sample++)
+        {
+            oBuffer[Channel][Sample] = (1 - Sample) * oBuffer[Channel][Sample] + Sample * oBufferTemp[Channel][Sample];
+        }
+    }
 
     // Apply time stretching
-	U OutputSampleIndex = 0;  StretchRatio;
-	for (U Channel = 0; Channel < NumChannels; Channel++)
-	{
-		oBuffer[Channel] = VectorT<T>(NumSamples);
-		for (U Sample = 0; Sample < NumSamples; Sample++)
-		{
-			oBuffer[Channel][Sample] = oBufferTemp[Channel][OutputSampleIndex];
-		}
-		OutputSampleIndex++;
-	}
+    U OutputSampleIndex = 0;  StretchRatio;
+    for (U Channel = 0; Channel < NumChannels; Channel++)
+    {
+        oBuffer[Channel] = VectorT<T>(NumSamples);
+        for (U Sample = 0; Sample < NumSamples; Sample++)
+        {
+            oBuffer[Channel][Sample] = oBufferTemp[Channel][OutputSampleIndex];
+        }
+        OutputSampleIndex++;
+    }
     
     // Apply time stretching
-	U OutputSampleIndex = 0;  StretchRatio;
-	for (U Channel = 0; Channel < NumChannels; Channel++)
-	{
-		oBuffer[Channel] = VectorT<T>(NumSamples);
-		for (U Sample = 0; Sample < NumSamples; Sample++)
-		{
-			oBuffer[Channel][Sample] = oBufferTemp[Channel][OutputSampleIndex];
-		}
-		OutputSampleIndex += StretchRatio;
-	}
+    U OutputSampleIndex = 0;  StretchRatio;
+    for (U Channel = 0; Channel < NumChannels; Channel++)
+    {
+        oBuffer[Channel] = VectorT<T>(NumSamples);
+        for (U Sample = 0; Sample < NumSamples; Sample++)
+        {
+            oBuffer[Channel][Sample] = oBufferTemp[Channel][OutputSampleIndex];
+        }
+        OutputSampleIndex += StretchRatio;
+    }
 
-	public:
-		void SetSize(FILEINFO_Obj<T, U>&);
-		void SetDamping(FILEINFO_Obj<T, U>&);
-		void SetWetLevel(FILEINFO_Obj<T, U>&);
-		void SetDryLevel(FILEINFO_Obj<T, U>&);
-	private:
-		T& AudioBufferPrivateFloat64TRef;
-		T& AudioBufferTempPrivateFloat64TRef;
-		U NumChannelsPrivateUint64T;
-		U NumSamplesPrivateUint64T;
-		U NumSamplesPerChannelPrivateUint64T;
-		U SampleRatePrivateUint64T;
-		U SizePrivateUint64T;
-		T WetLevelPrivateFloat64T;
-		T DryLevelPrivateFloat64T;
-		T DampingPrivateFloat64T;
+    public:
+        void SetSize(FILEINFO_Obj<T, U>&);
+        void SetDamping(FILEINFO_Obj<T, U>&);
+        void SetWetLevel(FILEINFO_Obj<T, U>&);
+        void SetDryLevel(FILEINFO_Obj<T, U>&);
+    private:
+        T& AudioBufferPrivateFloat64TRef;
+        T& AudioBufferTempPrivateFloat64TRef;
+        U NumChannelsPrivateUint64T;
+        U NumSamplesPrivateUint64T;
+        U NumSamplesPerChannelPrivateUint64T;
+        U SampleRatePrivateUint64T;
+        U SizePrivateUint64T;
+        T WetLevelPrivateFloat64T;
+        T DryLevelPrivateFloat64T;
+        T DampingPrivateFloat64T;
 
     U PlateReverbNumChannelsUint64T;
     U PlateReverbNumSamplesUint64T;
@@ -549,29 +571,29 @@ namespace ToneLibrary
 */
 template<typename T, typename U>
 void PlateReverb<T, U>::GeneratePlateReverb(
-	FILEINFO_Obj<T, U>& FileInfoObj_Ref
-	)
+    FILEINFO_Obj<T, U>& FileInfoObj_Ref
+    )
 {
-	// Loop through the channels
-	for (U nChannelUInt64 = 0; nChannelUInt64 < FileInfoObj_Ref.PlateReverb3DVectorTRef[0].size(); nChannelUInt64++)
-	{
-		// Loop through the samples
-		for (U nSampleIdxUInt64 = 0; nSampleIdxUInt64 < PlateReverb3DVectorTRef[0][nChannelUInt64].size(); nSampleIdxUInt64++)
-		{
-			// Apply the plate algorithm
-			FileInfoObj_Ref.PlateReverb3DVectorTRef[1][nChannelUInt64][nSampleIdxUInt64] =
-				FileInfoObj_Ref.PlateReverb3DVectorTRef[0][nChannelUInt64][nSampleIdxUInt64] *
-				(1 - FileInfoObj_Ref.PlateReverbWetnessFloat64T) +
-				(
-					(
-						FileInfoObj_Ref.PlateReverbWetnessFloat64T * 
-						FileInfoObj_Ref.PlateReverbDampingFloat64T
-					) *
-					FileInfoObj_Ref.PlateReverb3DVectorTRef[0][nChannelUInt64][nSampleIdxUInt64] +
-					FileInfoObj_Ref.PlateReverb3DVectorTRef[1][nChannelUInt64][nSampleIdxUInt64 - 1]
-				);
-		}
-	}
+    // Loop through the channels
+    for (U nChannelUInt64 = 0; nChannelUInt64 < FileInfoObj_Ref.PlateReverb3DVectorTRef[0].size(); nChannelUInt64++)
+    {
+        // Loop through the samples
+        for (U nSampleIdxUInt64 = 0; nSampleIdxUInt64 < PlateReverb3DVectorTRef[0][nChannelUInt64].size(); nSampleIdxUInt64++)
+        {
+            // Apply the plate algorithm
+            FileInfoObj_Ref.PlateReverb3DVectorTRef[1][nChannelUInt64][nSampleIdxUInt64] =
+                FileInfoObj_Ref.PlateReverb3DVectorTRef[0][nChannelUInt64][nSampleIdxUInt64] *
+                (1 - FileInfoObj_Ref.PlateReverbWetnessFloat64T) +
+                (
+                    (
+                        FileInfoObj_Ref.PlateReverbWetnessFloat64T * 
+                        FileInfoObj_Ref.PlateReverbDampingFloat64T
+                    ) *
+                    FileInfoObj_Ref.PlateReverb3DVectorTRef[0][nChannelUInt64][nSampleIdxUInt64] +
+                    FileInfoObj_Ref.PlateReverb3DVectorTRef[1][nChannelUInt64][nSampleIdxUInt64 - 1]
+                );
+        }
+    }
 }
 
 template <typename T>
@@ -597,61 +619,61 @@ std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>> Populate
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::LeadRoomFiniteImpulseResponseFIRVector2DT;
     ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGoldEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::GoldRoomFiniteImpulseResponse;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSteelEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSteelEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::SteelRoomFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbAluminumEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbAluminumEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::AluminumRoomFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbRubberEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbRubberEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::RubberRoomFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCeramicEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCeramicEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CeramicRoomFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlasticEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlasticEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::PlasticRoomFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCottonEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCottonEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CottonRoomFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbMediumHallEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbMediumHallEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj.MediumHallFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertHallEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertHallEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertHallFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCathedralEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCathedralEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::CathedralFiniteImpulseResponseFIRVector2DT;
-	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertStadiumEnumFlag] = 
+    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertStadiumEnumFlag] = 
         ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertStadiumFiniteImpulseResponseFIRVector2DT;
-	return ConvolutionReverbHashTableT;
+    return ConvolutionReverbHashTableT;
 }
 
 template <typename T>
 ConvolutionReverbHashTableT<T>[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlateEnumFlag] = ConvolutionReverbFIRObj<T>::PlateFiniteImpulseResponseFIRVector2DT;
 
-	switch (FileInfoObjRef.ConvolutionReverbMethodEnumFlag)
-	{
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbPlateEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbSpringEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConvoluteEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbWoodenEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbGlassEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbTitaniumEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbIronEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbLeadEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbGoldEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbSteelEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbAluminumEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbRubberEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCeramicEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbPlasticEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCottonEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbMediumHallEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConcertHallEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCathedralEnumFlag:
-	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConcertStadiumEnumFlag:
-		ConvolutionTargetFIRVector2DTREF = 
-			FileInfoObjRef.ConvolutionReverbImpulseResponseTObj.ConcertHallFiniteImpulseResponseFIRVector2DT;
-		break;
+    switch (FileInfoObjRef.ConvolutionReverbMethodEnumFlag)
+    {
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbPlateEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbSpringEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConvoluteEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbWoodenEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbGlassEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbTitaniumEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbIronEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbLeadEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbGoldEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbSteelEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbAluminumEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbRubberEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCeramicEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbPlasticEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCottonEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbMediumHallEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConcertHallEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCathedralEnumFlag:
+    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConcertStadiumEnumFlag:
+        ConvolutionTargetFIRVector2DTREF = 
+            FileInfoObjRef.ConvolutionReverbImpulseResponseTObj.ConcertHallFiniteImpulseResponseFIRVector2DT;
+        break;
 
-	default: // FileInfoObjRef.ConvolutionReverbNoneSelectedEnumFlag
-		std::cout << "Error - ConvolutionReverb::GenerateConvolutionReverb FileInfoObjRef.ConvolutionReverbNoneSelectedEnumFlag. " << std::endl;
-		return;
-	}	
+    default: // FileInfoObjRef.ConvolutionReverbNoneSelectedEnumFlag
+        std::cout << "Error - ConvolutionReverb::GenerateConvolutionReverb FileInfoObjRef.ConvolutionReverbNoneSelectedEnumFlag. " << std::endl;
+        return;
+    }	
 
 template <typename T, typename U>
 using HashMapT = std::unordered_map<T, U>;
@@ -662,20 +684,20 @@ HashMapT <enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>> ConvolutionReverb
 template <typename T, typename U>
 ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlateEnumFlag] = ConvolutionReverbFIRObj<T, U>::PlateFiniteImpulseResponseFIRVector2DT<T, U>;
 
-		// Average the audio for the entire channel
-		FileInfoObjRef.AudioMixMixedAudioResultVector2DTRef[nChannelUInt64] /= 
-			FileInfoObjRef.AudioMixFileAVector2DTRef.size();
+        // Average the audio for the entire channel
+        FileInfoObjRef.AudioMixMixedAudioResultVector2DTRef[nChannelUInt64] /= 
+            FileInfoObjRef.AudioMixFileAVector2DTRef.size();
             
-	VectorT<T> TimeVector;
-	VectorT<U> AmplitudeVector;
-	T GlobalSampleRate;
-	T WaveSpeed;
-	T WaveLength;
-	T StartTime;
-	T GlobalAmplitude;
-	T GlobalFrequency;
-	T AmplitudeDecibels;
-	T AmplitudeDecibelsNormalized;
+    VectorT<T> TimeVector;
+    VectorT<U> AmplitudeVector;
+    T GlobalSampleRate;
+    T WaveSpeed;
+    T WaveLength;
+    T StartTime;
+    T GlobalAmplitude;
+    T GlobalFrequency;
+    T AmplitudeDecibels;
+    T AmplitudeDecibelsNormalized;
 
         void BluesteinFFT(
             FILEINFO_Obj<T,U>& FileInfoObj,
