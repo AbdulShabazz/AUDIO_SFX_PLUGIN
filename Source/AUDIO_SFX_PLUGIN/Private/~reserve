@@ -1,4 +1,58 @@
 ﻿
+
+   FLevelEditorModule& LevelEditorModuleRef = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor.MainMenu");
+    TSharedPtr<FExtender> Extender = MakeShareable(new FExtender);
+    Extender->AddMenuBarExtension(
+        AUDIO_SFX_PLUGINTabName,
+        EExtensionHook::After,
+        nullptr,
+        FMenuBarExtensionDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::AddMenuBarExtension)
+    );
+    LevelEditorModuleRef.GetMenuExtensibilityManager()->AddExtender(Extender);
+
+//
+    /** Owner will be used for cleanup in call to UToolMenus::UnregisterOwner */
+    FToolMenuOwnerScoped OwnerScoped(this);
+    const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
+    UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Tools");
+    FToolMenuSection& Section = Menu->FindOrAddSection("Audio_Plugins");
+    Section.AddMenuEntryWithCommandList(CommandActions.OpenPluginWindow, PluginCommands);
+
+    //
+    
+    // Add (Toolbar) button to level editor submenu (eg. Windor, Tools, etc) at UToolMenus::RegisterStartupCallback(...)
+    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+        AUDIO_SFX_PLUGINTabName,
+        FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab))
+            .SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
+            .SetMenuType(ETabSpawnerMenuType::Enabled);
+
+            //
+
+        const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
+
+        {
+            // Add menu to the 'Window' sub menu of the level editor
+            UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Window");
+            {
+                FToolMenuSection& Section = Menu->FindOrAddSection("Audio_Plugins");
+                Section.AddMenuEntryWithCommandList(CommandActions.OpenPluginWindow, PluginCommands);
+            }
+        }
+
+        {
+            UToolMenu* ToolbarMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.LevelEditorToolBar");
+            {
+                FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("Settings");
+                {
+                    FToolMenuEntry& Entry = Section.AddEntry(FToolMenuEntry::InitToolBarButton(CommandActions.OpenPluginWindow));
+                    Entry.SetCommandList(PluginCommands);
+                }
+            }
+        }
+
+        //
+
                 TCHAR* ResultTCHPTR = ResultFStr.GetCharArray().GetData();
 
                 //
