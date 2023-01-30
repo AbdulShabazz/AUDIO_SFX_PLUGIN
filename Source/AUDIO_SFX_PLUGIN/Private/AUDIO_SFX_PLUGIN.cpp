@@ -58,13 +58,14 @@ void FAUDIO_SFX_PLUGINModule::AddMenuBarExtension(FMenuBarBuilder& MenuBarBuilde
 
 void FAUDIO_SFX_PLUGINModule::StartupModule()
 {
-    /** This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per module */
+    /** This code will execute after your module is loaded into memory; 
+    *   the exact timing is specified in the .uplugin file per module */
     
     FAUDIO_SFX_PLUGINStyle::Initialize();
     FAUDIO_SFX_PLUGINStyle::ReloadTextures();
     FAUDIO_SFX_PLUGINCommands::Register();
 
-    TSharedPtr<FUICommandList> PluginCommands = MakeShareable(new FUICommandList);
+    PluginCommands = MakeShareable(new FUICommandList);
 
     const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
 
@@ -73,17 +74,23 @@ void FAUDIO_SFX_PLUGINModule::StartupModule()
         FExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::PluginButtonClicked),
         FCanExecuteAction(), 
         FIsActionChecked());
-    
-    UToolMenus::RegisterStartupCallback(
-        FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::RegisterMenus));
 
-    // Add (Toolbar) button to level editor submenu (eg. LevelEditor.MainMenu[.Window, .Tools, etc] in UToolMenus::RegisterStartupCallback(...)
+    // Get icon for nomad tab //
+    const ISlateStyle& Style = FAUDIO_SFX_PLUGINStyle::Get();
+    FSlateIcon Icon{ Style.GetStyleSetName(), "AUDIO_SFX_PLUGIN.OpenPluginWindow" };
+
+    // Add a (Toolbar) button to level editor @submenu LevelEditor.MainMenu[.Window, .Tools, ..] 
+    //   in UToolMenus::RegisterStartupCallback(...)
     FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
         AUDIO_SFX_PLUGINTabName,
         FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
     )
     .SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
-    .SetMenuType(ETabSpawnerMenuType::Enabled);
+    .SetMenuType(ETabSpawnerMenuType::Hidden) // Hide this LevelEditor.MainMenu.Window button, we'll create our own...
+    .SetIcon(Icon);
+    
+    UToolMenus::RegisterStartupCallback(
+        FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::RegisterMenus));
 }
 
 void FAUDIO_SFX_PLUGINModule::RegisterMenus()
@@ -91,12 +98,27 @@ void FAUDIO_SFX_PLUGINModule::RegisterMenus()
     /** Owner will be used for cleanup in call to UToolMenus::UnregisterOwner */
     FToolMenuOwnerScoped OwnerScoped(this);
 
-    const TSharedPtr<const FUICommandList> PluginCommands = MakeShareable(new FUICommandList);
-
     const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
-    UToolMenu* MenuPtr = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Window");
-    FToolMenuSection& Section = MenuPtr->FindOrAddSection("AUDIO_SFX_PLUGIN.LevelEditor");
-    Section.AddMenuEntryWithCommandList(CommandActions.OpenPluginWindow, PluginCommands);
+
+    {
+        // Add menu to the 'Window' sub menu of the level editor
+        UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Window");
+        {
+            FToolMenuSection& Section = Menu->FindOrAddSection("Audio_Plugins.AUDIO_SFX_PLUGIN.LevelEditor");
+            Section.AddMenuEntryWithCommandList(CommandActions.OpenPluginWindow, PluginCommands);
+        }
+    }
+
+    {
+        UToolMenu* ToolbarMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.LevelEditorToolBar");
+        {
+            FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("Settings");
+            {
+                FToolMenuEntry& Entry = Section.AddEntry(FToolMenuEntry::InitToolBarButton(CommandActions.OpenPluginWindow));
+                Entry.SetCommandList(PluginCommands);
+            }
+        }
+    }
 }
 
 void FAUDIO_SFX_PLUGINModule::FillToolBar()
@@ -129,6 +151,7 @@ TSharedRef<SDockTab> FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab(const FSpawnTabAr
 {
     TSharedRef<UMGViewportComponent> SNWin = SNew(UMGViewportComponent);
     UMGViewportComponent::FArguments InArgs;
+
     SNWin.Get().Construct(InArgs);
     TAttribute<FText> inAttributesTXT;
     FText WidgetLabel = FText(LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool"));
