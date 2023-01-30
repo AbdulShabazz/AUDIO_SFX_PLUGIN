@@ -20,7 +20,7 @@
 
     //
     
-    // Add (Toolbar) button to level editor submenu (eg. Windor, Tools, etc) at UToolMenus::RegisterStartupCallback(...)
+    // Add (Toolbar) button to level editor submenu (eg. Window, Tools, etc) at UToolMenus::RegisterStartupCallback(...)
     FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
         AUDIO_SFX_PLUGINTabName,
         FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab))
