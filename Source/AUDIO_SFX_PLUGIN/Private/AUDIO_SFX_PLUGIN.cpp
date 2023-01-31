@@ -1,22 +1,15 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "AUDIO_SFX_PLUGIN.h"
-#include "CoreMinimal.h"
-#include "Modules/ModuleManager.h"
-#include <GameFramework/Actor.h>
-#include <Engine/Classes/Engine/Engine.h>
-#include <Engine/World.h>
-#include "AUDIO_SFX_PLUGINStyle.h"
-#include "LevelEditor.h"
-#include "Widgets/Docking/SDockTab.h"
-#include "Widgets/Layout/SBox.h"
-#include "Widgets/Text/STextBlock.h"
-#include "ToolMenus.h"
-#include <stdexcept>
 
 static const FName AUDIO_SFX_PLUGINTabName("AUDIO_SFX_PLUGIN");
 
 #define LOCTEXT_NAMESPACE "FAUDIO_SFX_PLUGINModule"
+
+void FAUDIO_SFX_PLUGINModule::FillToolBar()
+{
+
+}
 
 bool FAUDIO_SFX_PLUGINModule::OnGeneratePerlinNoise()
 {
@@ -56,41 +49,11 @@ void FAUDIO_SFX_PLUGINModule::AddMenuBarExtension(FMenuBarBuilder& MenuBarBuilde
     );
 }
 
-void FAUDIO_SFX_PLUGINModule::StartupModule()
+TSharedRef<SWidget> FAUDIO_SFX_PLUGINModule::GetTabContent(const FName& TabID)
 {
-    /** This code will execute after your module is loaded into memory; 
-    *   the exact timing is specified in the .uplugin file per module */
-    
-    FAUDIO_SFX_PLUGINStyle::Initialize();
-    FAUDIO_SFX_PLUGINStyle::ReloadTextures();
-    FAUDIO_SFX_PLUGINCommands::Register();
-
-    PluginCommands = MakeShareable(new FUICommandList);
-
-    const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
-
-    PluginCommands->MapAction(
-        CommandActions.OpenPluginWindow,
-        FExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::PluginButtonClicked),
-        FCanExecuteAction(), 
-        FIsActionChecked());
-
-    // Get icon for nomad tab //
-    const ISlateStyle& Style = FAUDIO_SFX_PLUGINStyle::Get();
-    FSlateIcon Icon{ Style.GetStyleSetName(), "AUDIO_SFX_PLUGIN.OpenPluginWindow" };
-
-    // Add a (Toolbar) button to level editor @submenu LevelEditor.MainMenu[.Window, .Tools, ..] 
-    //   in UToolMenus::RegisterStartupCallback(...)
-    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
-        AUDIO_SFX_PLUGINTabName,
-        FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
-    )
-    .SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
-    .SetMenuType(ETabSpawnerMenuType::Hidden) // Hide this LevelEditor.MainMenu.Window button, we'll create our own...
-    .SetIcon(Icon);
-    
-    UToolMenus::RegisterStartupCallback(
-        FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::RegisterMenus));
+    TAttribute<FText> TabIDFText{ FText::Format(LOCTEXT("WindowWidgetText", "This is the content of tab '{0}'"), FText::FromString(TabID.ToString())) };
+    return SNew(STextBlock)
+        .Text(TabIDFText);
 }
 
 void FAUDIO_SFX_PLUGINModule::RegisterMenus()
@@ -121,25 +84,6 @@ void FAUDIO_SFX_PLUGINModule::RegisterMenus()
     }
 }
 
-void FAUDIO_SFX_PLUGINModule::FillToolBar()
-{
-
-}
-
-void FAUDIO_SFX_PLUGINModule::ShutdownModule()
-{
-    /** 
-    * This function may be called during shutdown to clean up your module.
-    *   For modules that support dynamic reloading,
-    *   we call this function before unloading the module.
-    */
-    UToolMenus::UnRegisterStartupCallback(this);
-    UToolMenus::UnregisterOwner(this);
-    FAUDIO_SFX_PLUGINStyle::Shutdown();
-    FAUDIO_SFX_PLUGINCommands::Unregister();
-    FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(AUDIO_SFX_PLUGINTabName);
-}
-
 /**
 * Spawns the AUDIO_SFX_PLUGIN (nomad docktab) window. 
 * Usage : TSharedRef<SDockTab> MyDockTabObjRef = OnSpawnPluginTab(SpawnTabArgs);
@@ -166,7 +110,66 @@ TSharedRef<SDockTab> FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab(const FSpawnTabAr
 
 void FAUDIO_SFX_PLUGINModule::PluginButtonClicked()
 {
-    FGlobalTabmanager::Get()->TryInvokeTab(AUDIO_SFX_PLUGINTabName);
+    const FName TabName{ *FString::FromInt(TabCounterInt32++) + FString("_") + AUDIO_SFX_PLUGINTabName.ToString() };
+        
+    // Get an icon for our nomad tab //
+    const ISlateStyle& Style = FAUDIO_SFX_PLUGINStyle::Get();
+    FSlateIcon Icon{ Style.GetStyleSetName(), "AUDIO_SFX_PLUGIN.OpenPluginWindow" };
+
+    FText WindowText = FText::Format(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "{0}"), FText::FromString(TabName.ToString()));
+    
+    // Add a (Toolbar) button to level editor @submenu LevelEditor.MainMenu[.Window, .Tools, ..] 
+    //   in UToolMenus::RegisterStartupCallback(...)
+    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+        TabName,
+        FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
+    )
+        .SetMenuType(ETabSpawnerMenuType::Enabled) // Hide this LevelEditor.MainMenu.Window button, we'll create our own...
+        .SetIcon(Icon);
+    
+    const FTabId TabId{ TabName };
+    TSharedPtr<SDockTab> CurrentTabPtr = FGlobalTabmanager::Get()->TryInvokeTab(TabId);
+    TAttribute<FText> inAttributesTXT;
+    FText WidgetLabel = FText::Format(LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool [{0}]"), FText::FromString(*FString::FromInt(TabCounterInt32-1)));
+    inAttributesTXT.Set(WidgetLabel);
+    CurrentTabPtr->SetLabel(inAttributesTXT);
+}
+
+void FAUDIO_SFX_PLUGINModule::StartupModule()
+{
+    /** This code will execute after your module is loaded into memory;
+    *   the exact timing is specified in the .uplugin file per module */
+
+    FAUDIO_SFX_PLUGINStyle::Initialize();
+    FAUDIO_SFX_PLUGINStyle::ReloadTextures();
+    FAUDIO_SFX_PLUGINCommands::Register();
+
+    PluginCommands = MakeShareable(new FUICommandList);
+
+    const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
+
+    PluginCommands->MapAction(
+        CommandActions.OpenPluginWindow,
+        FExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::PluginButtonClicked),
+        FCanExecuteAction(),
+        FIsActionChecked());
+
+    UToolMenus::RegisterStartupCallback(
+        FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::RegisterMenus));
+}
+
+void FAUDIO_SFX_PLUGINModule::ShutdownModule()
+{
+    /**
+    * This function may be called during shutdown to clean up your module.
+    *   For modules that support dynamic reloading,
+    *   we call this function before unloading the module.
+    */
+    UToolMenus::UnRegisterStartupCallback(this);
+    UToolMenus::UnregisterOwner(this);
+    FAUDIO_SFX_PLUGINStyle::Shutdown();
+    FAUDIO_SFX_PLUGINCommands::Unregister();
+    FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(AUDIO_SFX_PLUGINTabName);
 }
 
 // class UMGViewportComponent //
