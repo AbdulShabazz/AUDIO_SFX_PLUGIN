@@ -1,4 +1,65 @@
 ﻿
+
+void FAUDIO_SFX_PLUGINModule::PluginButtonClicked()
+{
+    const FName TabName{ *FString::FromInt(TabCounterInt32++) + FString("_") + AUDIO_SFX_PLUGINTabName.ToString() };
+        
+    // Get an icon for our nomad tab //
+    const ISlateStyle& Style = FAUDIO_SFX_PLUGINStyle::Get();
+    FSlateIcon Icon{ Style.GetStyleSetName(), "AUDIO_SFX_PLUGIN.OpenPluginWindow" };
+
+    FText WindowText = FText::Format(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "{0}"), FText::FromString(TabName.ToString()));
+    
+    // Add a (Toolbar) button to level editor @submenu LevelEditor.MainMenu[.Window, .Tools, ..] 
+    //   in UToolMenus::RegisterStartupCallback(...)
+    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+        TabName,
+        FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
+    )
+        .SetDisplayName(WindowText)
+        .SetMenuType(ETabSpawnerMenuType::Enabled) // Hide this LevelEditor.MainMenu.Window button, we'll create our own...
+        .SetTooltipText(WindowText)
+        .SetIcon(Icon);
+    
+    const FTabId TabId{ TabName };
+    TSharedPtr<SDockTab> CurrentTabPtr = FGlobalTabmanager::Get()->TryInvokeTab(TabId);
+    TAttribute<FText> inAttributesTXT;
+    FText WidgetLabel = FText::Format(LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool - {0}"), FText::FromString(*FString::FromInt(TabCounterInt32-1)));
+    inAttributesTXT.Set(WidgetLabel);
+    CurrentTabPtr->SetLabel(inAttributesTXT);
+}
+//
+        FText::Format(
+            LOCTEXT("WindowWidgetText", "{0}_{1}"), 
+            FString::FString(AUDIO_SFX_PLUGINTabName.ToString()),
+            *FString::FromInt(TabCounterInt32++)
+        )
+//
+    const TSharedPtr<SDockTab> CurrentTabPtr = FGlobalTabmanager::Get()->TryInvokeTab(AUDIO_SFX_PLUGINTabName);
+//
+    FGlobalTabmanager::Get()->GetOwnerTab()->GetAllChildren();
+//
+    TSharedRef<FGlobalTabmanager::FLayout> FLayoutObjRef;
+//
+    const TSharedPtr<SDockTab> NewTab = FGlobalTabmanager::Get()->TryInvokeTab(AUDIO_SFX_PLUGINTabName, true);
+    const FGlobalTabmanager::ESearchPreference::Type ESearchPreferenceEnum = FGlobalTabmanager::ESearchPreference::PreferLiveTab;
+    const FName TabID { *FString::FromInt(TabCounterInt32++) };
+    FGlobalTabmanager::Get()->InsertNewDocumentTab(TabID, ESearchPreferenceEnum, NewTab.ToSharedRef());
+//
+TSharedRef<SWidget> FAUDIO_SFX_PLUGINModule::GetTabContent(const FName& TabID)
+{
+    TAttribute<FText> TabIDFText{ FText::Format(LOCTEXT("WindowWidgetText", "This is the content of tab '{0}'"), FText::FromString(TabID.ToString())) };
+    return SNew(STextBlock)
+        .Text(TabIDFText);
+}
+//
+TSharedRef<SWidget> FAUDIO_SFX_PLUGINModule::GetTabContent(const FName& TabID)
+{
+    TAttribute<FText> TabIDFText{ FText(LOCTEXT("WindowWidgetMenuText", "Tools")) };
+    return SNew(STextBlock)
+        .Text(TabIDFText);
+}
+//
     const FTabId TabId{ *FString::FromInt(TabCounterInt32++) };
 //
     FGlobalTabmanager::InsertNewDocumentTab(TabId, FSearchPreference, TSharedPtr<SWindow>());
