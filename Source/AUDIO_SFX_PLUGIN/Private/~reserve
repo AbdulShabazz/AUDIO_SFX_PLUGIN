@@ -1,4 +1,62 @@
 ﻿
+    const FTabId TabId{ *FString::FromInt(TabCounterInt32++) };
+//
+    FGlobalTabmanager::InsertNewDocumentTab(TabId, FSearchPreference, TSharedPtr<SWindow>());
+//
+    if (NewTab.IsValid())
+    {
+        StackToSpawnIn->OpenTab(NewTab.ToSharedRef(), INDEX_NONE, bInvokeAsInactive);
+        NewTab->PlaySpawnAnim();
+        FGlobalTabmanager::Get()->UpdateMainMenu(NewTab.ToSharedRef(), false);
+    }
+//
+    TSharedPtr<SDockTab> NewTab = FGlobalTabmanager::Get()->TryInvokeTab(AUDIO_SFX_PLUGINTabName,true);
+//
+    const FGlobalTabmanager::FSearchPreference& FSearchPreference();
+    const FTabId TabId{ *FString::FromInt(TabCounterInt32++) };
+
+    // layout info about this tab not found //
+    TSharedRef<FGlobalTabmanager::FArea> NewAreaForTab = FGlobalTabmanager::NewArea(NewTab->GetDesiredSize())
+        ->SetOrientation(Orient_Vertical)
+        ->Split
+        (
+            FGlobalTabmanager::NewStack()
+            ->SetSizeCoefficient(0.2f)
+            ->SetHideTabWell(true)
+        )
+        ->Split
+        (
+            FGlobalTabmanager::NewStack()
+            ->SetSizeCoefficient(0.8f)
+        );
+//
+    if (FLayoutObjRef == nullptr)
+    {
+        FLayoutObjRef = FGlobalTabmanager::NewLayout("NewLayout")
+            ->AddArea
+            (
+                FGlobalTabmanager::NewPrimaryArea()
+                ->SetOrientation(Orient_Vertical)
+                ->Split
+                (
+                    FGlobalTabmanager::NewStack()
+                    ->SetSizeCoefficient(0.2f)
+                    ->SetHideTabWell(true)
+                )
+                ->Split
+                (
+                    FGlobalTabmanager::NewStack()
+                    ->SetSizeCoefficient(0.8f)
+                )
+            );
+
+        FGlobalTabmanager::Get()->SetMenuMultiBox(FLayoutObjRef, FOnGetContent::CreateStatic(&FAUDIO_SFX_PLUGINModule::GetTabContent));
+    }
+
+    const FGlobalTabmanager::FSearchPreference& FSearchPreference();
+    FName TabID = FName(*FString::FromInt(TabCounterInt32++));
+    FLayoutObjRef->GetPrimaryArea()->GetChildren()[1]->AddTab(FGlobalTabmanager::InsertNewDocumentTab(TabID, TabID, FSearchPreference, NewTab.ToSharedRef()));
+//
     FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
         AUDIO_SFX_PLUGINTabName,
         FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
