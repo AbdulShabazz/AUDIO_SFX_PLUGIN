@@ -2,11 +2,9 @@
 
 #pragma once
 
-#include <memory>
-#include <GameFramework/PlayerController.h>
-#include <Camera/CameraActor.h>
+
 #include "Tones.h"
-#include "AUDIO_SFX_PLUGINCommands.h"
+#include "AUDIO_SFX_PLUGIN.HEADERS.h"
 
 class UMGViewportComponent : public SWindow
 {
@@ -41,6 +39,7 @@ public:
     void PluginButtonClicked();
 
 public:
+    TSharedRef<SWidget> GetTabContent(const FName& TabID);
     void GeneratePerlinNoise();
     bool OnGeneratePerlinNoise();
     void FillToolBar();
@@ -48,6 +47,7 @@ public:
     void FillMenu(FMenuBuilder&);
     
 private:
+    int32 TabCounterInt32 = 0;
     void RegisterMenus();
     TSharedRef<class SDockTab> OnSpawnPluginTab(const class FSpawnTabArgs& SpawnTabArgs);
     TSharedPtr<class FUICommandList> PluginCommands;
