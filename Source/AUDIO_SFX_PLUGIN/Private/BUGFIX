@@ -39,3 +39,6 @@ NOTE: To mitigate hard-to-find-bugs -- when TSharedPtr<>, TSharedRef<>, etc. are
 
 SYMP: PluginCommands->MapAction(...) and FAUDIO_SFX_PLUGINModule::RegisterMenus() Fail to open plugin window, with the following error: LevelEditor.MainMenu.Window not found
 SOLU: AUDIO_SFX_PLUGIN.CPP: Del TSharedPtr<FUICommandList> PluginCommands; AUDIO_SFX_PLUGIN.H: Add private: TSharedPtr<FUICommandList> PluginCommands, to make PluginsCommands settings persistent
+
+SYMP: error illegal call of non static member
+SOLU: FGlobalTabmanager::InsertNewDocumentTab(...); >> FGlobalTabmanager::Get()->InsertNewDocumentTab(...);
