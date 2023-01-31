@@ -218,11 +218,18 @@ TSharedRef<SWidget> FAUDIO_SFX_PLUGINModule::GetTabContent(const FName& TabID)
                 FString ResultFStr = NameStr.ToString();
                 TCHAR* ResultTCHPTR = ResultFStr.GetCharArray().GetData();
 
-                //
+//
 
 #include <Logging/LogMacros.h>
 #include <Logging/LogVerbosity.h>
-UE_LOG(LogTemp, [Error (Red), Warning (Yellow)], TEXT("...") [,...])
+
+UE_LOG(LogTemp, [Error (Red), Warning (Yellow)], TEXT("...") [,...]);
+
+#include <Logging/LogMacros.h>
+#include <Logging/LogVerbosity.h>
+
+int32 ValueInt32 = 2;
+UE_LOG(LogTemp, Warning, TEXT("ValueInt32 = %d"), ValueInt32);
 
 //
     //UI_COMMAND(GeneratePerlinNoise, "Generate Perlin Noise", "Bring up Noise Generation settings.", EUserInterfaceActionType::Button, FInputChord());
