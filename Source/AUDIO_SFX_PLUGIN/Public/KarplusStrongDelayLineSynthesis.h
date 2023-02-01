@@ -8,7 +8,7 @@ namespace ToneLibrary
 	class KarplusStrongDelayLineSynthesis
 	{
 	public:
-		KarplusStrongDelayLineSynthesis(
+		explicit KarplusStrongDelayLineSynthesis(
 			T FrequencyInHertzFloat64T,
 			U DelayFloat64T,
 			U ReadIndexFloat64T,
