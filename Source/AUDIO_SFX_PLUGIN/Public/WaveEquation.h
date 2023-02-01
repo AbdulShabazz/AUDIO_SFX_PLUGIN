@@ -8,7 +8,7 @@ namespace ToneLibrary
 	class WaveEquation
 	{
 	public:
-		WaveEquation(T, T, T);
+		explicit WaveEquation(T, T, T);
 		void SendWaveEquationParameters(FILEINFO_Obj<T, U>&);
 		void GenerateWaveEquation(FILEINFO_Obj<T, U>&);
 	private:
