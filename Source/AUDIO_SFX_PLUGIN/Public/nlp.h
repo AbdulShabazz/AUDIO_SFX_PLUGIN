@@ -7,7 +7,9 @@
 namespace ToneLibrary
 {
 	enum class TONE_ENUM
-	{ 		defaultEnum = 0, afortioriEnum, abackEnum, abjectlyEnum, ablyEnum, abortivelyEnum, aboveboardEnum, abruptlyEnum, absentlyEnum,		absentmindedlyEnum, absolutelyEnum, abstemiouslyEnum, abstruselyEnum, academicallyEnum, accusinglyEnum, ad_hocEnum, ad_libEnum,
+	{
+ 		defaultEnum = 0, afortioriEnum, abackEnum, abjectlyEnum, ablyEnum, abortivelyEnum, aboveboardEnum, abruptlyEnum, absentlyEnum,
+		absentmindedlyEnum, absolutelyEnum, abstemiouslyEnum, abstruselyEnum, academicallyEnum, accusinglyEnum, ad_hocEnum, ad_libEnum,
 		ad_valoremEnum, adagioEnum, adamantlyEnum, additionallyEnum, adjectivallyEnum, adjectivelyEnum, admirablyEnum, admiringlyEnum,
 		admittedlyEnum, adorablyEnum, adoringlyEnum, adroitlyEnum, advisedlyEnum, affablyEnum, affectedlyEnum, affectinglyEnum, affectionatelyEnum,
 		affirmativelyEnum, after_allEnum, again_and_againEnum, against_the_clockEnum, against_the_windEnum, against_timeEnum, aggravatinglyEnum,
