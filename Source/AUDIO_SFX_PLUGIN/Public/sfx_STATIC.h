@@ -1,14 +1,16 @@
 
 #pragma once
 
+#include "Tones.Default.Settings.h"
+
 namespace ToneLibrary
 {
 
 	template<typename T, typename U>
-	class sfx_STATIC
-	{
-	public:
-		sfx_STATIC();
-	};
-    
+    class sfx_STATIC
+    {
+    public:
+        sfx_STATIC();
+    };
+
 }

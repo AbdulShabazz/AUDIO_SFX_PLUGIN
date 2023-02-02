@@ -1,14 +1,16 @@
 
 #pragma once
 
+#include "Tones.Default.Settings.h"
+
 namespace ToneLibrary
 {
 
 	template<typename T, typename U>
-	class sfx_VEHICLE
-	{
-	public:
-		sfx_VEHICLE();
-	};
-    
+    class sfx_VEHICLE
+    {
+    public:
+        sfx_VEHICLE();
+    };
+
 }
