@@ -2,7 +2,7 @@ SYMP: error C2248 'FSlateControlledConstruction::operator new': cannot access pr
 SOLU: It appears TSharedRef<> in-class type declarations, and *.toSharedRef() class members are not allowed on derived Slates 
 
 SYMP: error UMGViewportComponent derived from class SWindow, and other components - undefined
-SOLU: Remove class SWindow, class IModuleInterface, class FToolBarBuilder, class FMenuBuilder, class FViewportClient forward dedclarations into header file
+SOLU: Move forward class declarations into (global scope) header file: class SWindow, class IModuleInterface, class FToolBarBuilder, class FMenuBuilder, class FViewportClient
 
 SYMP: UE_FLOAT64 SampleRateUInt64 = 44'100_hz; // error user-defined operator not found (overloaded operator"")
 SOLU: UE_FLOAT64 SampleRateUInt64 = 44'100.0_hz; // Add float designation
@@ -28,7 +28,10 @@ SYMP: error SpringReverb.cpp: SpringReverb is not a template
 SOLU: [no namespace] ==> using namespace ToneLibrary;
 
 SYMP: error object already defined in seperate module. Multiple object definitions, ignoring.
-SOLU: Ensure includes don't branch into branching (compiled) unused source files; ensure there is only one Main. INCLUDES HIERARCHY: Tones.Default.Settings.h > ToneLibrary[App Modules + Tools + Filters etc.] > Tones.h > AUDIO_SFX_PLUGIN.h
+UNRESOLVED: Ensure includes don't branch into branching (compiled) unused source files; ensure there is only one Main. INCLUDES HIERARCHY: Tones.Default.Settings.h > ToneLibrary[App Modules + Tools + Filters etc.] > Tones.h > AUDIO_SFX_PLUGIN.h
+
+SYMP: Project builds multiple modules in final solution 
+PATCH: Remove empty or incomplete class declarations and implementations from project
 
 SYMP: error no instance of overloaded functions matches the argument list
 SOLU: PluginCommands->MapAction(..., FExecuteAction::CreateRaw(this, &GeneratePerlinNoiseMenuAPI),...); ==> PluginCommands->MapAction(...,  FExecuteAction::CreateRaw(this, &UMGViewportComponent::GeneratePerlinNoiseMenuAPI), ...);
