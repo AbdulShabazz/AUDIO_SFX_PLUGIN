@@ -30,8 +30,8 @@ SOLU: [no namespace] ==> using namespace ToneLibrary;
 SYMP: error object already defined in seperate module. Multiple object definitions, ignoring.
 UNRESOLVED: Ensure includes don't branch into branching (compiled) unused source files; ensure there is only one Main. INCLUDES HIERARCHY: Tones.Default.Settings.h > ToneLibrary[App Modules + Tools + Filters etc.] > Tones.h > AUDIO_SFX_PLUGIN.h
 
-SYMP: Project builds multiple modules in final solution 
-PATCH: Remove empty or incomplete class declarations and implementations from project
+SYMP: Project builds multiple modules
+UNRESOLVED: Remove empty or incomplete class declarations and implementations from project
 
 SYMP: error no instance of overloaded functions matches the argument list
 SOLU: PluginCommands->MapAction(..., FExecuteAction::CreateRaw(this, &GeneratePerlinNoiseMenuAPI),...); ==> PluginCommands->MapAction(...,  FExecuteAction::CreateRaw(this, &UMGViewportComponent::GeneratePerlinNoiseMenuAPI), ...);
