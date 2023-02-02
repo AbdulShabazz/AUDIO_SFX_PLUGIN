@@ -223,7 +223,7 @@ TSharedRef<SWidget> FAUDIO_SFX_PLUGINModule::GetTabContent(const FName& TabID)
 #include <Logging/LogMacros.h>
 #include <Logging/LogVerbosity.h>
 
-UE_LOG(LogTemp, [Error (Red), Warning (Yellow)], TEXT("...") [,...]);
+UE_LOG(LogTemp, [Error (Red), Warning (Yellow), Display (Beige), Fatal (outputs then crashes), Log (no console output, logfile only), Verbose (spammy), VeryVerbose (very spammy), All (Spammy + Breakpoint + Color Settings)], TEXT("...") [,...]);
 
 #include <Logging/LogMacros.h>
 #include <Logging/LogVerbosity.h>
