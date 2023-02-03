@@ -8,7 +8,7 @@ static const FName AUDIO_SFX_PLUGINTabName("AUDIO_SFX_PLUGIN");
 
 void FAUDIO_SFX_PLUGINModule::FillToolBar()
 {
-
+    
 }
 
 bool FAUDIO_SFX_PLUGINModule::OnGeneratePerlinNoise()
@@ -111,24 +111,24 @@ TSharedRef<SDockTab> FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab(const FSpawnTabAr
 void FAUDIO_SFX_PLUGINModule::PluginButtonClicked()
 {
     const FName TabName{ *FString::FromInt(TabCounterInt32++) + FString("_") + AUDIO_SFX_PLUGINTabName.ToString() };
-        
+
     // Get an icon for our nomad tab //
     const ISlateStyle& Style = FAUDIO_SFX_PLUGINStyle::Get();
     FSlateIcon Icon{ Style.GetStyleSetName(), "AUDIO_SFX_PLUGIN.OpenPluginWindow" };
 
     FText WindowText = FText::Format(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "{0}"), FText::FromString(TabName.ToString()));
-    
+
     // Add a (Toolbar) button to level editor @submenu LevelEditor.MainMenu[.Window, .Tools, ..] 
     //   in UToolMenus::RegisterStartupCallback(...)
-    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+    MyGlobalTabManagerClass::Get()->RegisterNomadTabSpawner(
         TabName,
         FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
     )
         .SetMenuType(ETabSpawnerMenuType::Enabled) // Hide this LevelEditor.MainMenu.Window button, we'll create our own...
         .SetIcon(Icon);
-    
+
     const FTabId TabId{ TabName };
-    TSharedPtr<SDockTab> CurrentTabPtr = FGlobalTabmanager::Get()->TryInvokeTab(TabId);
+    TSharedPtr<SDockTab> CurrentTabPtr = MyGlobalTabManagerClass::Get()->TryInvokeTab(TabId);
     TAttribute<FText> inAttributesTXT;
     FText WidgetLabel = FText::Format(LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool [{0}]"), FText::FromString(*FString::FromInt(TabCounterInt32-1)));
     inAttributesTXT.Set(WidgetLabel);
@@ -139,7 +139,7 @@ void FAUDIO_SFX_PLUGINModule::StartupModule()
 {
     /** This code will execute after your module is loaded into memory;
     *   the exact timing is specified in the .uplugin file per module */
-
+    
     FAUDIO_SFX_PLUGINStyle::Initialize();
     FAUDIO_SFX_PLUGINStyle::ReloadTextures();
     FAUDIO_SFX_PLUGINCommands::Register();
@@ -154,6 +154,23 @@ void FAUDIO_SFX_PLUGINModule::StartupModule()
         FCanExecuteAction(),
         FIsActionChecked());
 
+    const FName TabName{ *FString::FromInt(TabCounterInt32++) + FString("_") + AUDIO_SFX_PLUGINTabName.ToString() };
+
+    // Get an icon for our nomad tab //
+    const ISlateStyle& Style = FAUDIO_SFX_PLUGINStyle::Get();
+    FSlateIcon Icon{ Style.GetStyleSetName(), "AUDIO_SFX_PLUGIN.OpenPluginWindow" };
+
+    FText WindowText = FText::Format(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "{0}"), FText::FromString(TabName.ToString()));
+
+    // Add a (Toolbar) button to level editor @submenu LevelEditor.MainMenu[.Window, .Tools, ..] 
+    //   in UToolMenus::RegisterStartupCallback(...)
+    MyGlobalTabManagerClass::Get()->RegisterNomadTabSpawner(
+        TabName,
+        FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
+    )
+        .SetMenuType(ETabSpawnerMenuType::Enabled) // Hide this LevelEditor.MainMenu.Window button, we'll create our own...
+        .SetIcon(Icon);
+
     UToolMenus::RegisterStartupCallback(
         FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::RegisterMenus));
 }
@@ -165,11 +182,12 @@ void FAUDIO_SFX_PLUGINModule::ShutdownModule()
     *   For modules that support dynamic reloading,
     *   we call this function before unloading the module.
     */
+    //GConfig->SetArray();
     UToolMenus::UnRegisterStartupCallback(this);
     UToolMenus::UnregisterOwner(this);
     FAUDIO_SFX_PLUGINStyle::Shutdown();
     FAUDIO_SFX_PLUGINCommands::Unregister();
-    FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(AUDIO_SFX_PLUGINTabName);
+    MyGlobalTabManagerClass::Get()->UnregisterNomadTabSpawner(AUDIO_SFX_PLUGINTabName);
 }
 
 // class UMGViewportComponent //
@@ -187,6 +205,46 @@ void UMGViewportComponent::Construct(const FArguments& InArgs)
     this->SetToolTipText(ToolTipFText);    
 }
 
+bool MyGlobalTabManagerClass::CanCloseManager(const TSet<TSharedRef<SDockTab>>& TabsToIgnore)
+{
+    return FGlobalTabmanager::CanCloseManager(TabsToIgnore);
+}
+
+void MyGlobalTabManagerClass::OnTabForegrounded(const TSharedPtr<SDockTab>& NewForegroundTabPtr, const TSharedPtr<SDockTab>& BackgroundedTabPtr)
+{
+    FGlobalTabmanager::OnTabForegrounded(NewForegroundTabPtr, BackgroundedTabPtr);
+}
+
+void MyGlobalTabManagerClass::OnTabRelocated(const TSharedRef<SDockTab>& RelocatedTabRef, const TSharedPtr<SWindow>& NewOwnerWindowPtr)
+{
+    FGlobalTabmanager::OnTabRelocated(RelocatedTabRef, NewOwnerWindowPtr);
+}
+
+void MyGlobalTabManagerClass::OnTabClosing(const TSharedRef<SDockTab>& TabBeingClosedRef)
+{
+    FGlobalTabmanager::OnTabClosing(TabBeingClosedRef);
+}
+
+void MyGlobalTabManagerClass::UpdateStats()
+{
+    FGlobalTabmanager::UpdateStats();
+}
+
+void MyGlobalTabManagerClass::OpenUnmanagedTab(FName PlaceholderIdFname, const FSearchPreference& SearchPreferenceRef, const TSharedRef<SDockTab>& UnmanagedTabRef)
+{
+    FGlobalTabmanager::OpenUnmanagedTab(PlaceholderIdFname, SearchPreferenceRef, UnmanagedTabRef);
+}
+
+void MyGlobalTabManagerClass::FinishRestore()
+{
+    FGlobalTabmanager::FinishRestore();
+}
+
+void MyGlobalTabManagerClass::OnTabManagerClosing()
+{
+    FGlobalTabmanager::OnTabManagerClosing();
+}
+
 #undef LOCTEXT_NAMESPAC
-    
+
 IMPLEMENT_MODULE(FAUDIO_SFX_PLUGINModule, AUDIO_SFX_PLUGIN)
