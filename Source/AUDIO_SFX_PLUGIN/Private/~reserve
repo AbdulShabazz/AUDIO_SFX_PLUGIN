@@ -1,5 +1,31 @@
 ﻿
+//
+public:
+    MyGlobalTabManagerClass();
+   ~MyGlobalTabManagerClass();
 
+MyGlobalTabManagerClass::MyGlobalTabManagerClass()
+{
+
+}
+
+MyGlobalTabManagerClass::~MyGlobalTabManagerClass()
+{
+
+}
+//
+public:
+    DECLARE_EVENT_OneParam(OnTabCloseEventHandler, FGlobalTabmanager::OnTabClosing);
+//
+    #include <Logging/LogMacros.h>
+    #include <Logging/LogVerbosity.h>
+
+    UE_LOG(LogTemp, Warning, TEXT("FAUDIO_SFX_PLUGINModule::PluginButtonClicked( %d )"), DebugInt32++);
+//
+    bool PluginButtonClickedCalledFromStartupModuleBool = false;
+    // No need to call RegisterNomadTabSpawner via PluginButtonClicked
+    PluginButtonClickedCalledFromStartupModuleBool = true;
+//
 void FAUDIO_SFX_PLUGINModule::PluginButtonClicked()
 {
     const FName TabName{ *FString::FromInt(TabCounterInt32++) + FString("_") + AUDIO_SFX_PLUGINTabName.ToString() };
