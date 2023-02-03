@@ -45,3 +45,6 @@ SOLU: AUDIO_SFX_PLUGIN.CPP: Del TSharedPtr<FUICommandList> PluginCommands; AUDIO
 
 SYMP: error illegal call of non static member
 SOLU: FGlobalTabmanager::InsertNewDocumentTab(...); >> FGlobalTabmanager::Get()->InsertNewDocumentTab(...);
+
+SYMP: UMGViewportComponent settings passed to MyGlobalTabManagerClass aren't persistent
+SOLU: AUDIO_SFX_PLUGIN.H: class MyGlobalTabManagerClass ... >> static class MyGlobalTabManagerClass ...
