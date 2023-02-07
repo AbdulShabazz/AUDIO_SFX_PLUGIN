@@ -61,7 +61,7 @@ void FAUDIO_SFX_PLUGINModule::RegisterMenus()
     /** Owner will be used for cleanup in call to UToolMenus::UnregisterOwner */
     FToolMenuOwnerScoped OwnerScoped(this);
 
-    const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
+    static const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
 
     {
         // Add menu to the 'Window' sub menu of the level editor
@@ -98,7 +98,7 @@ TSharedRef<SDockTab> FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab(const FSpawnTabAr
 
     SNWin.Get().Construct(InArgs);
     TAttribute<FText> inAttributesTXT;
-    FText WidgetLabel = FText(LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool"));
+    FText WidgetLabel = FText(LOCTEXT("WindowWidgetText", "The Audio - SFX Design Tool"));
     inAttributesTXT.Set(WidgetLabel);
     return SNew(SDockTab)
         .TabRole(ETabRole::MajorTab)
@@ -124,13 +124,13 @@ void FAUDIO_SFX_PLUGINModule::PluginButtonClicked()
         TabName,
         FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
     )
-        .SetMenuType(ETabSpawnerMenuType::Enabled) // Hide this LevelEditor.MainMenu.Window button, we'll create our own...
+        .SetMenuType(ETabSpawnerMenuType::Hidden) // Hide this LevelEditor.MainMenu.Window button, we'll create our own...
         .SetIcon(Icon);
 
     const FTabId TabId{ TabName };
     TSharedPtr<SDockTab> CurrentTabPtr = MyGlobalTabManagerClass::Get()->TryInvokeTab(TabId);
     TAttribute<FText> inAttributesTXT;
-    FText WidgetLabel = FText::Format(LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool [{0}]"), FText::FromString(*FString::FromInt(TabCounterInt32-1)));
+    FText WidgetLabel = FText::Format(LOCTEXT("WindowWidgetText", "The Audio - SFX Design Tool [{0}]"), FText::FromString(*FString::FromInt(TabCounterInt32-1)));
     inAttributesTXT.Set(WidgetLabel);
     CurrentTabPtr->SetLabel(inAttributesTXT);
 }
@@ -199,9 +199,9 @@ void UMGViewportComponent::GeneratePerlinNoiseMenuAPI()
 
 void UMGViewportComponent::Construct(const FArguments& InArgs)
 {
-    this->SetTitle(FText::FromString(TEXT("The Audio SFX Design Tool")));    
+    this->SetTitle(FText::FromString(TEXT("The Audio - SFX Design Tool")));    
     this->bCreateTitleBar = true;    
-    FText ToolTipFText = FText::FromString(TEXT("The Audio SFX Design Tool"));    
+    FText ToolTipFText = FText::FromString(TEXT("The Audio - SFX Design Tool"));    
     this->SetToolTipText(ToolTipFText);    
 }
 
