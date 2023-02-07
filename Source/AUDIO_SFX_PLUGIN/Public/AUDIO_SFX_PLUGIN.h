@@ -10,7 +10,6 @@ class UMGViewportComponent : public SWindow
 {
 
 public:
-
     SLATE_BEGIN_ARGS(UMGViewportComponent) {}
     SLATE_END_ARGS()
 
@@ -26,7 +25,7 @@ private:
 
 };
 
-static class MyGlobalTabManagerClass : public FGlobalTabmanager
+static class MyGlobalTabManagerClass : virtual public FGlobalTabmanager
 {
 
 public:
@@ -47,6 +46,8 @@ public:
 
 class FAUDIO_SFX_PLUGINModule : public IModuleInterface
 {
+
+public:
     /** IModuleInterface implementation */
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;
