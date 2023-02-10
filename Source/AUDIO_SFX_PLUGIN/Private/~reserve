@@ -1,4 +1,739 @@
 ﻿
+
+    // Create a parameter pack 
+    template <typename... T>
+    void AddMethod(const std::string name, const T&... values)
+    {
+        T& _values = { values... } ;
+        methods[name] = &std::forward<T&>(_values[0]);
+    }
+//
+    template <typename... Args>
+    void operator~ (const std::string& name, Args&... args)
+    {
+        if (methods.count(name) == 0)
+        {
+            std::cerr << "Error: Method '" << name << "' not found." << std::endl;
+            return;
+        }
+
+        auto& method = methods[name];
+        std::visit([&](auto&& callable) {
+        using CallableType = std::decay_t<decltype(callable)>;
+        if constexpr (std::is_same_v<CallableType, std::function<void(int&, int&)>>)
+        {
+            int a = std::forward<Args>(args)...;
+            int b = std::forward<Args>(args)...;
+            std::function<bool(int&, int&)> guard = std::get<1>(methods[name]);
+            if (guard(a, b))
+            {
+                callable(a, b);
+            }
+            else
+            {
+                std::function<void()> handler = std::get<2>(methods[name]);
+                handler();
+            }
+        }
+        else if constexpr (std::is_same_v<CallableType, std::function<void()>>)
+        {
+            callable();
+        }
+        else if constexpr (std::is_same_v<CallableType, bool>)
+        {
+            std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
+        }
+        else if constexpr (std::is_same_v<CallableType, std::string>)
+        {
+            std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
+        }
+            }, method);
+    }
+//
+/**Use the spread operator to dereference a parameter pack*/
+
+template<typename... T>
+void foo(T... args) {
+  int arr[] = { (std::cout << args, 0)... };
+  (void)arr;
+}
+
+//
+template <typename WidgetType>
+class INLINE_CLASS_UE5
+{	
+public:
+	void BEGIN_INLINE_CLASS_DEFINITION_UE5()
+	{
+		bSlateBeginArgsFlag = true;
+	}
+
+	void END_INLINE_CLASS_DEFINITION_UE5()
+	{
+		bSlateBeginArgsFlag = false;
+	}
+	
+	static TSharedRef<WidgetType> New()
+	{
+		return MakeShared<WidgetType>(Arguments());
+	}
+
+	template <typename T>
+	TSharedRef<WidgetType> AddMethod(
+		const FString& Name,
+		UE5_METHOD<T&& (...)> MethodCallback,
+		UE5_METHOD<bool&& (...)> ValidationCallback = nullptr,
+		UE5_METHOD<T&& (...)> ErrorCallback = nullptr
+	) const
+	{
+		if ((!ValidationCallback || ValidationCallback(Value)) && !bSlateBeginArgsFlag)
+		{
+			_Public[Name] = std::forward<T>(MethodCallback);
+		}
+		else
+		{
+			if (ErrorCallback)
+			{
+				ErrorCallback(Name);
+			}
+		}
+		return *this;
+	}
+
+	template <typename T>
+	TSharedRef<WidgetType> AddAttribute(
+		const FString& Name, 
+		TAttribute<T> Attribute, 
+		UE5_METHOD<bool(const TAttribute<T>&)> ValidationCallback = nullptr, 
+		UE5_METHOD<void(const TAttribute<T>&)> ErrorCallback = nullptr
+	) const
+	{
+		if ((!ValidationCallback || ValidationCallback(Value)) && !bSlateBeginArgsFlag)
+		{
+			_Public[Name] = std::forward<T>(Value);
+		}
+		else
+		{
+			if (ErrorCallback)
+			{
+				ErrorCallback(Attribute);
+			}
+		}
+		return *this;
+	}
+
+	template <typename T>
+	TSharedRef<WidgetType> AddEvent(
+		const T& Name, 
+		FOnDelegate OnEvent, 
+		UE5_METHOD<bool(const FOnDelegate&)> ValidationCallback = nullptr, 
+		UE5_METHOD<void(const FOnDelegate&)> ErrorCallback = nullptr
+	) const
+	{
+		if ((!ValidationCallback || ValidationCallback(Value)) && !bSlateBeginArgsFlag)
+		{
+			_Public[Name] = std::forward<T>(Value);
+		}
+		else
+		{
+			if (ErrorCallback)
+			{
+				ErrorCallback(OnEvent);
+			}
+		}
+		return *this;
+	}
+
+	// Other (Default) Public members
+		
+	template <typename T>
+	TSharedRef<WidgetType> AddMethodPublic(
+		const FString& Name, T&& Value,
+		UE5_METHOD<bool(const T&)> ValidationCallback = nullptr,
+		UE5_METHOD<void(const T&)> ErrorCallback = nullptr
+	) const
+	{
+		if ((!ValidationCallback || ValidationCallback(Value)) && bSlateBeginArgsFlag)
+		{
+			_Public[Name] = std::forward<T>(Value);
+		}
+		else
+		{
+			if (ErrorCallback)
+			{
+				ErrorCallback(Value);
+			}
+		}
+		return *this;
+	}
+
+	template <typename T>
+	TSharedRef<WidgetType> AddAttributePublic(
+		const FString& Name,
+		TAttribute<T> Attribute,
+		UE5_METHOD<bool(const TAttribute<T>&)> ValidationCallback = nullptr,
+		UE5_METHOD<void(const TAttribute<T>&)> ErrorCallback = nullptr
+	) const
+	{
+		if ((!ValidationCallback || ValidationCallback(Attribute)) && bSlateBeginArgsFlag)
+		{
+			_Public[Name] = Attribute;
+		}
+		else
+		{
+			if (ErrorCallback)
+			{
+				ErrorCallback(Attribute);
+			}
+		}
+		return *this;
+	}
+
+	template <typename T>
+	TSharedRef<WidgetType> AddEventPublic(
+		const T& Name,
+		FOnDelegate OnEvent,
+		UE5_METHOD<bool(const FOnDelegate&)> ValidationCallback = nullptr,
+		UE5_METHOD<void(const FOnDelegate&)> ErrorCallback = nullptr
+	) const
+	{
+		if ((!ValidationCallback || ValidationCallback(OnEvent)) && bSlateBeginArgsFlag)
+		{
+			_Public[Name] = std::forward<T>(Value);
+		}
+		else
+		{
+			if (ErrorCallback)
+			{
+				ErrorCallback(OnEvent);
+			}
+		}
+		return *this;
+	}
+		
+	// Private members
+
+	template <typename T>
+	TSharedRef<WidgetType> AddMethodPrivate(
+		const FString& Name, T&& Value,
+		UE5_METHOD<bool(const T&)> ValidationCallback = nullptr,
+		UE5_METHOD<void(const T&)> ErrorCallback = nullptr
+	) const
+	{
+		if ((!ValidationCallback || ValidationCallback(Value)) && bSlateBeginArgsFlag)
+		{
+			_Private[Name] = std::forward<T>(Value);
+		}
+		else
+		{
+			if (ErrorCallback)
+			{
+				ErrorCallback(Value);
+			}
+		}
+		return *this;
+	}
+
+	template <typename T>
+	TSharedRef<WidgetType> AddAttributePrivate(
+		const FString& Name,
+		TAttribute<T> Attribute,
+		UE5_METHOD<bool(const TAttribute<T>&)> ValidationCallback = nullptr,
+		UE5_METHOD<void(const TAttribute<T>&)> ErrorCallback = nullptr,
+		UE5_METHOD<T&& (const TAttribute<T>&)> AttributeGetterCallback = nullptr,
+		UE5_METHOD<bool(const TAttribute<T>&, const T&)> AttributeSetterCallback = nullptr
+	) const
+	{
+		if ((!ValidationCallback || ValidationCallback(Attribute)) && bSlateBeginArgsFlag)
+		{
+			_Private[Name] = Attribute;
+			_Public[Name + "_AttributeGetterCallback"] = AttributeGetterCallback;
+			_Public[Name + "_AttributeSetterCallback"] = AttributeSetterCallback;
+		}
+		else
+		{
+			if (ErrorCallback)
+			{
+				ErrorCallback(Attribute);
+			}
+		}
+		return *this;
+	}
+
+	template <typename T>
+	TSharedRef<WidgetType> AddEventPrivate(
+		const T& Name,
+		FOnDelegate OnEvent,
+		UE5_METHOD<bool(const FOnDelegate&)> ValidationCallback = nullptr,
+		UE5_METHOD<void(const FOnDelegate&)> ErrorCallback = nullptr
+	) const
+	{
+		if ((!ValidationCallback || ValidationCallback(OnEvent)) && bSlateBeginArgsFlag)
+		{
+			_Private[Name] = std::forward<T>(OnEvent);
+		}
+		else
+		{
+			if (ErrorCallback)
+			{
+				ErrorCallback(OnEvent);
+			}
+		}
+		return *this;
+	}
+
+	// Member selection operator
+	template <typename T>
+	T operator->(const T& _Rkey) const
+	{
+		if (has_foo_method<this>(_Rkey)::func)
+		{
+			return; // has_foo_method<this>(_Rkey);
+		}
+		else if (has_foo_attribute<this>(_Rkey)::value)
+		{
+			return; // has_foo_attribute<this>(_Rkey);
+		}
+
+		auto it = &_Public.find(_Rkey);
+		if (it != _Public.end())
+		{
+			return it->second;
+		}
+		else
+		{
+			throw std::out_of_range("Method or Attribute not found.");
+		}
+	};
+
+	// Member selection operator
+	template <typename T>
+	T operator~(const T& _Rkey) const
+	{
+		if (has_foo_method<this>(_Rkey)::func)
+		{
+			return; // has_foo_method<this>(_Rkey);
+		}
+		else if (has_foo_attribute<this>(_Rkey)::value)
+		{
+			return; // has_foo_attribute<this>(_Rkey);
+		}
+
+		auto it = &_Public.find(_Rkey);
+		if (it != _Public.end())
+		{
+			return it->second;
+		}
+		else
+		{
+			throw std::out_of_range("Method or Attribute not found.");
+		}
+	};
+
+private:
+	bool bSlateBeginArgsFlag = false;
+	Template<typename... Args >
+	std::unordered_map<std::string, std::variant<int, bool, void*, WidgetType, UE5_METHOD<void(WidgetType*)>>> _private;
+	std::unordered_map<std::string, std::variant<int, bool, void*, WidgetType, UE5_METHOD<void(WidgetType*)>>> _public;
+
+	template <typename T>
+	class has_foo_method
+	{
+		//template <typename T>
+		static constexpr auto check(T*) -> decltype(std::declval<T>().foo(), std::true_type());
+		
+		//template <typename T>
+		static constexpr auto check(...) -> std::false_type;
+	
+	public:
+		static constexpr bool func = decltype(check<T>(0))::func;
+	};
+
+	template <typename T>
+	class has_foo_attribute
+	{
+		//template <typename T>
+		static constexpr auto check(T*) -> decltype(std::declval<T>().foo, std::true_type());
+		
+		//template <typename T>
+		static constexpr auto check(...) -> std::false_type;
+	
+	public:
+		static constexpr bool value = decltype(check<T>(0))::value;
+	};
+};
+//
+template <typename WidgetType>
+class SLATE_USER_ARGS_UE5 : public TSlateBaseNamedArgsUE5<WidgetType>
+{	
+public:
+	using Arguments = typename WidgetType::FArguments;
+//
+#include <iostream>
+#include <variant>
+#include <string>
+template <typename T, typename... Args>
+using FUNC = std::function<T(Args...)>;
+
+template <typename T, typename U, typename... Args>
+using VARIANT = std::variant<FUNC<T, Args...>, U>;
+
+Example usage:
+
+/** v is a VARIANT that can hold either a std::function that takes an int and returns an int, or a std::string */ 
+VARIANT<int, std::string, int> v;
+
+//
+#include <typeinfo>
+
+template <typename... Ts>
+struct overloaded : Ts...
+{
+    using Ts::operator()...;
+};
+template <typename... Ts>
+overloaded(Ts...) -> overloaded<Ts...>;
+
+std::variant<int, float, std::string, bool, char> var;
+
+void PrintVar(const auto& var)
+{
+    std::visit(overloaded{
+        [](int x) { std::cout << "int: " << x << std::endl; },
+        [](float x) { std::cout << "float: " << x << std::endl; },
+        [](const std::string& x) { std::cout << "string: " << x << std::endl; },
+        [](bool x) { std::cout << "bool: " << x << std::endl; },
+        [](char x) { std::cout << "char: " << x << std::endl; }
+    }, var);
+}
+
+int main()
+{
+    var = 42;
+    PrintVar(var);
+    var = 3.14f;
+    PrintVar(var);
+    var = "Hello, world!";
+    PrintVar(var);
+    var = true;
+    PrintVar(var);
+    var = 'x';
+    PrintVar(var);
+    return 0;
+}
+
+//
+	template <typename T>
+	T operator.(const T& _Pkey) const 
+	{
+		if (has_foo_method<this>(_Pkey))
+		{
+			return has_foo_method<this>(_Pkey);
+		}
+		else if (has_foo_attribute<this>(_Pkey))
+		{
+			return has_foo_attribute<this>(_Pkey);
+		}
+
+		auto it = _Public.find(_Pkey);
+		if (it != _Public.end())
+		{
+			return it->second;
+		}
+		else
+		{
+			throw std::out_of_range("Method or Attribute not found.");
+		}
+	};
+//
+class MyClass {
+public:
+  struct MyProxy {
+    int x;
+    int y;
+
+    int operator->*(int) {
+      return x + y;
+    }
+  };
+
+  MyProxy operator->() {
+    return { x, y };
+  }
+
+private:
+  int x = 0;
+  int y = 0;
+};
+
+int main() {
+  MyClass obj;
+  obj->*3;  // equivalent to (obj.operator->())->*(3)
+  return 0;
+}
+
+//	
+	TSharedRef<WidgetType> _internal()
+	{
+		return *this;
+	}
+//
+	struct FArguments
+	{
+		using WidgetArgsType = FArguments;
+		FORCENOINLINE FArguments() {}
+
+		template <typename T>
+		this_t& AddMethod(
+			const FString& Name, T&& Value, 
+			std::function<bool(const T&)> ValidationCallback = nullptr, 
+			std::function<void(const T&)> ErrorCallback = nullptr
+		) const
+		{
+			if (!ValidationCallback || ValidationCallback(Value))
+			{
+				_Public[Name] = std::forward<T>(Value);
+				NamedArgs.Add(Name, std::forward<T>(Value));
+			}
+			else
+			{
+				if (ErrorCallback)
+				{
+					ErrorCallback(Value);
+				}
+			}
+			return *self;
+		}
+
+		template <typename T>
+		this_t& AddAttribute(
+			const FString& Name, 
+			TAttribute<T> Attribute, 
+			std::function<bool(const TAttribute<T>&)> ValidationCallback = nullptr, 
+			std::function<void(const TAttribute<T>&)> ErrorCallback = nullptr
+		) const
+		{
+			if (!ValidationCallback || ValidationCallback(Attribute))
+			{
+				_Public[Name] = std::forward<T>(Value);
+				NamedArgs.Add(Name, Attribute);
+			}
+			else
+			{
+				if (ErrorCallback)
+				{
+					ErrorCallback(Attribute);
+				}
+			}
+			return *self;
+		}
+
+		template <typename T>
+		this_t& AddEvent(
+			const T& Name, 
+			FOnDelegate OnEvent, 
+			std::function<bool(const FOnDelegate&)> ValidationCallback = nullptr, 
+			std::function<void(const FOnDelegate&)> ErrorCallback = nullptr
+		) const
+		{
+			if (!ValidationCallback || ValidationCallback(OnEvent))
+			{
+				_Public[Name] = std::forward<T>(Value);
+				NamedArgs.Add(Name, OnEvent);
+			}
+			else
+			{
+				if (ErrorCallback)
+				{
+					ErrorCallback(OnEvent);
+				}
+			}
+			return *self;
+		}
+
+		// Other (Default) Public members
+		
+		template <typename T>
+		this_t& AddMethodPublic(
+			const FString& Name, T&& Value,
+			std::function<bool(const T&)> ValidationCallback = nullptr,
+			std::function<void(const T&)> ErrorCallback = nullptr
+		) const
+		{
+			if ((!ValidationCallback || ValidationCallback(Value)) && bSlateBeginArgsFlag)
+			{
+				_Public[Name] = std::forward<T>(Value);
+				NamedArgs.Add(Name, std::forward<T>(Value));
+			}
+			else
+			{
+				if (ErrorCallback)
+				{
+					ErrorCallback(Value);
+				}
+			}
+			return *self;
+		}
+
+		template <typename T>
+		this_t& AddAttributePublic(
+			const FString& Name,
+			TAttribute<T> Attribute,
+			std::function<bool(const TAttribute<T>&)> ValidationCallback = nullptr,
+			std::function<void(const TAttribute<T>&)> ErrorCallback = nullptr
+		) const
+		{
+			if ((!ValidationCallback || ValidationCallback(Attribute)) && bSlateBeginArgsFlag)
+			{
+				_Public[Name] = std::forward<T>(Value);
+				NamedArgs.Add(Name, Attribute);
+			}
+			else
+			{
+				if (ErrorCallback)
+				{
+					ErrorCallback(Attribute);
+				}
+			}
+			return *self;
+		}
+
+		template <typename T>
+		this_t& AddEventPublic(
+			const T& Name,
+			FOnDelegate OnEvent,
+			std::function<bool(const FOnDelegate&)> ValidationCallback = nullptr,
+			std::function<void(const FOnDelegate&)> ErrorCallback = nullptr
+		) const
+		{
+			if ((!ValidationCallback || ValidationCallback(OnEvent)) && bSlateBeginArgsFlag)
+			{
+				_Public[Name] = std::forward<T>(Value);
+				NamedArgs.Add(Name, OnEvent);
+			}
+			else
+			{
+				if (ErrorCallback)
+				{
+					ErrorCallback(OnEvent);
+				}
+			}
+			return *self;
+		}
+		
+		// Private members
+
+		template <typename T>
+		this_t& AddMethodPrivate(
+			const FString& Name, T&& Value,
+			std::function<bool(const T&)> ValidationCallback = nullptr,
+			std::function<void(const T&)> ErrorCallback = nullptr
+		) const
+		{
+			if ((!ValidationCallback || ValidationCallback(Value)) && bSlateBeginArgsFlag)
+			{
+				_Private[Name] = std::forward<T>(Value);
+				NamedArgs.Add(Name, std::forward<T>(Value));
+			}
+			else
+			{
+				if (ErrorCallback)
+				{
+					ErrorCallback(Value);
+				}
+			}
+			return *self;
+		}
+
+		template <typename T>
+		this_t& AddAttributePrivate(
+			const FString& Name,
+			TAttribute<T> Attribute,
+			std::function<bool(const TAttribute<T>&)> ValidationCallback = nullptr,
+			std::function<void(const TAttribute<T>&)> ErrorCallback = nullptr
+		) const
+		{
+			if ((!ValidationCallback || ValidationCallback(Attribute)) && bSlateBeginArgsFlag)
+			{
+				_Private[Name] = std::forward<T>(Value);
+				NamedArgs.Add(Name, Attribute);
+			}
+			else
+			{
+				if (ErrorCallback)
+				{
+					ErrorCallback(Attribute);
+				}
+			}
+			return *self;
+		}
+
+		template <typename T>
+		this_t& AddEventPrivate(
+			const T& Name,
+			FOnDelegate OnEvent,
+			std::function<bool(const FOnDelegate&)> ValidationCallback = nullptr,
+			std::function<void(const FOnDelegate&)> ErrorCallback = nullptr
+		) const
+		{
+			if ((!ValidationCallback || ValidationCallback(OnEvent)) && bSlateBeginArgsFlag)
+			{
+				_Private[Name] = std::forward<T>(Value);
+				NamedArgs.Add(Name, OnEvent);
+			}
+			else
+			{
+				if (ErrorCallback)
+				{
+					ErrorCallback(OnEvent);
+				}
+			}
+			return *self;
+		}
+	};
+
+/**
+* Widget authors can use SLATE_BEGIN_ARGS_UE5 and SLATE_END_ARGS_UE5 to add support
+* for widget construction via SNew and SAssignNew. This refactored macro definition 
+* allows for validation of arguments using a truthy-type callback and supports custom 
+* argument types. It also provides error handling using an error handling callback for each argument. 
+* Additionally, the macro is written to be C++23 compliant, is more maintainable, 
+* as it can be easily modified and extended as needed.
+* 
+* Example usage:
+*
+*    this->SLATE_BEGIN_ARGS();
+*    .
+*    .
+*    this->SLATE_END_ARGS();
+*/
+template<typename ArgsType>
+struct SLATE_BEGIN_ARGS_UE5
+{
+	ArgsType() = default;
+
+	template<typename Type, typename Name, typename DefaultValue>
+	struct Argument
+	{
+		Type name{ DefaultValue };
+		bool name_set{ false };
+		template <typename ValidateCallback>
+		Type& Validate(ValidateCallback&& ValidateFunction)
+		{
+			if (!std::forward<ValidateCallback>(ValidateFunction)(name))
+			{
+				HandleValidationError(Name);
+			}
+			return name;
+		}
+	};
+
+	void HandleValidationError(const char* ArgumentName)
+	{
+		throw std::invalid_argument("Invalid argument: " + std::string(ArgumentName));
+	}
+};
+
 //
 public:
     MyGlobalTabManagerClass();
