@@ -48,3 +48,16 @@ SOLU: FGlobalTabmanager::InsertNewDocumentTab(...); >> FGlobalTabmanager::Get()-
 
 SYMP: UMGViewportComponent settings passed to MyGlobalTabManagerClass aren't persistent
 SOLU: AUDIO_SFX_PLUGIN.H: class MyGlobalTabManagerClass ... >> static class MyGlobalTabManagerClass ...
+
+SYMP: Direct Derived UE classes incur large memory overhead: 
+    class MyGlobalTabManagerClass : public FGlobalTabmanager
+    class UMGViewportComponent : public SWindow
+    .
+    .
+    etc
+SOLU: virtual inheritance provides significant memory savings, however at the cost of added processing time
+    class MyGlobalTabManagerClass : virtual public FGlobalTabmanager
+    class UMGViewportComponent : virtual public SWindow
+    .
+    .
+    etc
