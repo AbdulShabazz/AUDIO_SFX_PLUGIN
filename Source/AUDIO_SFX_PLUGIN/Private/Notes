@@ -421,3 +421,13 @@ Phoneme phrases, separated by hyphens, can be synthesized in parallel.
 NOTE:
 
 UE Widget Reflector (Viewer) : Ctl + SHIFT + W
+
+NOTE:
+
+Unreal Engine provides the ability to add attributes and methods to a class definition at runtime 
+through its reflection system. This system allows you to inspect, modify, and extend the properties 
+and functions of Unreal Engine classes during runtime. The reflection system is used in various parts 
+of the engine and is exposed through the UObject macro system and the FUnrealEngineExportedClasses helper. 
+This system enables the dynamic creation and manipulation of UObject-based classes and is the foundation 
+for Unreal Engine's Blueprint Visual Scripting system, allowing users to extend the engine and create 
+their own custom behavior without writing any code.
