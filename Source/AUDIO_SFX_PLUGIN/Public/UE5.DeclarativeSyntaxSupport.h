@@ -59,7 +59,7 @@ While optimizations can improve performance, they may also make the codebase mor
  along with default values, through a minimal class interface.
  And facilitates validation of each argument by accepting a truthy-type callback.
  It also provides error handling using an error handling callback for each argument.
- Additionally, the dynamic implementation is written to be C++23 compliant, is more maintainable, 
+ Additionally, the dynamic implementation is written to be C++20 compliant, is more maintainable, 
  as it can be easily modified and extended as needed.
 
  The Visual Studio compiler automatically attempts to inline class methods defined in header file classes, 
@@ -128,6 +128,7 @@ While optimizations can improve performance, they may also make the codebase mor
 #include <variant>
 #include <string>
 #include <functional>
+#include <algorithm>
 
 
 template <typename WidgetType>
@@ -139,18 +140,21 @@ public:
 
     void BEGIN_INLINE_CLASS_DEFINITION_UE5()
     {
-        bSlateBeginArgsFlag = true;
+        bBeginArgsFlag = true;
     }
 
     void END_INLINE_CLASS_DEFINITION_UE5()
     {
-        bSlateBeginArgsFlag = false;
+        bBeginArgsFlag = false;
     }
 
     template <typename T, typename... Args>
     void AddMethod(const T& name, const Args&&... values)
     {
-        methods[name] = std::forward<T>(values[0]);
+        if((!values[1] || values[1])()) && !bBeginArgsFlag)
+        {
+            methods[name] = std::forward<T>(values[0]);
+        }
     }
 
     template <typename... Args>
@@ -201,6 +205,6 @@ public:
     }
 
 private:
-    bSlateBeginArgsFlag = false;
+    bBeginArgsFlag = false;
     std::map<std::string, std::variant<std::string, std::function<void(int&, int&)>, bool, void>> methods;
 };
