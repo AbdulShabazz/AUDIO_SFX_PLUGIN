@@ -1,5 +1,29 @@
-﻿
+﻿template <typename T, typename... Args>
+void AddMethod(const T& name, const Args&&... values)
+{
+    if((!values[1] || values[1])()) && !bBeginArgsFlag)
+    {
+        methods[name] = std::forward<T>(values[0]);
+    }
+}
 
+using TwoIntRefParams = std::vector<std::variant<int&>>;
+using TwoIntRefParamRefs = std::vector<std::variant<int&>>&;
+TwoIntRefParamRefs v = TwoIntRefParams(2);
+beta& BetaTestClass = beta::New();
+BetaTestClass.AddMethod<
+    std::string,
+    TwoIntRefParamRefs,
+    std::function<void ()>,
+    std::function<bool ()>,
+    std::function<void ()> 
+    >(
+    "Add", v,
+    [this]() { std::cout << "Hello World!" << std::endl; },
+    [this]() { return true;/*a >= 0 && b >= 0;*/ },
+    [this]() { std::cout << "Warning: One or more parameters less than zero!" << std::endl; }
+);
+//
     // Create a parameter pack 
     template <typename... T>
     void AddMethod(const std::string name, const T&... values)
