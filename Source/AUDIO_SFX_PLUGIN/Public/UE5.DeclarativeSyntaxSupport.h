@@ -129,21 +129,27 @@ While optimizations can improve performance, they may also make the codebase mor
 #include <string>
 #include <functional>
 #include <algorithm>
+#include <stdexcept>
 
 
 template <typename WidgetType>
 class INLINE_CLASS_UE5
 {
 public:
-     INLINE_CLASS_UE5() {}
-    ~INLINE_CLASS_UE5() {}
+    #define BEGIN_CLASS_DEFINITION_UE5(MyInlineClass, ...) \
+    template <typename OtherWidgetType> \
+    class #MyInlineClass : public INLINE_CLASS_UE5, __VA_ARGS__ \
+    { \
 
-    void BEGIN_INLINE_CLASS_DEFINITION_UE5()
+    #define END_CLASS_DEFINITION_UE5() \
+	}; \
+
+    void BEGIN_CLASS_MEMBER_DEFINITIONS_UE5()
     {
         bBeginArgsFlag = true;
     }
 
-    void END_INLINE_CLASS_DEFINITION_UE5()
+    void END_CLASS_MEMBER_DEFINITIONS_UE5()
     {
         bBeginArgsFlag = false;
     }
@@ -151,52 +157,143 @@ public:
     template <typename T, typename... Args>
     void AddMethod(const T& name, const Args&&... values)
     {
-        if((!values[1] || values[1])()) && !bBeginArgsFlag)
+        int MethodParams = 0
+        int MethodBody = 1
+		int ValidationCallback = 2;
+        int ErrorCallback = 3;
+        
+        if((!values[ValidationCallback] || values[ValidationCallback](values[MethodParams])) && !bBeginArgsFlag)
         {
-            methods[name] = std::forward<T>(values[0]);
+            _public[name] = std::forward<T>(values[MethodBody]);
+            _public[name + "_ValidationCallback"] = std::forward<T>(values[ValidationCallback]);
+            _public[name + "_ErrorCallback"] = std::forward<T>(values[ErrorCallback]);
+        }
+        else if(values[ErrorCallback] /* && has_foo_method<>::func*/)
+        {
+            values[ErrorCallback](values[MethodParams]);
+        }
+        else
+        {
+			throw std::runtime_error("Error: Invalid ValidationCallback parameter!");
         }
     }
 
-    template <typename... Args>
-    void operator~ (const std::string& name, Args&&... args)
+    template <typename T, typename... Args>
+    void AddAttribute(const T& name, const Args&&... values)
     {
-        if (methods.count(name) == 0)
+        int AttributeParams = 0;
+        int ValidationCallback = 1;
+        int ErrorCallback = 2;
+
+        if ((!values[ValidationCallback] || values[ValidationCallback](values[AttributeParams])) && !bBeginArgsFlag)
+        { 
+            _private[name] = values[AttributeParams];
+            _public[name + "_Accessor"] = [this](auto& a) 
+            {
+                if (a != NULL)
+                {
+					_private[name] = a;
+                }
+                else
+                {
+					a = _private[name];
+                }
+				return _private[name];
+            };
+            _public[name + "_ValidationCallback"] = std::forward<T>(values[ValidationCallback]);
+            _public[name + "_ErrorCallback"] = std::forward<T>(values[ErrorCallback]);
+        }
+        else if (values[ErrorCallback] /* && has_foo_method<WidgetType>::func*/)
         {
-            std::cerr << "Error: Method '" << name << "' not found." << std::endl;
+            values[ErrorCallback](values[AttributeParams]);
+        }
+        else
+        {
+            throw std::runtime_error("Error: Invalid ValidationCallback parameter!");
+        }
+    }
+
+    void operator~> (const std::string& name)
+    {
+        if (_public.count(name) == 0)
+        {
+            std::cerr << "Error: Method or Attribute'" << name << "' not found." << std::endl;
             return;
         }
 
-        auto& method = methods[name];
+        auto& method = _public[name];
         std::visit([&](auto&& callable) {
             using CallableType = std::decay_t<decltype(callable)>;
-        if constexpr (std::is_same_v<CallableType, std::function<void(int&, int&)>>)
-        {
-            int a = std::forward<Args>(args)...;
-            int b = std::forward<Args>(args)...;
-            std::function<bool(int&, int&)> guard = std::get<1>(methods[name]);
-            if (guard(a, b))
+            if constexpr (std::is_same_v<CallableType, std::function<void(int&, int&)>>)
             {
-                callable(a, b);
+                int a = std::forward<Args>(args)...;
+                int b = std::forward<Args>(args)...;
+                std::function<bool(int&, int&)> guard = std::get<1>(_public[name]);
+                if (guard(a, b))
+                {
+                    callable(a, b);
+                }
+                else
+                {
+                    std::function<void()> handler = std::get<2>(_public[name]);
+                    handler();
+                }
             }
-            else
+            else if constexpr (std::is_same_v<CallableType, std::function<void()>>)
             {
-                std::function<void()> handler = std::get<2>(methods[name]);
-                handler();
+                callable();
             }
-        }
-        else if constexpr (std::is_same_v<CallableType, std::function<void()>>)
+            else if constexpr (std::is_same_v<CallableType, bool>)
+            {
+                std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
+            }
+            else if constexpr (std::is_same_v<CallableType, std::string>)
+            {
+                std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
+            }
+        }, method);
+    }
+
+    template <typename... Args>
+    void operator~ (const std::string& name, Args&... OtherArgs)
+    {
+        if (_public.count(name) == 0)
         {
-            callable();
+            std::cerr << "Error: Method or Attribute'" << name << "' not found." << std::endl;
+            return;
         }
-        else if constexpr (std::is_same_v<CallableType, bool>)
-        {
-            std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
-        }
-        else if constexpr (std::is_same_v<CallableType, std::string>)
-        {
-            std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
-        }
-            }, method);
+
+        auto& method = _public[name];
+        std::visit([&](auto&& callable) {
+            using CallableType = std::decay_t<decltype(callable)>;
+            if constexpr (std::is_same_v<CallableType, std::function<void(int&, int&)>>)
+            {
+                int a = std::forward<Args>(args)...;
+                int b = std::forward<Args>(args)...;
+                std::function<bool(int&, int&)> guard = std::get<1>(_public[name]);
+                if (guard(a, b))
+                {
+                    callable(a, b);
+                }
+                else
+                {
+                    std::function<void()> handler = std::get<2>(_public[name]);
+                    handler();
+                }
+            }
+            else if constexpr (std::is_same_v<CallableType, std::function<void()>>)
+            {
+                callable();
+            }
+            else if constexpr (std::is_same_v<CallableType, bool>)
+            {
+                std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
+            }
+            else if constexpr (std::is_same_v<CallableType, std::string>)
+            {
+                std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
+            }
+        }, method);
     }
 
     static WidgetType&& New() {
@@ -206,5 +303,32 @@ public:
 
 private:
     bBeginArgsFlag = false;
-    std::map<std::string, std::variant<std::string, std::function<void(int&, int&)>, bool, void>> methods;
+    std::unordered_map<std::string, std::variant<std::string, std::function<void(int&, int&)>, bool, void>> _public;
+    std::unordered_map<std::string, std::variant<std::string, std::function<void(int&, int&)>, bool, void>> _private;
+
+    template <typename T>
+    class has_foo_method
+    {
+        //template <typename T>
+        static constexpr auto CheckMethod(T*) -> decltype(std::declval<T>().foo(), std::true_type());
+
+        //template <typename T>
+        static constexpr auto CheckMethod(...) -> std::false_type;
+
+    public:
+        static constexpr bool func = decltype(CheckMethod<T>(0))::func;
+    };
+
+    template <typename T>
+    class has_foo_attribute
+    {
+        //template <typename T>
+        static constexpr auto CheckAttribute(T*) -> decltype(std::declval<T>().foo, std::true_type());
+
+        //template <typename T>
+        static constexpr auto CheckAttribute(...) -> std::false_type;
+
+    public:
+        static constexpr bool value = decltype(CheckAttribute<T>(0))::value;
+    };
 };
