@@ -1,4 +1,98 @@
-﻿template <typename T, typename... Args>
+﻿
+     //INLINE_CLASS_UE5() {}
+    //~INLINE_CLASS_UE5() {}
+//
+    template <typename... Args>
+    void operator~ (const std::string& name, Args&&... args)
+//
+
+// The MyInlineClass template allows you to define a class with a variable number of base classes.
+// The Base parameter pack represents the base classes to inherit from.
+
+template<typename... Base>
+class MyInlineClass : public Base...
+{
+    // class definition
+};
+
+// This recursive template definition handles the case where there is only one base class (the base case),
+// and the case where there are two or more base classes (the recursive case).
+template<typename T, typename... Args>
+class MyInlineClass<T, Args...> : public std::conditional_t<
+        std::is_base_of_v<T, Args> || std::is_same_v<T, Args>...,
+
+        // Inherit from a MyInlineClass instance with the first base class removed from the parameter pack.
+        MyInlineClass<Args...>,
+
+        std::conditional_t<
+            std::is_same_v<T, private>,
+
+            // Construct the class without T as a base class.
+            MyInlineClass<Args...>,
+
+            std::conditional_t<
+                std::is_same_v<T, virtual>,
+
+                // Construct the class with the remaining base classes as virtual base classes.
+                MyInlineClass<virtual Args...>,
+
+                // Construct the class with T as a base class.
+                MyInlineClass<T, Args...>
+            >
+        >
+    >
+{
+    // class definition
+};
+
+
+Example usage:
+
+// Define some base classes.
+class BaseClass {};
+
+class DerivedClass {};
+
+// Define some new classes using MyInlineClass.
+using MyClass1 = MyInlineClass<BaseClass, DerivedClass>;
+
+using MyClass2 = MyInlineClass<virtual BaseClass, DerivedClass>;
+
+using MyClass3 = MyInlineClass<private, BaseClass, DerivedClass>;
+
+using MyClass4 = MyInlineClass<BaseClass, virtual DerivedClass, private BaseClass>;
+
+
+//
+    template <typename T, typename... Args>
+    void AddAttribute(const T& name, const Args&&... values)
+    {
+        int AttributeParams = 0;
+        int AttributeBody = 1;
+        int AttributeGetter = 2;
+        int AttributeSetter = 3;
+        int ValidationCallback = 4;
+        int ErrorCallback = 5;
+
+        if ((!values[ValidationCallback] || values[ValidationCallback](values[AttributeParams])) && !bBeginArgsFlag)
+        {
+            _public[name] = values[AttributeBody];
+            _public[name + "_Accessor"] = values[AttributeGetter];
+            _public[name + "_AttributeSetter"] = values[AttributeSetter];
+            _public[name + "_ValidationCallback"] = std::forward<T>(values[ValidationCallback]);
+            _public[name + "_ErrorCallback"] = std::forward<T>(values[ErrorCallback]);
+        }
+        else if (values[ErrorCallback] /* && has_foo_method<WidgetType>::func*/)
+        {
+            values[ErrorCallback](values[MethodParams]);
+        }
+        else
+        {
+            throw std::runtime_error("Error: Invalid ValidationCallback parameter!");
+        }
+    }
+//
+template <typename T, typename... Args>
 void AddMethod(const T& name, const Args&&... values)
 {
     if((!values[1] || values[1])()) && !bBeginArgsFlag)
@@ -360,6 +454,22 @@ private:
 	std::unordered_map<std::string, std::variant<int, bool, void*, WidgetType, UE5_METHOD<void(WidgetType*)>>> _private;
 	std::unordered_map<std::string, std::variant<int, bool, void*, WidgetType, UE5_METHOD<void(WidgetType*)>>> _public;
 
+    /** 
+    
+        Example usage: 
+    
+        struct A
+        {
+            int bar;
+        };
+
+        int main()
+        {
+            static_assert(has_foo_method<A>::func, "A does not have a func method");
+            return 0;
+        }  
+        
+    */
 	template <typename T>
 	class has_foo_method
 	{
@@ -372,7 +482,23 @@ private:
 	public:
 		static constexpr bool func = decltype(check<T>(0))::func;
 	};
+    
+    /**
+    
+        Example usage: 
+    
+        struct A
+        {
+            int bar;
+        };
 
+        int main()
+        {
+            static_assert(has_foo_attribute<A>::value, "A does not have a value attribute");
+            return 0;
+        }
+        
+    */
 	template <typename T>
 	class has_foo_attribute
 	{
