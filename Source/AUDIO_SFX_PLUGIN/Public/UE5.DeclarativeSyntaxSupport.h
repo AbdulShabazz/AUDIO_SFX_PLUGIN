@@ -131,6 +131,15 @@ While optimizations can improve performance, they may also make the codebase mor
 #include <algorithm>
 #include <stdexcept>
 
+struct TRefParams
+{
+    explicit TRefParams(TRefParams& TwoIntRefParamABObjRef) : _a{ TwoIntRefParamABObjRef._a }, _b{ TwoIntRefParamABObjRef._b } {};
+
+    TRefParams() : _a{ 0 }, _b{ 0 } {};
+
+    int _a;
+    int _b;
+};
 
 template <typename WidgetType>
 class INLINE_CLASS_UE5
@@ -160,13 +169,16 @@ public:
         bBeginArgsFlag = false;
     }
 
-    template <typename T, typename... Args>
-    void AddMethod(const T& name, const Args&&... values)
+    template <typename... Args>
+    void AddMethod(Args&&... values)
     {
-        int MethodParams = 0
-        int MethodBody = 1
-		int ValidationCallback = 2;
-        int ErrorCallback = 3;
+        int MethodName = 0;
+        int MethodParams = 1;
+        int MethodBody = 2;
+		int ValidationCallback = 3;
+        int ErrorCallback = 4;
+
+		std::string name = (values[MethodName];
         
         if((!values[ValidationCallback] || values[ValidationCallback](values[MethodParams])) && !bBeginArgsFlag)
         {
@@ -184,8 +196,8 @@ public:
         }
     }
 
-    template <typename T, typename... Args>
-    void AddAttribute(const T& name, const Args&&... values)
+    template <typename... Args>
+    void AddAttribute(std::string& name, Args&&... values)
     {
         int AttributeParams = 0;
         int ValidationCallback = 1;
@@ -219,47 +231,87 @@ public:
         }
     }
 
-    // object selection operator
-    struct TwoIntRefParamRefsAB;
-    void operator >> (TwoIntRefParamsAB&& params)
+    class TReturnParams
     {
-		std::string name = _NameStdStr;
-        if (!params)
+	public:
+        explicit TReturnParams(
+            UE5_VARIANT_METHOD
+            <
+            std::function<TRefParams& (TRefParams&)>,
+            TRefParams&
+            >
+            (
+                std::function<TRefParams& (TRefParams&)> InlineFuncRef,
+                TRefParams& TwoIntRefParamABObjRef
+                )
+        ) {};
+
+		explicit TReturnParams(TRefParams& TwoIntRefParamABObjRef) : _TwoIntRefParamABObjRef{ TwoIntRefParamABObjRef = TRefParams() } {};
+
+		explicit TReturnParams() : _TwoIntRefParamABObjRef{ TRefParams() } {};
+
+        TRefParams& operator >> (TRefParams&& params)
+        {
+            std::string name = _NameStdStr;
+            if (!params)
+            {
+                std::cerr << "Error: Method or Attribute'" << name << "' missing _Accessor or params." << std::endl;
+            }
+            else
+            {
+                std::string ValidationCallback = name + "_ValidationCallback";
+                std::string ErrorCallback = name + "_ErrorCallback";
+                if (_public.find[ValidationCallback](params))
+                {
+                    std::string nameAccessor = name + "_Accessor";
+                    if (_public.count(nameAccessor))
+                    {
+                        _public.find(nameAccessor)(params);
+                    }
+                    else
+                    {
+                        _public.find(name)(params);
+                    }
+                }
+                else
+                {
+                    _public.find(ErrorCallback)(params);
+                }
+            }
+        };
+        
+    private:
+        TRefParams& _TwoIntRefParamABObjRef;
+	};
+    
+    // object selection operator
+    TReturnParams& operator >> (const std::string& name)
+    {
+        std::string name = _NameStdStr;
+        if (name == "")
         {
             std::cerr << "Error: Method or Attribute'" << name << "' missing _Accessor or params." << std::endl;
         }
         else
         {
-		    std::string ValidationCallback = name + "_ValidationCallback";
-			std::string ErrorCallback = name + "_ErrorCallback";
-			if (_public.find[ValidationCallback](params))
-			{
-			    std::string nameAccessor = name + "_Accessor";
+            std::string ValidationCallback = name + "_ValidationCallback";
+            std::string ErrorCallback = name + "_ErrorCallback";
+            if (_public.find[ValidationCallback](params))
+            {
+                std::string nameAccessor = name + "_Accessor";
                 if (_public.count(nameAccessor))
                 {
                     _public.find(nameAccessor)(params);
                 }
                 else
                 {
-					_public.find(name)(params);
-				}
-			} 
+                    _public.find(name)(params);
+                }
+            }
             else
             {
                 _public.find[ErrorCallback](params);
             }
-        }
-    }
-    
-    void operator >> (const std::string& name)
-    {
-        if (_public.count(name) == 0)
-        {
-            std::cerr << "Error: Method or Attribute'" << name << "' not found." << std::endl;
-        }
-        else
-        {
-            this->_NameStdStr = name;
         }
     }
 
