@@ -261,7 +261,7 @@ public:
             {
                 std::string ValidationCallback = name + "_ValidationCallback";
                 std::string ErrorCallback = name + "_ErrorCallback";
-                if (_public.find[ValidationCallback](params))
+                if (_public.find(ValidationCallback)(params))
                 {
                     std::string nameAccessor = name + "_Accessor";
                     if (_public.count(nameAccessor))
