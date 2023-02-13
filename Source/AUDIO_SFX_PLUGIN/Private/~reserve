@@ -1,4 +1,98 @@
-﻿
+﻿#include <functional>
+#include <string>
+#include <memory>
+
+class ParamWrapper {
+public:
+    virtual ~ParamWrapper() {}
+    virtual std::unique_ptr<ParamWrapper> clone() const = 0;
+    virtual void* get() const = 0;
+};
+
+template<typename T>
+class TypedParamWrapper : public ParamWrapper {
+public:
+    TypedParamWrapper(T&& value) : value_(std::move(value)) {}
+
+    std::unique_ptr<ParamWrapper> clone() const override {
+        return std::make_unique<TypedParamWrapper<T>>(value_);
+    }
+
+    void* get() const override {
+        return static_cast<void*>(&value_);
+    }
+
+private:
+    T value_;
+};
+
+class BetaTestClass {
+public:
+    class CustomClass {
+    public:
+        CustomClass(std::function<void(void*)> func, std::unique_ptr<ParamWrapper>&& param) :
+            func_(func), param_(std::move(param)) {}
+
+        template<typename T>
+        void operator>>(T&& param) {
+            auto cloned_param = param_->clone();
+            *(static_cast<T*>(cloned_param->get())) = std::forward<T>(param);
+            func_(cloned_param->get());
+        }
+
+    private:
+        std::function<void(void*)> func_;
+        std::unique_ptr<ParamWrapper> param_;
+    };
+
+    CustomClass operator>>(const std::string& func_name) {
+        auto func = functions_[func_name];
+        auto param_wrapper = std::make_unique<ParamWrapper>();
+        return CustomClass(func, std::move(param_wrapper));
+    }
+
+private:
+    static std::map<std::string, std::function<void(void*)>> functions_;
+};
+
+std::map<std::string, std::function<void(void*)>> BetaTestClass::functions_ = {
+    {"MyCustomMethod", [](void* param){ /* implementation of the function */ }},
+};
+
+Example usage:
+
+#include <iostream>
+
+struct MyParams {
+    int a;
+    double b;
+};
+
+void myCustomFunction(void* param) {
+    auto typed_param = static_cast<MyParams*>(param);
+    std::cout << "a: " << typed_param->a << ", b: " << typed_param->b << std::endl;
+}
+
+int main() {
+    BetaTestClass beta;
+    auto custom = beta >> "MyCustomMethod";
+
+    MyParams params = { 42, 3.14 };
+    custom >> params;
+
+    // or...
+
+    beta >> "MyCustomMethod >> params{ 42, 3.14 };
+}
+
+
+//
+    //template <typename WidgetType>
+    struct TwoIntRefParamsAB;
+    void operator >> (std::function<void(TwoIntRefParamsAB&)>& args)
+//
+    BetaTestClass ~ Add<TwoIntRefParamsAB&>(TwoIntRefParamRefsAB);
+//
      //INLINE_CLASS_UE5() {}
     //~INLINE_CLASS_UE5() {}
 //
