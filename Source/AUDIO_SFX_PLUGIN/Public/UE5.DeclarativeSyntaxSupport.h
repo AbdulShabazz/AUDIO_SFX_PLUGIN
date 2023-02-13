@@ -26,11 +26,11 @@ using UE5_VARIANT_METHOD = std::function<T& (Args&...)>;
 template<typename T>
 using UE5_VARIANT_ATTRIBUTE = std::variant<T&>;
 
-template<typename T, typename... Args>
-using UE5_METHOD = std::variant<UE5_VARIANT_METHOD<T&...>, Args&&...>;
+template<typename T, typename... Args, typename... OtherArgs>
+using UE5_METHOD = std::variant<UE5_VARIANT_METHOD<T&, Args&...>, OtherArgs&...>;
 
 template<typename... Args>
-using UE5_ATTRIBUTE = std::variant<Args...>;
+using UE5_ATTRIBUTE = std::variant<Args&...>;
 
 //template<typename T>
 //using UE5_ATTRIBUTE = std::variant<T>;
@@ -136,6 +136,12 @@ template <typename WidgetType>
 class INLINE_CLASS_UE5
 {
 public:
+
+    static WidgetType&& New() {
+        static WidgetType instance;
+        return instance;
+    }
+    
     #define BEGIN_CLASS_DEFINITION_UE5(MyInlineClass, ...) \
     template <typename OtherWidgetType> \
     class #MyInlineClass : public INLINE_CLASS_UE5, __VA_ARGS__ \
@@ -213,99 +219,57 @@ public:
         }
     }
 
-    void operator~> (const std::string& name)
+    // object selection operator
+    struct TwoIntRefParamRefsAB;
+    void operator >> (TwoIntRefParamsAB&& params)
+    {
+		std::string name = _NameStdStr;
+        if (!params)
+        {
+            std::cerr << "Error: Method or Attribute'" << name << "' missing _Accessor or params." << std::endl;
+        }
+        else
+        {
+		    std::string ValidationCallback = name + "_ValidationCallback";
+			std::string ErrorCallback = name + "_ErrorCallback";
+			if (_public.find[ValidationCallback](params))
+			{
+			    std::string nameAccessor = name + "_Accessor";
+                if (_public.count(nameAccessor))
+                {
+                    _public.find(nameAccessor)(params);
+                }
+                else
+                {
+					_public.find(name)(params);
+				}
+			} 
+            else
+            {
+                _public.find[ErrorCallback](params);
+            }
+        }
+    }
+    
+    void operator >> (const std::string& name)
     {
         if (_public.count(name) == 0)
         {
             std::cerr << "Error: Method or Attribute'" << name << "' not found." << std::endl;
-            return;
         }
-
-        auto& method = _public[name];
-        std::visit([&](auto&& callable) {
-            using CallableType = std::decay_t<decltype(callable)>;
-            if constexpr (std::is_same_v<CallableType, std::function<void(int&, int&)>>)
-            {
-                int a = std::forward<Args>(args)...;
-                int b = std::forward<Args>(args)...;
-                std::function<bool(int&, int&)> guard = std::get<1>(_public[name]);
-                if (guard(a, b))
-                {
-                    callable(a, b);
-                }
-                else
-                {
-                    std::function<void()> handler = std::get<2>(_public[name]);
-                    handler();
-                }
-            }
-            else if constexpr (std::is_same_v<CallableType, std::function<void()>>)
-            {
-                callable();
-            }
-            else if constexpr (std::is_same_v<CallableType, bool>)
-            {
-                std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
-            }
-            else if constexpr (std::is_same_v<CallableType, std::string>)
-            {
-                std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
-            }
-        }, method);
-    }
-
-    template <typename... Args>
-    void operator~ (const std::string& name, Args&... OtherArgs)
-    {
-        if (_public.count(name) == 0)
+        else
         {
-            std::cerr << "Error: Method or Attribute'" << name << "' not found." << std::endl;
-            return;
+            this->_NameStdStr = name;
         }
-
-        auto& method = _public[name];
-        std::visit([&](auto&& callable) {
-            using CallableType = std::decay_t<decltype(callable)>;
-            if constexpr (std::is_same_v<CallableType, std::function<void(int&, int&)>>)
-            {
-                int a = std::forward<Args>(args)...;
-                int b = std::forward<Args>(args)...;
-                std::function<bool(int&, int&)> guard = std::get<1>(_public[name]);
-                if (guard(a, b))
-                {
-                    callable(a, b);
-                }
-                else
-                {
-                    std::function<void()> handler = std::get<2>(_public[name]);
-                    handler();
-                }
-            }
-            else if constexpr (std::is_same_v<CallableType, std::function<void()>>)
-            {
-                callable();
-            }
-            else if constexpr (std::is_same_v<CallableType, bool>)
-            {
-                std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
-            }
-            else if constexpr (std::is_same_v<CallableType, std::string>)
-            {
-                std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
-            }
-        }, method);
     }
 
-    static WidgetType&& New() {
-        static WidgetType instance;
-        return instance;
-    }
-
-private:
-    bBeginArgsFlag = false;
+public:
     std::unordered_map<std::string, std::variant<std::string, std::function<void(int&, int&)>, bool, void>> _public;
     std::unordered_map<std::string, std::variant<std::string, std::function<void(int&, int&)>, bool, void>> _private;
-
+    
+private:
+    std::string _NameStdStr;
+    bool bBeginArgsFlag = false;
     template <typename T>
     class has_foo_method
     {
