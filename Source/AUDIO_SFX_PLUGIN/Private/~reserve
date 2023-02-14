@@ -1,4 +1,13 @@
-﻿#include <functional>
+﻿
+    
+    // object selection operator
+    template <typename T, typename U>
+    U& operator >> (T&& params)
+    {
+    
+    }
+//
+#include <functional>
 #include <string>
 #include <memory>
 
