@@ -133,7 +133,7 @@ While optimizations can improve performance, they may also make the codebase mor
 
 struct TRefParams
 {
-    explicit TRefParams(TRefParams& TwoIntRefParamABObjRef) : _a{ TwoIntRefParamABObjRef._a }, _b{ TwoIntRefParamABObjRef._b } {};
+    explicit TRefParams(TRefParams& TwoIntRefParamObjRef) : _a{ TwoIntRefParamObjRef._a }, _b{ TwoIntRefParamObjRef._b } {};
 
     TRefParams() : _a{ 0 }, _b{ 0 } {};
 
@@ -242,15 +242,16 @@ public:
             >
             (
                 std::function<TRefParams& (TRefParams&)> InlineFuncRef,
-                TRefParams& TwoIntRefParamABObjRef
+                TRefParams& TwoIntRefParamObjRef
                 )
         ) {};
 
-		explicit TReturnParams(TRefParams& TwoIntRefParamABObjRef) : _TwoIntRefParamABObjRef{ TwoIntRefParamABObjRef = TRefParams() } {};
+		explicit TReturnParams(TRefParams& TwoIntRefParamObjRef) : _TwoIntRefParamObjRef{ TwoIntRefParamObjRef = TRefParams() } {};
 
-		explicit TReturnParams() : _TwoIntRefParamABObjRef{ TRefParams() } {};
+		explicit TReturnParams() : _TwoIntRefParamObjRef{ TRefParams() } {};
 
-        TRefParams& operator >> (TRefParams&& params)
+		template <typename T>
+        TReturnParams& operator >> (T&& params)
         {
             std::string name = _NameStdStr;
             if (!params)
@@ -278,10 +279,11 @@ public:
                     _public.find(ErrorCallback)(params);
                 }
             }
+			return *this;
         };
         
     private:
-        TRefParams& _TwoIntRefParamABObjRef;
+        TRefParams& _TwoIntRefParamObjRef;
 	};
     
     // object selection operator
