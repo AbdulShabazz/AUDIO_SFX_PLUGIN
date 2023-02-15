@@ -38,7 +38,7 @@ SOLU: PluginCommands->MapAction(..., FExecuteAction::CreateRaw(this, &GeneratePe
 
 SYMP: UE crashes on close, Assertion Failed: GetFName() == NAME_None
 SOLU: Modify TSharedPtr<UToolMenu> MenuPtr = TSharedPtr<UToolMenu>(...); >> UToolMenu* MenuPtr = ...;
-NOTE: To mitigate hard-to-find-bugs -- when TSharedPtr<>, TSharedRef<>, etc. are dynamic non-persistent objects, they should be inlined instead of declared within classes 
+NOTE: To mitigate hard-to-find-bugs -- TSharedPtr<>, TSharedRef<>, etc., are dynamic non-persistent objects, they should be inlined instead of cached within classes 
 
 SYMP: PluginCommands->MapAction(...) and FAUDIO_SFX_PLUGINModule::RegisterMenus() Fail to open plugin window, with the following error: LevelEditor.MainMenu.Window not found
 SOLU: AUDIO_SFX_PLUGIN.CPP: Del TSharedPtr<FUICommandList> PluginCommands; AUDIO_SFX_PLUGIN.H: Add private: TSharedPtr<FUICommandList> PluginCommands, to make PluginsCommands settings persistent
@@ -46,18 +46,22 @@ SOLU: AUDIO_SFX_PLUGIN.CPP: Del TSharedPtr<FUICommandList> PluginCommands; AUDIO
 SYMP: error illegal call of non static member
 SOLU: FGlobalTabmanager::InsertNewDocumentTab(...); >> FGlobalTabmanager::Get()->InsertNewDocumentTab(...);
 
-SYMP: UMGViewportComponent settings passed to MyGlobalTabManagerClass aren't persistent
-SOLU: AUDIO_SFX_PLUGIN.H: class MyGlobalTabManagerClass ... >> static class MyGlobalTabManagerClass ...
+SYMP: Any UMGViewportComponent settings passed to MyGlobalTabManagerClass aren't persistent
+SOLU: class MyGlobalTabManagerClass ... >> static class MyGlobalTabManagerClass ...
 
-SYMP: Direct Derived UE classes incur large memory overhead: 
+SYMP: Direct Derived UE classes require large memory overhead: 
     class MyGlobalTabManagerClass : public FGlobalTabmanager
     class UMGViewportComponent : public SWindow
     .
     .
     etc
-SOLU: virtual inheritance provides significant memory savings, however at the cost of added processing time
+
+SOLU: virtual inheritance provides memory savings at the cost of added processing overhead
     class MyGlobalTabManagerClass : virtual public FGlobalTabmanager
     class UMGViewportComponent : virtual public SWindow
     .
     .
     etc
+
+SYMP: UE5_INLINE_CLASS_NAMESPACE:: TRefParams& has no suitable constructor
+SOLU: return RefParams; >> return &RefParams;
