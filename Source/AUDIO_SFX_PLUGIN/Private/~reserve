@@ -1,4 +1,285 @@
-﻿
+﻿   
+    BetaTestClass.AddMethod<
+        std::string,
+        std::function<void(TRefParams&)>,
+        std::function<bool(TRefParams&)>,
+        std::function<void(TRefParams&)>
+    >(
+        "MyCustomMethod",
+        [&](TRefParams& TRefParamsObjRef) { std::cout << "Hello World!" << std::endl; },
+        [&](TRefParams& TRefParamsObjRef) { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
+        [&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
+    );
+//
+            /* this; */
+	        /* BetaTestClass >> "MyCustomMethod2" >> TRefParamsObjRef; */
+	        /* TRefParams& TRefParamsOtherObjRef = BetaTestClass << "MyCustomMethod2" << TRefParamsObjRef; */
+            
+//
+        template <typename T>
+        class is_callable
+        {
+            template <typename U>
+            static constexpr auto CheckIsFunctionType(U*) -> typename std::is_function<U>::type {};
+
+            template <typename>
+            static constexpr std::false_type CheckIsFunctionType(...) {};
+
+            public:
+                static constexpr bool value = decltype(CheckIsFunctionType<T>(nullptr))::value;
+        };
+//
+        template <typename T, typename U>
+        bool is_of_method_type(T* foo)
+        {
+            return static_cast<bool>(std::is_same<decltype(foo), U>()::type);
+        }
+
+        template <typename T, typename U>
+        bool is_of_attribute_type(T& foo)
+        {
+            return static_cast<bool>(std::is_same<decltype(foo), U>()::type);
+        }
+//
+        template <typename... Args>
+        void AddMethod(Args&... values)
+        {
+            int MethodName = 0;
+            int MethodBody = 1;
+		    int ValidationCallback = 2;
+            int ErrorCallback = 3;
+
+            using U = decltype(values[MethodName]);
+
+            std::string& name = GetFullClassNameStdStr(values[MethodName]);
+
+            if (
+                    (
+                        !values[ValidationCallback] ||
+                        (
+                            /* is_callable<std::function>(values[ValidationCallback])::type && */
+                            values[ValidationCallback](values[MethodParams])
+                        )
+                    ) && !bBeginArgsFlag
+                )
+            {
+                _public[name] = &values[MethodBody];
+                _public[name + "_ValidationCallback"] = &values[ValidationCallback];
+                _public[name + "_ErrorCallback"] = &values[ErrorCallback];
+            }
+            else if(values[ErrorCallback] /* && is_callable<std::function>(values[ErrorCallback])::type */)
+            {
+                values[ErrorCallback](values[MethodParams]);
+            }
+            else
+            {
+                throw std::runtime_error(
+                    "Error: Invalid class method ValidationCallback," +
+                    " or you are attempting to call .AddAttribute while " + 
+                    "in inline class scope(See.AddPublicAttribute)!");
+            }
+        }
+//
+            //int MethodType;
+            int MethodName = 0;
+            //int MethodParams;
+            int MethodBody = 1;
+		    int ValidationCallback = 2;
+            int ErrorCallback = 3;
+ //   
+    /**
+    
+    // Add a named attribute "MyCustomAttribute" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
+    // 1. A void accessor() function that prints "Hello World!" to the console.
+    // 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
+    // 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.
+    BetaTestClass.AddAttribute(...);
+
+    // Call the MyCustomAttribute accessor (Setter)
+    BetaTestClass >> UE5_INLINE_CLASS_ATTRIBUTE::MyCustomAttribute >> TRefParamsObjRef;
+
+    // Read the MyCustomAttribute accessor (Getter + Setter)
+    TRefParams& TRefParamsObjRef = BetaTestClass << UE5_INLINE_CLASS_ATTRIBUTE::MyCustomAttribute << TRefParamsObjRef;
+    
+    */
+//
+        template <typename T, typename U>
+        bool method_is_of_type(T* foo)
+        {
+            return static_cast<bool>(std::is_same<decltype(foo),U>()::type);
+        }
+        
+        template <typename T, typename U>
+        bool attribute_is_of_type(T& foo)
+        {
+			return static_cast<bool>(std::is_same<decltype(foo),U>()::type);
+        }
+        
+        /** 
+        The has_foo_method member function now uses std::is_function to determine if the type U is a function type. */
+        template <typename T>
+        class has_foo_method
+        {
+            template <typename T, typename U>
+            constexpr auto CheckMethod(T*) -> typename { std::is_function<U>::type; };
+
+            template <typename T>
+            constexpr std::false_type CheckMethod(...) {};
+
+        public:            
+            constexpr bool func = decltype(CheckMethod<T>(nullptr))::func;
+        };
+
+        /** 
+        In this refactored version, the has_foo_attribute class takes two template parameters: 
+        T and U. The T parameter is the type to check for the attribute, 
+        while the U parameter specifies the attribute to check. */
+        template <typename T, typename U>
+        class has_foo_attribute
+        {
+            template <typename T>
+            constexpr auto CheckAttribute(T*) -> { decltype(std::declval<T>().*std::declval<U>(), std::true_type()); };
+
+            template <typename>
+            constexpr std::false_type CheckAttribute(...) -> std::false_type {};
+
+        public:
+            // Example usage: using has_foo_attribute = has_attribute<MyType, int MyType::*(&)(void) const noexcept>(&MyType::foo);
+            constexpr bool value = decltype(CheckAttribute<T>(nullptr))::value;
+        };
+//
+    /* A type-safe implentation, using enum class */ 
+    
+    // Create a reference to an object of type TRefParams by forwarding an rvalue reference.
+    TRefParams& TRefParamsObjRef = std::forward<TRefParams&>(TRefParams());
+    
+    // Create a reference to an object of type beta by forwarding an rvalue reference to the result of calling beta::New().
+    beta& BetaTestClass = std::forward<beta&>(beta::New());
+
+    // Create an enum class UE5_INLINE_CLASS_MEMBERS entry for "MyCustomMethod"
+    enum class UE5_INLINE_CLASS_MEMBERS : uint32_t
+    {
+     /* MyCustomAttribute, */
+        MyCustomMethod
+    };
+    
+    // Add a method named "MyCustomMethod" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
+    // 1. A void function that prints "Hello World!" to the console.
+    // 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
+    // 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.    
+    BetaTestClass.AddMethod<
+        UE5_INLINE_CLASS_MEMBERS,
+        std::function<void(TRefParams&)>,
+        std::function<bool(TRefParams&)>,
+        std::function<void(TRefParams&)>
+    >(
+        UE5_INLINE_CLASS_MEMBERS::MyCustomMethod,
+        [&](TRefParams& TRefParamsObjRef)
+        {
+            /* this; */
+	        /* TRefParams& TRefParamsOtherObjRef = BetaTestClass >> UE5_INLINE_CLASS_MEMBERS::MyCustomMethod2 >> TRefParamsObjRef; */
+	        /* TRefParams& TRefParamsOtherObjRef = BetaTestClass >> UE5_INLINE_CLASS_MEMBERS::MyCustomAttribute2; */
+            std::cout << "Hello World!" << std::endl; 
+        },
+        [&](TRefParams& TRefParamsObjRef) { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
+        [&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
+    );
+
+    // Call the MyCustomMethod on the BetaTestClass object with the TRefParamsObjRef object as the argument setter.
+    BetaTestClass >> UE5_INLINE_CLASS_MEMBERS::MyCustomMethod >> TRefParamsObjRef;
+
+    // Call the MyCustomMethod on the BetaTestClass object with the TRefParamsObjRef object as the argument getter.
+    TRefParams& TRefParamsObjRef = BetaTestClass >> UE5_INLINE_CLASS_MEMBERS::MyCustomMethod >> TRefParamsObjRef;
+    
+    /**
+    
+    // Add a named attribute "MyCustomAttribute" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
+    // 1. A void accessor() function that prints "Hello World!" to the console.
+    // 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
+    // 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.
+    BetaTestClass.AddAttribute(...);
+
+    // Call the MyCustomAttribute accessor Method on the BetaTestClass object with no TRefParamsObjRef object as the argument getter.
+    TRefParams& TRefParamsObjRef = BetaTestClass >> UE5_INLINE_CLASS_ATTRIBUTE::MyCustomAttribute;
+
+    // Call the MyCustomAttribute accessor Method on the BetaTestClass object with the TRefParamsObjRef object as the argument setter.
+    BetaTestClass >> UE5_INLINE_CLASS_ATTRIBUTE::MyCustomAttribute >> TRefParamsObjRef;
+    
+    */
+//
+enum class UE5_INLINE_CLASS_METHODEnum : uint32_t
+{
+	__ROOT__ = 0
+};
+//
+template<typename T>
+using FRIENDLY_CAST_T = static_cast<T>;
+
+using FRIENDLY_CAST = FRIENDLY_CAST_T<uint32_t>;
+//
+		template <typename T>
+        TReturnParams& operator >> (T&& params)
+        {
+            std::string name = _NameStdStr;
+            if (!params)
+            {
+                std::cerr << "Error: Method or Attribute'" << name << "' missing _Accessor or params." << std::endl;
+            }
+            else
+            {
+                std::string ValidationCallback = name + "_ValidationCallback";
+                std::string ErrorCallback = name + "_ErrorCallback";
+                if (_public.find(ValidationCallback)(params))
+                {
+                    std::string nameAccessor = name + "_Accessor";
+                    if (_public.count(nameAccessor))
+                    {
+                        _public.find(nameAccessor)(params);
+                    }
+                    else
+                    {
+                        _public.find(name)(params);
+                    }
+                }
+                else
+                {
+                    _public.find(ErrorCallback)(params);
+                }
+            }
+			return *this;
+        };
+//
+    // object selection operator
+    TReturnParams& operator >> (const std::string& name)
+    {
+        std::string name = _NameStdStr;
+        if (name == "")
+        {
+            std::cerr << "Error: Method or Attribute'" << name << "' missing _Accessor or params." << std::endl;
+        }
+        else
+        {
+            std::string ValidationCallback = name + "_ValidationCallback";
+            std::string ErrorCallback = name + "_ErrorCallback";
+            if (_public.find[ValidationCallback](params))
+            {
+                std::string nameAccessor = name + "_Accessor";
+                if (_public.count(nameAccessor))
+                {
+                    _public.find(nameAccessor)(params);
+                }
+                else
+                {
+                    _public.find(name)(params);
+                }
+            }
+            else
+            {
+                _public.find[ErrorCallback](params);
+            }
+        }
+    }
+//
     
     // object selection operator
     template <typename T, typename U>
