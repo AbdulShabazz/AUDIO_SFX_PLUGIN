@@ -35,8 +35,8 @@ namespace UE5_INLINE_CLASS_NAMESPACE
     template<typename T>
     using UE5_VARIANT_ATTRIBUTE = std::variant<T&>;
 
-    template<typename T, typename... Args, typename... OtherArgs>
-    using UE5_METHOD = std::variant<UE5_VARIANT_METHOD<T&, Args&...>, OtherArgs&...>;
+    template<typename T, typename... Args>
+    using UE5_METHOD = std::variant<UE5_VARIANT_METHOD<T&, Args&...>, Args&...>;
 
     template<typename... Args>
     using UE5_ATTRIBUTE = std::variant<Args&...>;
@@ -174,21 +174,16 @@ namespace UE5_INLINE_CLASS_NAMESPACE
             bBeginArgsFlag = false;
         }
 
-        std::string& GetFullClassNameStdStr(std::string& name)
-        {
-
-        }
-
         template <
             typename MethodName, 
             typename MethodBody, 
             typename ValidationCallback, 
             typename ErrorCallback>
         void AddMethod(
-            MethodName& MethodNameStdStr,
-            MethodBody& MethodBodyVoidFunc,
-            ValidationCallback& ValidationCallbackBBoolFunc,
-            ErrorCallback& ErrorCallbackVoidFunc)
+            const MethodName& MethodNameStdStr,
+            MethodBody MethodBodyVoidFunc,
+            ValidationCallback ValidationCallbackBBoolFunc,
+            ErrorCallback ErrorCallbackVoidFunc)
         {
             int MethodName = 0;
             int MethodBody = 1;
@@ -265,6 +260,11 @@ namespace UE5_INLINE_CLASS_NAMESPACE
     private:
         std::string _NameClassStr;
         bool bBeginArgsFlag = false;
+
+        std::string& GetFullClassNameStdStr(std::string& name)
+        {
+
+        }
         
         template <typename T>
         bool is_callable(T& func)
