@@ -174,6 +174,110 @@ namespace UE5_INLINE_CLASS_NAMESPACE
             bBeginArgsFlag = false;
         }
 
+        // private inline methods
+
+        template <
+            typename EventName,
+            typename EventBody,
+            typename ValidationCallback,
+            typename ErrorCallback>
+        void AddPrivateEvent(
+            const EventName& EventNameStdStr,
+            EventBody EventBodyVoidFunc,
+            ValidationCallback ValidationCallbackBoolFunc,
+            ErrorCallback ErrorCallbackVoidFunc)
+        {
+
+        }
+
+        template <
+            typename MethodName,
+            typename MethodBody,
+            typename ValidationCallback,
+            typename ErrorCallback>
+        void AddPrivateMethod(
+            const MethodName& MethodNameStdStr,
+            MethodBody MethodBodyVoidFunc,
+            ValidationCallback ValidationCallbackBoolFunc,
+            ErrorCallback ErrorCallbackVoidFunc)
+        {
+
+        }
+
+        template <
+            typename AttributeName,
+            typename AttributeBody,
+            typename ValidationCallback,
+            typename ErrorCallback>
+        void AddPrivateAttribute(
+            const AttributeName& AttributeNameStdStr,
+            AttributeBody AttributeBodyTFunc,
+            ValidationCallback ValidationCallbackBoolFunc,
+            ErrorCallback ErrorCallbackVoidFunc)
+        {
+
+        }
+
+        // public inline methods
+
+        template <
+            typename EventName,
+            typename EventBody,
+            typename ValidationCallback,
+            typename ErrorCallback>
+        void AddPublicEvent(
+            const EventName& EventNameStdStr,
+            EventBody EventBodyVoidFunc,
+            ValidationCallback ValidationCallbackBoolFunc,
+            ErrorCallback ErrorCallbackVoidFunc)
+        {
+
+        }
+
+        template <
+            typename MethodName,
+            typename MethodBody,
+            typename ValidationCallback,
+            typename ErrorCallback>
+        void AddPublicMethod(
+            const MethodName& MethodNameStdStr,
+            MethodBody MethodBodyVoidFunc,
+            ValidationCallback ValidationCallbackBoolFunc,
+            ErrorCallback ErrorCallbackVoidFunc)
+        {
+
+        }
+
+        template <
+            typename AttributeName,
+            typename AttributeBody,
+            typename ValidationCallback,
+            typename ErrorCallback>
+        void AddPublicAttribute(
+            const AttributeName& AttributeNameStdStr,
+            AttributeBody AttributeBodyTFunc,
+            ValidationCallback ValidationCallbackBoolFunc,
+            ErrorCallback ErrorCallbackVoidFunc)
+        {
+
+        }
+
+        // external inline methods
+
+        template <
+            typename EventName,
+            typename EventBody,
+            typename ValidationCallback,
+            typename ErrorCallback>
+        void AddEvent(
+            const EventName& EventNameStdStr,
+            EventBody EventBodyVoidFunc,
+            ValidationCallback ValidationCallbackBoolFunc,
+            ErrorCallback ErrorCallbackVoidFunc)
+        {
+
+        }
+
         template <
             typename MethodName, 
             typename MethodBody, 
@@ -182,41 +286,32 @@ namespace UE5_INLINE_CLASS_NAMESPACE
         void AddMethod(
             const MethodName& MethodNameStdStr,
             MethodBody MethodBodyVoidFunc,
-            ValidationCallback ValidationCallbackBBoolFunc,
+            ValidationCallback ValidationCallbackBoolFunc,
             ErrorCallback ErrorCallbackVoidFunc)
         {
-            int MethodName = 0;
-            int MethodBody = 1;
-		    int ValidationCallback = 2;
-            int ErrorCallback = 3;
 
-            MethodNameStdStr;
-            MethodBodyVoidFunc;
-            ValidationCallbackBBoolFunc;
-            ErrorCallbackVoidFunc;
         }
 
-        template <typename... Args>
-        void AddAttribute(Args&... values)
+        template <
+            typename AttributeName,
+            typename AttributeBody,
+            typename ValidationCallback,
+            typename ErrorCallback>
+        void AddAttribute(
+            const AttributeName& AttributeNameStdStr,
+            AttributeBody AttributeBodyTFunc,
+            ValidationCallback ValidationCallbackBoolFunc,
+            ErrorCallback ErrorCallbackVoidFunc)
         {
-            int AttributeParams = 0;
-            int ValidationCallback = 1;
-            int ErrorCallback = 2;
+
         }
 
         class TReturnParams
         {
 	    public:
             explicit TReturnParams(
-                UE5_VARIANT_METHOD
-                <
-                std::function<TRefParams& (TRefParams&)>,
-                TRefParams&
-                >
-                (
-                    std::function<TRefParams& (TRefParams&)> InlineFuncRef,
-                    TRefParams& TwoIntRefParamObjRef
-                    )
+                UE5_VARIANT_METHOD<std::function<TRefParams& (TRefParams&)>,TRefParams&>
+                (std::function<TRefParams& (TRefParams&)> InlineFuncRef, TRefParams& TwoIntRefParamObjRef)
             ) {};
 
 		    explicit TReturnParams(TRefParams& TwoIntRefParamObjRef) : _TwoIntRefParamObjRef{ TwoIntRefParamObjRef = TRefParams() } {};
