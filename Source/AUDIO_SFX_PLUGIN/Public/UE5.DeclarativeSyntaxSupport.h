@@ -130,7 +130,7 @@ namespace UE5_INLINE_CLASS_NAMESPACE
     template<typename WidgetType>
     struct TSlateBaseNamedArgsUE5;
 
-    // Example custom enum class which can be used internally as a replacement for input strings  
+    // Example inheritance-supported custom enum class which can be used internally as a replacement for string input
     class UE5_INLINE_CLASS_ENUM 
     {
     public:
