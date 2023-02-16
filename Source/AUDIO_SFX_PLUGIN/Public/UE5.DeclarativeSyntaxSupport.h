@@ -130,33 +130,6 @@ namespace UE5_INLINE_CLASS_NAMESPACE
     template<typename WidgetType>
     struct TSlateBaseNamedArgsUE5;
 
-    // Example inheritance-supported custom enum class which can be used internally as a replacement for string input
-    class UE5_INLINE_CLASS_ENUM 
-    {
-    public:
-        static const UE5_INLINE_CLASS_ENUM NONE;
-        static const UE5_INLINE_CLASS_ENUM BLUE;
-        static const UE5_INLINE_CLASS_ENUM GREEN;
-
-    // Constructor is private to prevent instantiation of additional values
-    private:
-        UE5_INLINE_CLASS_ENUM(unsigned long long int value)
-        {
-            std::unordered_map<std::string,int> MyMap;
-            MyMap::hasher MyHashFunc = MyMap.hash_function();
-            value_  = MyHashFunc(value);
-        };
-
-        unsigned long long int value_;
-    };
-
-    const UE5_INLINE_CLASS_ENUM UE5_INLINE_CLASS_ENUM::NONE(0);
-    const UE5_INLINE_CLASS_ENUM UE5_INLINE_CLASS_ENUM::BLUE(1);
-    const UE5_INLINE_CLASS_ENUM UE5_INLINE_CLASS_ENUM::GREEN(2);
-
-    // Example usage:
-    UE5_INLINE_CLASS_ENUM c = UE5_INLINE_CLASS_ENUM::NONE;
-
     // BEGIN UE5.DeclarativeSyntaxSupport.h //
 
     struct TRefParams
