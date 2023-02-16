@@ -26,23 +26,6 @@
 
 namespace UE5_INLINE_CLASS_NAMESPACE
 {
-    template<typename WidgetType>
-    struct TSlateBaseNamedArgsUE5;
-
-    template<typename T, typename... Args>
-    using UE5_VARIANT_METHOD = std::function<T& (Args&...)>;
-
-    template<typename T>
-    using UE5_VARIANT_ATTRIBUTE = std::variant<T&>;
-
-    template<typename T, typename... Args>
-    using UE5_METHOD = std::variant<UE5_VARIANT_METHOD<T&, Args&...>, Args&...>;
-
-    template<typename... Args>
-    using UE5_ATTRIBUTE = std::variant<Args&...>;
-
-    //template<typename T>
-    //using UE5_ATTRIBUTE = std::variant<T>;
 
     /**
  
@@ -64,77 +47,117 @@ namespace UE5_INLINE_CLASS_NAMESPACE
     It's worth noting that any improvements made to the Unreal Engine reflection system should also balance the trade-off between performance and maintainability. 
     While optimizations can improve performance, they may also make the codebase more complex and harder to maintain, so it's important to carefully consider the trade-offs when making changes.
 
-     INLINE_CLASS_UE5 is able to support custom argument types,
-     along with default values, through a minimal class interface.
-     And facilitates validation of each argument by accepting a truthy-type callback.
-     It also provides error handling using an error handling callback for each argument.
-     Additionally, the dynamic implementation is written to be C++20 compliant, is more maintainable, 
-     as it can be easily modified and extended as needed.
+        INLINE_CLASS_UE5 is able to support custom argument types,
+        along with default values, through a minimal class interface.
+        And facilitates validation of each argument by accepting a truthy-type callback.
+        It also provides error handling using an error handling callback for each argument.
+        Additionally, the dynamic implementation is written to be C++20 compliant, is more maintainable, 
+        as it can be easily modified and extended as needed.
 
-     The Visual Studio compiler automatically attempts to inline class methods defined in header file classes, 
-     so it may be possible for a dynamic C++ implementation of the reflection system to rival the
-     current state-of-the-art reflection system, while supporting type-safety and a wider array of data types -- 
-     greatly increasing the robustness and stability of the system.
+        The Visual Studio compiler automatically attempts to inline class methods defined in header file classes, 
+        so it may be possible for a dynamic C++ implementation of the reflection system to rival the
+        current state-of-the-art reflection system, while supporting type-safety and a wider array of data types -- 
+        greatly increasing the robustness and stability of the system.
 
-     Example usage:
+    Example usage:
  
-     class MyWidget : public INLINE_CLASS_UE5<MyWidget>
-     {
-     public:
-        this->SLATE_BEGIN_ARGS();
-        this->AddAttributePrivate<bool>("_IsEnabled", TAttribute<bool>(true), [this](const TAttribute<bool>& Attribute) { return Attribute.Get() });
-        this->AddAttributePrivate<float>("_PreferredWidth", TAttribute<float>(150.0f), [this](const TAttribute<bool>& Attribute) { return Attribute.Get() });
-        this->AddAttributePrivate<FLinearColor>("_ForegroundColor", TAttribute<FLinearColor>(FLinearColor::White), [this](const TAttribute<bool>& Attribute) { return Attribute.Get() },...AttributeGetter...,...AttributeSetter...);
-        this->AddAttributePublic<bool>("IsEnabled", TAttribute<bool>(true), [this](const TAttribute<bool>& Attribute) { return Attribute.Get() });
-        this->AddEventPrivate<T>(...);
-        this->AddMethodPrivate<UE5_METHOD<T(T,...)>>(...);
-        this->AddEventPublic<T>(...);
-        this->AddMethodPublic<T>(...);
-        this->SLATE_END_ARGS();
- 
-	    MyWidget(const FArguments& InArgs)
-	    {
-		    // Use InArgs to access arguments passed in
-	    }
-     };
+    using namespace UE5_INLINE_CLASS_NAMESPACE;
+    
+    class beta : public UE5_INLINE_CLASS<beta>
+    {
+    public:
+        beta()
+        {
+            // Optional nested class constructor
+            UE5_BEGIN_CLASS_DEFINITION( "Class" ) : [public / private / virtual ...] , ...
 
-     TSharedRef<MyWidget> widget = MyWidget::New();
-     widget->AddMethod<UE5_METHOD<int32(int32)>(
-	    "Width", 
-	    [this](const int& Value) { return Value > 0; }, 
-	    [this](const int& Value) { UE_LOG(LogTemp, Error, "Invalid argument value for Width"); }, 
-	    [this](int& Value = 100) { return Value; }
-     );
-     widget->AddAttribute<bool>("IsEnabled", true, TAttribute<bool>(true), [this](const TAttribute<bool>& Attribute) { return Attribute.Get() });
- 
-     // Define a custom event type
-     struct MyEvent {
-        int x;
-        int y;
-     };
- 
-     // Define a validation callback for the event
-     auto eventValidationCallback = [this](const MyEvent& event) {
-	      // Validate the event data
-	      if (event.x < 0 || event.y < 0) {
-	          return false;
-	      }
-	      return true;
-     };
+            // inline class member definition(s)
+            UE5_BEGIN_CLASS_MEMBER_DEFINITIONS();
 
-     // Define an error-handling callback for the event
-     auto eventErrorCallback = [this](const MyEvent& event) {
-       // Handle the error
-       UE_LOG(LogTemp, Error, "Error: Invalid event data!");
-     };
+                AddPrivateAttribute(...);
+                AddPrivateMethod(...);
+                AddPublicAttribute(...);
+                AddPublicMethod(...);
 
-     // Add the custom event to the widget arguments
-     widget->AddEvent<struct MyEvent>(MyEvent{0, 1}, eventValidationCallback, eventErrorCallback);
+            UE5_END_CLASS_MEMBER_DEFINITIONS();
+
+            UE5_END_CLASS_DEFINITION()
+
+        }
+    };
+
+    // Create a reference to an object of type TRefParams by forwarding an rvalue reference.
+    TRefParams& TRefParamsObjRef = std::forward<TRefParams&>(TRefParams());
+
+    // Create a reference to an object of type beta by forwarding an rvalue reference to the result of calling beta::New().
+    beta& BetaTestClass = beta::New();
+
+    // Add a method named "MyCustomMethod" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
+    // 1. A void function that prints "Hello World!" to the console.
+    // 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
+    // 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.    
+    BetaTestClass.AddMethod<
+        std::string,
+        std::function<void(TRefParams&)>,
+        std::function<bool(TRefParams&)>,
+        std::function<void(TRefParams&)>>(
+            "MyCustomMethod",
+            [&](TRefParams& TRefParamsObjRef) { std::cout << "Hello World!" << std::endl; },
+            [&](TRefParams& TRefParamsObjRef) { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
+            [&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
+    );
+
+    // Call the "MyCustomMethod" Setter
+    BetaTestClass.Invoke<TRefParams&>("MyCustomMethod", TRefParamsObjRef);
+
+    // Call the "MyCustomMethod" Getter
+    TRefParams& TRefParamsObjRef2 = BetaTestClass.Invoke<TRefParams&>("MyCustomMethod", TRefParamsObjRef);
+
+    // Add a named attribute "MyCustomAttribute" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
+    // 1. A TRefParams& accessor() function that prints "Hello World!" to the console.
+    // 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
+    // 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.
+    BetaTestClass.AddAttribute(...);
+
+    // Call the "MyCustomAttribute" Setter
+    BetaTestClass.Invoke<TRefParams&>("MyCustomAttribute", TRefParamsObjRef);
+
+    // Call the "MyCustomAttribute" Getter
+    TRefParams& TRefParamsObjRef = BetaTestClass.Invoke<TRefParams&>("MyCustomAttribute", TRefParamsObjRef);
 
     */
 
-    // forward declaration for use in lieu of strings
-    enum class UE5_INLINE_CLASS_METHOD;
+    template<typename WidgetType>
+    struct TSlateBaseNamedArgsUE5;
+
+    // Example custom enum class which can be used internally as a replacement for input strings  
+    class UE5_INLINE_CLASS_ENUM 
+    {
+    public:
+        static const UE5_INLINE_CLASS_ENUM NONE;
+        static const UE5_INLINE_CLASS_ENUM BLUE;
+        static const UE5_INLINE_CLASS_ENUM GREEN;
+
+    // Constructor is private to prevent instantiation of additional values
+    private:
+        UE5_INLINE_CLASS_ENUM(unsigned long long int value)
+        {
+            std::unordered_map<std::string,int> MyMap;
+            MyMap::hasher MyHashFunc = MyMap.hash_function();
+            value_  = MyHashFunc(value);
+        };
+
+        unsigned long long int value_;
+    };
+
+    const UE5_INLINE_CLASS_ENUM UE5_INLINE_CLASS_ENUM::NONE(0);
+    const UE5_INLINE_CLASS_ENUM UE5_INLINE_CLASS_ENUM::BLUE(1);
+    const UE5_INLINE_CLASS_ENUM UE5_INLINE_CLASS_ENUM::GREEN(2);
+
+    // Example usage:
+    UE5_INLINE_CLASS_ENUM c = UE5_INLINE_CLASS_ENUM::NONE;
+
+    // BEGIN UE5.DeclarativeSyntaxSupport.h //
 
     struct TRefParams
     {
@@ -146,16 +169,17 @@ namespace UE5_INLINE_CLASS_NAMESPACE
         int _b;
     };
 
-    template <typename WidgetType>
+    template<typename WidgetType>
     class UE5_INLINE_CLASS
     {
     public:
 
-        static WidgetType&& New() {
+        static WidgetType& New()
+        {
             static WidgetType instance;
             return instance;
         }
-    
+
         #define UE5_BEGIN_ADD_CLASS_DEFINITION(MyInlineClass, ...) \
         template <typename OtherWidgetType> \
         class #MyInlineClass : public INLINE_CLASS_UE5, __VA_ARGS__ \
@@ -174,7 +198,7 @@ namespace UE5_INLINE_CLASS_NAMESPACE
             bBeginArgsFlag = false;
         }
 
-        // private inline methods
+        // private inline class members
 
         template <
             typename EventName,
@@ -187,7 +211,17 @@ namespace UE5_INLINE_CLASS_NAMESPACE
             ValidationCallback ValidationCallbackBoolFunc,
             ErrorCallback ErrorCallbackVoidFunc)
         {
-
+            auto method = [EventBodyVoidFunc, ValidationCallbackBoolFunc, ErrorCallbackVoidFunc](TRefParams& params) {
+                if (ValidationCallbackBoolFunc(params))
+                {
+                    EventBodyVoidFunc(params);
+                }
+                else
+                {
+                    ErrorCallbackVoidFunc(params);
+                }
+            };
+            _private[EventNameStdStr] = &method;
         }
 
         template <
@@ -201,7 +235,17 @@ namespace UE5_INLINE_CLASS_NAMESPACE
             ValidationCallback ValidationCallbackBoolFunc,
             ErrorCallback ErrorCallbackVoidFunc)
         {
-
+            auto method = [MethodBodyVoidFunc, ValidationCallbackBoolFunc, ErrorCallbackVoidFunc](TRefParams& params) {
+                if (ValidationCallbackBoolFunc(params))
+                {
+                    MethodBodyVoidFunc(params);
+                }
+                else
+                {
+                    ErrorCallbackVoidFunc(params);
+                }
+            };
+            _private[MethodNameStdStr] = &method;
         }
 
         template <
@@ -215,10 +259,20 @@ namespace UE5_INLINE_CLASS_NAMESPACE
             ValidationCallback ValidationCallbackBoolFunc,
             ErrorCallback ErrorCallbackVoidFunc)
         {
-
+            auto method = [AttributeBodyTFunc, ValidationCallbackBoolFunc, ErrorCallbackVoidFunc](TRefParams& params) {
+                if (ValidationCallbackBoolFunc(params))
+                {
+                    AttributeBodyTFunc(params);
+                }
+                else
+                {
+                    ErrorCallbackVoidFunc(params);
+                }
+            };
+            _private[AttributeNameStdStr] = &method;
         }
 
-        // public inline methods
+        // public inline class members
 
         template <
             typename EventName,
@@ -231,7 +285,17 @@ namespace UE5_INLINE_CLASS_NAMESPACE
             ValidationCallback ValidationCallbackBoolFunc,
             ErrorCallback ErrorCallbackVoidFunc)
         {
-
+            auto method = [EventBodyVoidFunc, ValidationCallbackBoolFunc, ErrorCallbackVoidFunc](TRefParams& params) {
+                if (ValidationCallbackBoolFunc(params))
+                {
+                    EventBodyVoidFunc(params);
+                }
+                else
+                {
+                    ErrorCallbackVoidFunc(params);
+                }
+            };
+            _public[EventNameStdStr] = &method;
         }
 
         template <
@@ -245,7 +309,17 @@ namespace UE5_INLINE_CLASS_NAMESPACE
             ValidationCallback ValidationCallbackBoolFunc,
             ErrorCallback ErrorCallbackVoidFunc)
         {
-
+            auto method = [MethodBodyVoidFunc, ValidationCallbackBoolFunc, ErrorCallbackVoidFunc](TRefParams& params) {
+                if (ValidationCallbackBoolFunc(params))
+                {
+                    MethodBodyVoidFunc(params);
+                }
+                else
+                {
+                    ErrorCallbackVoidFunc(params);
+                }
+            };
+            _public[MethodNameStdStr] = &method;
         }
 
         template <
@@ -259,10 +333,20 @@ namespace UE5_INLINE_CLASS_NAMESPACE
             ValidationCallback ValidationCallbackBoolFunc,
             ErrorCallback ErrorCallbackVoidFunc)
         {
-
+            auto method = [AttributeBodyTFunc, ValidationCallbackBoolFunc, ErrorCallbackVoidFunc](TRefParams& params) {
+                if (ValidationCallbackBoolFunc(params))
+                {
+                    AttributeBodyTFunc(params);
+                }
+                else
+                {
+                    ErrorCallbackVoidFunc(params);
+                }
+            };
+            _public[AttributeNameStdStr] = &method;
         }
 
-        // external inline methods
+        // Other inline class members
 
         template <
             typename EventName,
@@ -275,7 +359,17 @@ namespace UE5_INLINE_CLASS_NAMESPACE
             ValidationCallback ValidationCallbackBoolFunc,
             ErrorCallback ErrorCallbackVoidFunc)
         {
-
+            auto method = [EventBodyVoidFunc, ValidationCallbackBoolFunc, ErrorCallbackVoidFunc](TRefParams& params) {
+                if (ValidationCallbackBoolFunc(params))
+                {
+                    EventBodyVoidFunc(params);
+                }
+                else
+                {
+                    ErrorCallbackVoidFunc(params);
+                }
+            };
+            _public[EventNameStdStr] = &method;
         }
 
         template <
@@ -289,7 +383,17 @@ namespace UE5_INLINE_CLASS_NAMESPACE
             ValidationCallback ValidationCallbackBoolFunc,
             ErrorCallback ErrorCallbackVoidFunc)
         {
-
+            auto method = [MethodBodyVoidFunc, ValidationCallbackBoolFunc, ErrorCallbackVoidFunc](TRefParams& params) {
+                if (ValidationCallbackBoolFunc(params)) 
+                {
+                    MethodBodyVoidFunc(params);
+                }
+                else 
+                {
+                    ErrorCallbackVoidFunc(params);
+                }
+            };
+            _public[MethodNameStdStr] = &method;
         }
 
         template <
@@ -303,69 +407,50 @@ namespace UE5_INLINE_CLASS_NAMESPACE
             ValidationCallback ValidationCallbackBoolFunc,
             ErrorCallback ErrorCallbackVoidFunc)
         {
-
+            auto method = [AttributeBodyTFunc, ValidationCallbackBoolFunc, ErrorCallbackVoidFunc](TRefParams& params) {
+                if (ValidationCallbackBoolFunc(params))
+                {
+                    AttributeBodyTFunc(params);
+                }
+                else
+                {
+                    ErrorCallbackVoidFunc(params);
+                }
+            };
+            _public[AttributeNameStdStr] = &method;
         }
 
-        class TReturnParams
-        {
-	    public:
-            explicit TReturnParams(
-                UE5_VARIANT_METHOD<std::function<TRefParams& (TRefParams&)>,TRefParams&>
-                (std::function<TRefParams& (TRefParams&)> InlineFuncRef, TRefParams& TwoIntRefParamObjRef)
-            ) {};
-
-		    explicit TReturnParams(TRefParams& TwoIntRefParamObjRef) : _TwoIntRefParamObjRef{ TwoIntRefParamObjRef = TRefParams() } {};
-
-		    explicit TReturnParams() : _TwoIntRefParamObjRef{ TRefParams() } {};
-
-		    template <typename T>
-            TReturnParams& operator >> (T& params)
+        template <typename ParamRefStruct>
+        ParamRefStruct& Invoke(const std::string& name, ParamRefStruct& params) {
+            if (_public.find(name) != _public.end())
             {
-
-            };
-
-            template <typename T>
-            T& operator << (T& params)
+                _public[name](params);
+            }
+            else
             {
-
-            };
-        
-        private:
-            TRefParams& _TwoIntRefParamObjRef;
-	    };
-    
-        // object selection operator
-        template <typename T>
-        TReturnParams& operator >> (const T& name)
-        {
-
-        }
-
-        // object selection operator
-        template <typename T>
-        TReturnParams& operator << (const T& name)
-        {
-
+                std::cout << "Warning: UE5_INLINE_CLASS member [ " + name + " ] not found!" << std::endl;
+            }
+            return params;
         }
 
     public:
-        std::unordered_map<std::string, std::variant<std::string, std::function<void(int&, int&)>, bool, void>> _public;
-        std::unordered_map<std::string, std::variant<std::string, std::function<void(int&, int&)>, bool, void>> _private;
+        template<typename UE5InlineClassReturnType>
+        UE5InlineClassReturnType& GetClassMember(const std::string MemberNameStdStr)
+        {
+            return *_public.find(MemberNameStdStr);
+        }
+
+        template<typename UE5InlineClassReturnType>
+        UE5InlineClassReturnType& GetPrivateClassMember(const std::string MemberNameStdStr)
+        {
+            return *_private.find(MemberNameStdStr);
+        }
 
     private:
+        std::unordered_map<std::string, std::variant<std::string, std::function<void(int&, int&)>, bool>> _public;
+        std::unordered_map<std::string, std::variant<std::string, std::function<void(int&, int&)>, bool>> _private;
         std::string _NameClassStr;
         bool bBeginArgsFlag = false;
-
-        std::string& GetFullClassNameStdStr(std::string& name)
-        {
-
-        }
-        
-        template <typename T>
-        bool is_callable(T& func)
-        {
-
-        }
 
     };
 
