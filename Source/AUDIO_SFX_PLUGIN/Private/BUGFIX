@@ -65,3 +65,28 @@ SOLU: virtual inheritance provides memory savings at the cost of added processin
 
 SYMP: UE5_INLINE_CLASS_NAMESPACE:: TRefParams& has no suitable constructor
 SOLU: return RefParams; >> return &RefParams;
+
+SYMP: Error: void is not a valid function or function pointer type... <variant>
+SOLU:   std::unordered_map<..., std::variant<..., bool, void>> _public;
+        std::unordered_map<..., std::variant<..., boo, void>> _private;
+      
+        >>
+        
+        std::unordered_map<..., std::variant<..., bool>> _public;
+        std::unordered_map<..., std::variant<..., bool>> _private;
+
+SYMP: Error	C4239	nonstandard extension used: 'initializing': conversion from 'WidgetType' to 'FAUDIO_SFX_PLUGINModule::StartupModule::beta &'
+SYMP: Error	C2440 - 'return': cannot convert from 'WidgetType' to 'WidgetType &'
+SOLU:   static WidgetType&& New()
+        {
+            static WidgetType& instance;
+            return instance;
+        }
+        
+        >>
+        
+        static WidgetType& New()
+        {
+            static WidgetType instance;
+            return instance;
+        }
