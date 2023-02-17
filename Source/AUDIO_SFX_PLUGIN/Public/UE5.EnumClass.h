@@ -16,6 +16,7 @@ UE5_INLINE_CLASS_ENUM c = UE5_INLINE_CLASS_ENUM::NONE;
 */
 
 // Example inheritance-supported custom enum class which can be used internally as a replacement for string arguments
+template<typename TULongLongInt = unsigned long long int>
 class UE5_INLINE_CLASS_ENUM 
 {
 public:
@@ -24,11 +25,14 @@ public:
 	static const UE5_INLINE_CLASS_ENUM GREEN;
 
 	// Overloaded operators
-	bool operator== (const UE5_INLINE_CLASS_ENUM& other) const {
+	bool operator== (const UE5_INLINE_CLASS_ENUM& other) const 
+	{
 		return value_ == other.value_;
 	}	
-	
-	friend std::ostream& operator<< (std::ostream& os, const UE5_INLINE_CLASS_ENUM& c) {
+
+	// Overloaded operators
+	friend std::ostream& operator<< (std::ostream& os, const UE5_INLINE_CLASS_ENUM& c)
+	{
 		std::string name = typeid(c).name();
 		os << name;
 		return os;
@@ -36,14 +40,14 @@ public:
 
 // Constructor is private to prevent instantiation of additional values
 private:
-	UE5_INLINE_CLASS_ENUM(unsigned long long int value)
+	UE5_INLINE_CLASS_ENUM(TULongLongInt& value)
 	{
 		std::unordered_map<std::string,int> MyMap;
 		MyMap::hasher MyHashFunc = MyMap.hash_function();
-		value_  = MyHashFunc(value);
+		value_  = MyHashFunc(!(value >= 0) ? typeid(this).name() : value);
 	};
 
-	unsigned long long int value_;
+	TULongLongInt value_;
 	UE5_INLINE_CLASS_ENUM& operator=(const UE5_INLINE_CLASS_ENUM& c) = delete;
 	UE5_INLINE_CLASS_ENUM(const UE5_INLINE_CLASS_ENUM& C) = delete;
 };
