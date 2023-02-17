@@ -102,8 +102,8 @@ namespace UE5_INLINE_CLASS_NAMESPACE
 		std::function<bool(TRefParams&)>,
 		std::function<void(TRefParams&)>>(
 			"MyCustomMethod",
-			[&](TRefParams& TRefParamsObjRef) { std::cout << "Hello World!" << std::endl; },
-			[&](TRefParams& TRefParamsObjRef) { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
+			[&](TRefParams& TRefParamsObjRef) -> TRefParams& { std::cout << "Hello World!" << std::endl; return TRefParamsObjRef; },
+			[&](TRefParams& TRefParamsObjRef) -> bool { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
 			[&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
 	);
 
