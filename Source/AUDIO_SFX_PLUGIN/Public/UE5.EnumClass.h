@@ -15,7 +15,7 @@ const UE5_INLINE_CLASS_ENUM UE5_INLINE_CLASS_ENUM::GREEN(2);
 UE5_INLINE_CLASS_ENUM c = UE5_INLINE_CLASS_ENUM::NONE;
 */
 
-// Example inheritance-supported custom enum class which can be used internally as a replacement for string required input
+// Example inheritance-supported custom enum class which can be used internally as a replacement for string arguments
 class UE5_INLINE_CLASS_ENUM 
 {
 public:
