@@ -1,8 +1,0 @@
-{
-	"editor.renderWhitespace": "all",
-	"editor.insertSpaces": false,
-	"editor.accessibilityPageSize": 100,
-	"editor.autoClosingBrackets": "always",
-	"editor.autoClosingDelete": "always",
-	"editor.bracketPairColorization.independentColorPoolPerBracketType": true
-}

@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "TheAudio__TheAudioSfxPlugin",
+	"Description": "An Audio Plugin for Generating SFX.",
+	"Category": "Other",
+	"CreatedBy": "AbdulShabazz",
+	"CreatedByURL": "github.com/AbdulShabazz/AUDIO_SFX_PLUGIN",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "TheAudio__TheAudioSfxPlugin",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
