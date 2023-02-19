@@ -43,7 +43,7 @@ namespace AUDIO_SFX_PLUGIN_ERROR
             catch (const exception& e) 
             {
                 retval = 5;
-                cerr << "Base Exception: " + e.what() << endl;
+                cerr << "Basic exception: " + e.what() << endl;
             } 
             catch (...) 
             {
@@ -52,8 +52,8 @@ namespace AUDIO_SFX_PLUGIN_ERROR
             }
             return retval;
         };
+
     private:
-        template<typename TExcept>
         void sfx_ProcessExceptionCode(const TExcept& e)
         {
             using namespace std;
