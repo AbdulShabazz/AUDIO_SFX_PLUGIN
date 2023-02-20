@@ -9,7 +9,7 @@
 #include "Widgets/Text/STextBlock.h"
 #include "ToolMenus.h"
 
-static const FName TheAudio__TheAudioSfxPluginTabName("TheAudio__TheAudioSfxPlugin");
+static const FName FTheAudio__TheAudioSfxPluginTabName("TheAudio__TheAudioSfxPlugin");
 
 #define LOCTEXT_NAMESPACE "FTheAudio__TheAudioSfxPluginModule"
 
@@ -19,7 +19,6 @@ void FTheAudio__TheAudioSfxPluginModule::StartupModule()
 	
 	FTheAudio__TheAudioSfxPluginStyle::Initialize();
 	FTheAudio__TheAudioSfxPluginStyle::ReloadTextures();
-
 	FTheAudio__TheAudioSfxPluginCommands::Register();
 	
 	PluginCommands = MakeShareable(new FUICommandList);
@@ -29,9 +28,11 @@ void FTheAudio__TheAudioSfxPluginModule::StartupModule()
 		FExecuteAction::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::PluginButtonClicked),
 		FCanExecuteAction());
 
+	//const FName TabName{ *FString::FromInt(TabCounterInt8++) + FString("_") + FTheAudio__TheAudioSfxPluginTabName.ToString() };
+
 	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::RegisterMenus));
 	
-	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(TheAudio__TheAudioSfxPluginTabName, FOnSpawnTab::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab))
+	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(FTheAudio__TheAudioSfxPluginTabName, FOnSpawnTab::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab))
 		.SetDisplayName(LOCTEXT("FTheAudio__TheAudioSfxPluginTabTitle", "TheAudio__TheAudioSfxPlugin"))
 		.SetMenuType(ETabSpawnerMenuType::Enabled);
 }
@@ -49,34 +50,61 @@ void FTheAudio__TheAudioSfxPluginModule::ShutdownModule()
 
 	FTheAudio__TheAudioSfxPluginCommands::Unregister();
 
-	FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(TheAudio__TheAudioSfxPluginTabName);
+	FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(FTheAudio__TheAudioSfxPluginTabName);
 }
 
+
+/**
+* Spawns the AUDIO_SFX_PLUGIN (nomad docktab) window.
+* Usage : TSharedRef<SDockTab> MyDockTabObjRef = OnSpawnPluginTab(SpawnTabArgs);
+*
+* @param [ const FSpawnTabArgs& SpawnTabArgs ] --- The spawn params.
+* @return [ TSharedRef<SDockTab> ] --- The slate window dockable tab.
+*/
 TSharedRef<SDockTab> FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {
-	FText WidgetText = FText::Format(
-		LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
-		FText::FromString(TEXT("FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab")),
-		FText::FromString(TEXT("TheAudio__TheAudioSfxPlugin.cpp"))
-		);
+	TSharedRef<UMGViewportComponent> SNWin = SNew(UMGViewportComponent);
+	UMGViewportComponent::FArguments InArgs;
 
+	SNWin.Get().Construct(InArgs);
+	TAttribute<FText> inAttributesTXT;
+	FText WidgetLabel = FText(LOCTEXT("WindowWidgetText", "The Audio - The Audio SFX Plugin"));
+	inAttributesTXT.Set(WidgetLabel);
 	return SNew(SDockTab)
-		.TabRole(ETabRole::NomadTab)
+		.TabRole(ETabRole::MajorTab)
+		.Label(inAttributesTXT)
 		[
-			// Put your tab content here!
-			SNew(SBox)
-			.HAlign(HAlign_Center)
-			.VAlign(VAlign_Center)
-			[
-				SNew(STextBlock)
-				.Text(WidgetText)
-			]
+			SNWin
 		];
 }
 
 void FTheAudio__TheAudioSfxPluginModule::PluginButtonClicked()
 {
-	FGlobalTabmanager::Get()->TryInvokeTab(TheAudio__TheAudioSfxPluginTabName);
+	//FGlobalTabmanager::Get()->TryInvokeTab(FTheAudio__TheAudioSfxPluginTabName);
+
+	const FName TabName{ *FString::FromInt(TabCounterInt8++) + FString("_") + FTheAudio__TheAudioSfxPluginTabName.ToString() };
+
+	// Get an icon for our nomad tab //
+	const ISlateStyle& Style = FTheAudio__TheAudioSfxPluginStyle::Get();
+	FSlateIcon Icon{ Style.GetStyleSetName(), "TheAudio__TheAudioSfxPlugin.OpenPluginWindow" };
+
+	FText WindowText = FText::Format(LOCTEXT("TheAudio__TheAudioSfxPluginTabTitle", "{0}"), FText::FromString(TabName.ToString()));
+
+	// Add a (Toolbar) button to level editor @submenu LevelEditor.MainMenu[.Window, .Tools, ..] 
+	//   in UToolMenus::RegisterStartupCallback(...)
+	MyGlobalTabManagerClass::Get()->RegisterNomadTabSpawner(
+		TabName,
+		FOnSpawnTab::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab)
+	)
+	.SetMenuType(ETabSpawnerMenuType::Hidden) // Hide the LevelEditor.MainMenu.Window toolbar button for now; we'll create our own...
+	.SetIcon(Icon);
+
+	const FTabId TabId{ TabName };
+	TSharedPtr<SDockTab> CurrentTabPtr = MyGlobalTabManagerClass::Get()->TryInvokeTab(TabId);
+	TAttribute<FText> inAttributesTXT;
+	FText WidgetLabel = FText::Format(LOCTEXT("WindowWidgetText", "The Audio - SFX Design Tool [{0}]"), FText::FromString(*FString::FromInt(TabCounterInt8 - 1)));
+	inAttributesTXT.Set(WidgetLabel);
+	CurrentTabPtr->SetLabel(inAttributesTXT);
 }
 
 void FTheAudio__TheAudioSfxPluginModule::RegisterMenus()
@@ -102,6 +130,59 @@ void FTheAudio__TheAudioSfxPluginModule::RegisterMenus()
 			}
 		}
 	}
+}
+
+bool MyGlobalTabManagerClass::CanCloseManager(const TSet<TSharedRef<SDockTab>>& TabsToIgnore)
+{
+	return FGlobalTabmanager::CanCloseManager(TabsToIgnore);
+}
+
+void MyGlobalTabManagerClass::OnTabForegrounded(const TSharedPtr<SDockTab>& NewForegroundTabPtr, const TSharedPtr<SDockTab>& BackgroundedTabPtr)
+{
+	FGlobalTabmanager::OnTabForegrounded(NewForegroundTabPtr, BackgroundedTabPtr);
+}
+
+void MyGlobalTabManagerClass::OnTabRelocated(const TSharedRef<SDockTab>& RelocatedTabRef, const TSharedPtr<SWindow>& NewOwnerWindowPtr)
+{
+	FGlobalTabmanager::OnTabRelocated(RelocatedTabRef, NewOwnerWindowPtr);
+}
+
+void MyGlobalTabManagerClass::OnTabClosing(const TSharedRef<SDockTab>& TabBeingClosedRef)
+{
+	FGlobalTabmanager::OnTabClosing(TabBeingClosedRef);
+}
+
+void MyGlobalTabManagerClass::UpdateStats()
+{
+	FGlobalTabmanager::UpdateStats();
+}
+
+void MyGlobalTabManagerClass::OpenUnmanagedTab(FName PlaceholderIdFname, const FSearchPreference& SearchPreferenceRef, const TSharedRef<SDockTab>& UnmanagedTabRef)
+{
+	FGlobalTabmanager::OpenUnmanagedTab(PlaceholderIdFname, SearchPreferenceRef, UnmanagedTabRef);
+}
+
+void MyGlobalTabManagerClass::FinishRestore()
+{
+	FGlobalTabmanager::FinishRestore();
+}
+
+void MyGlobalTabManagerClass::OnTabManagerClosing()
+{
+	FGlobalTabmanager::OnTabManagerClosing();
+}
+
+void UMGViewportComponent::Construct(const FArguments& InArgs)
+{
+	this->SetTitle(FText::FromString(TEXT("The Audio - The Audio SFX Plugin")));
+	this->bCreateTitleBar = true;
+	FText ToolTipFText = FText::FromString(TEXT("The Audio - The Audio SFX Plugin"));
+	this->SetToolTipText(ToolTipFText);
+}
+
+void UMGViewportComponent::GeneratePerlinNoiseMenuAPI()
+{
+
 }
 
 #undef LOCTEXT_NAMESPACE
