@@ -75,8 +75,8 @@ SOLU:   std::unordered_map<..., std::variant<..., bool, void>> _public;
         std::unordered_map<..., std::variant<..., bool>> _public;
         std::unordered_map<..., std::variant<..., bool>> _private;
 
-SYMP: Error	C4239	nonstandard extension used: 'initializing': conversion from 'WidgetType' to 'FAUDIO_SFX_PLUGINModule::StartupModule::beta &'
-SYMP: Error	C2440 - 'return': cannot convert from 'WidgetType' to 'WidgetType &'
+SYMP:   Error	C4239	nonstandard extension used: 'initializing': conversion from 'WidgetType' to 'FAUDIO_SFX_PLUGINModule::StartupModule::beta &'
+SYMP:   Error	C2440 - 'return': cannot convert from 'WidgetType' to 'WidgetType &'
 SOLU:   static WidgetType&& New()
         {
             static WidgetType& instance;
@@ -90,3 +90,6 @@ SOLU:   static WidgetType&& New()
             static WidgetType instance;
             return instance;
         }
+
+SYMP:   Error C2248 'FSlateControlledConstruction::operator new': cannot access private member declared in class 'FSlateControlledConstruction' of TheAudio__sfx_Class C:\Program Files\Epic Games\UE_5.1\Engine\Source\Runtime\Core\Public\Templates\SharedPointer.h	214	
+SOLU:   SNWin = SNew(UMGViewportComponent); >> TSharedRef<UMGViewportComponent> SNWin = SNew(UMGViewportComponent);
