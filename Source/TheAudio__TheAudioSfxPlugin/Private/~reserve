@@ -1,5 +1,97 @@
 ﻿
+//
+	const FTabId TabId{ TabName };
+	TSharedPtr<SDockTab> CurrentTabPtr = MyGlobalTabManagerClass::Get()->TryInvokeTab(TabId);
 
+	FSpawnTabArgs SpawnTabArgs{ SNew(UMGViewportComponent), FTabId{} };
+	OnSpawnPluginTab(SpawnTabArgs);
+//
+	FText WidgetLabel = FText::Format(LOCTEXT("WindowWidgetText", "The Audio - The Audio SFX Plugin [{0}]"), TabCounterInt8++);
+//
+	const FName TabName{ *FString::FromInt(TabCounterInt8++) + FString("_") + FTheAudio__TheAudioSfxPluginTabName.ToString() };
+
+	// Get an icon for our nomad tab //
+	const ISlateStyle& Style = FTheAudio__TheAudioSfxPluginStyle::Get();
+	FSlateIcon Icon{ Style.GetStyleSetName(), "TheAudio__TheAudioSfxPlugin.OpenPluginWindow" };
+
+	// Add a toolbar button to the level editor 
+	MyGlobalTabManagerClass::Get()->RegisterNomadTabSpawner(
+		TabName,
+		FOnSpawnTab::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab))
+			.SetMenuType(ETabSpawnerMenuType::Enabled)
+			.SetIcon(Icon);
+//
+	// Add a toolbar button to the level editor @ submenu LevelEditor.MainMenu[.Window, .Tools, ..] 
+	// in UToolMenus::RegisterStartupCallback(...)
+//
+	//FText WindowText = FText::Format(LOCTEXT("TheAudio__TheAudioSfxPluginTabTitle", "{0}"), FText::FromString(TabName.ToString()));
+
+	const FTabId TabId{ TabName };
+	TSharedPtr<SDockTab> CurrentTabPtr = MyGlobalTabManagerClass::Get()->TryInvokeTab(TabId);
+	TAttribute<FText> inAttributesTXT;
+	FText WidgetLabel = FText::Format(LOCTEXT("WindowWidgetText", "The Audio - SFX Design Tool [{0}]"), FText::FromString(*FString::FromInt(TabCounterInt8 - 1)));
+	inAttributesTXT.Set(WidgetLabel);
+	CurrentTabPtr->SetLabel(inAttributesTXT);
+//
+	//const FName TabName{ *FString::FromInt(TabCounterInt8++) + FString("_") + FTheAudio__TheAudioSfxPluginTabName.ToString() };
+
+	// Get an icon for our nomad tab //
+	const ISlateStyle& Style = FTheAudio__TheAudioSfxPluginStyle::Get();
+	FSlateIcon Icon{ Style.GetStyleSetName(), "TheAudio__TheAudioSfxPlugin.OpenPluginWindow" };
+	
+	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+		FName{ *FString::FromInt(TabCounterInt8++) + FString("_") + FTheAudio__TheAudioSfxPluginTabName.ToString() },
+		FOnSpawnTab::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab)
+	)
+	.SetDisplayName(LOCTEXT("FTheAudio__TheAudioSfxPluginTabTitle", "TheAudio__TheAudioSfxPlugin"))
+	.SetMenuType(ETabSpawnerMenuType::Enabled)
+	.SetIcon(Icon);
+
+	// Add a (Toolbar) button to level editor @ submenu LevelEditor.MainMenu[.Window, .Tools, ..] 
+	// in UToolMenus::RegisterStartupCallback(...)
+	MyGlobalTabManagerClass::Get()->RegisterNomadTabSpawner(
+		TabName,
+		FOnSpawnTab::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab)
+	)
+	.SetMenuType(ETabSpawnerMenuType::Enabled)
+	.SetIcon(Icon);
+//
+void FTheAudio__TheAudioSfxPluginModule::StartupModule()
+{
+	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
+	
+	FTheAudio__TheAudioSfxPluginStyle::Initialize();
+	FTheAudio__TheAudioSfxPluginStyle::ReloadTextures();
+	FTheAudio__TheAudioSfxPluginCommands::Register();
+	
+	PluginCommands = MakeShareable(new FUICommandList);
+
+	PluginCommands->MapAction(
+		FTheAudio__TheAudioSfxPluginCommands::Get().OpenPluginWindow,
+		FExecuteAction::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::PluginButtonClicked),
+		FCanExecuteAction());
+
+	//const FName TabName{ *FString::FromInt(TabCounterInt8++) + FString("_") + FTheAudio__TheAudioSfxPluginTabName.ToString() };
+
+	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::RegisterMenus));
+	
+	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+		FTheAudio__TheAudioSfxPluginTabName, 
+		FOnSpawnTab::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab)
+	)
+	.SetDisplayName(LOCTEXT("FTheAudio__TheAudioSfxPluginTabTitle", "TheAudio__TheAudioSfxPlugin"))
+	.SetMenuType(ETabSpawnerMenuType::Enabled);
+}
+//
+	MyGlobalTabManagerClass::Get()->RegisterNomadTabSpawner(
+		TabName,
+		FOnSpawnTab::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab)
+	)
+	.SetMenuType(ETabSpawnerMenuType::Hidden) // Hide the LevelEditor.MainMenu.Window toolbar button for now; we'll create our own...
+	.SetIcon(Icon);
+//
+	FGlobalTabmanager::Get()->TryInvokeTab(FTheAudio__TheAudioSfxPluginTabName);
+//
         template <typename ClassMemberNameStdString, typename ParamRefStruct>
         ParamRefStruct& Invoke(const ClassMemberNameStdString& name, ParamRefStruct& params) {
             if (_public.find(name) != _public.end())
