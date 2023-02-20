@@ -1,5 +1,84 @@
 ﻿
 //
+	struct MyFSpawnTabArgs : public FSpawnTabArgs
+	{
+		MyFSpawnTabArgs(TSharedRef<SWindow> InContent, const FTabId& InTabId)
+			: FSpawnTabArgs(InContent, InTabId)
+		{
+			InContent_ = InContent;
+			InTabId_ = InTabId;
+		};
+
+		TSharedRef<SWindow> GetMyOwnerWindow() const
+		{
+			return InContent_;
+		}
+
+		const FTabId& GetMyTabId() const
+		{
+			return InTabId_;
+		}
+
+	private:
+		TSharedRef<SWindow> InContent_;
+		FTabId InTabId_;
+	};
+//
+	/*TSharedRef<SDockTab> CurrentTabRef;
+
+	//bool ValidSpawnParamsFlag = (&SpawnTabArgs != nullptr);
+	if (ValidSpawnParamsFlag)
+	{
+		const FTabId& TabId = SpawnTabArgs.GetTabId();
+		if (&TabId != nullptr)
+		{
+			MyGlobalTabManagerClass::Get()->TryInvokeTab(TabId);
+			return CurrentTabRef;
+		}
+	}
+
+	if (MyGlobalTabManagerClass::Get()->TryInvokeTab(SpawnTabArgs.GetTabId()))
+	{
+		return CurrentTabRef;
+	}*/
+//		
+	// Get the previous tab index //
+	const short PreviousTabIndex = TabIndexInt8 - 1;
+	const FName PreviousTabId{ *FString::FromInt(PreviousTabIndex) + FString("_") + FTheAudio__TheAudioSfxPluginTabName.ToString() };
+
+	// Only register a new tab spawner container if the previous tab - (1) Exists, and (2) is a registered tab spawner //
+	if (PreviousTabIndex &&
+		(MyGlobalTabManagerClass::Get()->HasTabSpawner(PreviousTabId) == true))
+	{
+		// Register a nomad tab spawner group container, and add an enabled OnSpawnPluginTab toolbar button to the LevelEditor.MainMenu.Window UE editor menu //
+		MyGlobalTabManagerClass::Get()->RegisterNomadTabSpawner(
+			TabId,
+			FOnSpawnTab::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab))
+			.SetMenuType(ETabSpawnerMenuType::Enabled)
+			.SetIcon(Icon);
+	}
+//
+	if (MyGlobalTabManagerClass::Get()->GetTabManager(TabId) == nullptr)
+	{
+		MyGlobalTabManagerClass::Get()->RegisterNomadTabSpawner(
+			TabId,
+			FOnSpawnTab::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab))
+			.SetDisplayName(LOCTEXT("FTheAudio__TheAudioSfxPluginTabTitle", "The Audio - The Audio SFX Plugin"))
+			.SetTooltipText(LOCTEXT("FTheAudio__TheAudioSfxPluginTooltipText", "Open The Audio - The Audio SFX Plugin."))
+			.SetIcon(Icon)
+			.SetGroup(WorkspaceMenu::GetMenuStructure().GetDeveloperToolsMiscCategory());
+	}
+//
+	if (MyGlobalTabManagerClass::Get()->HasTabSpawner(TabId) && !MyGlobalTabManagerClass::Get()->IsManagedByGlobalTabManager(TabId))
+	{
+		// Register a nomad tab spawner group container, and add an enabled OnSpawnPluginTab toolbar button to the LevelEditor.MainMenu.Window UE editor menu
+		MyGlobalTabManagerClass::Get()->RegisterNomadTabSpawner(
+			TabId,
+			FOnSpawnTab::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab))
+			.SetMenuType(ETabSpawnerMenuType::Enabled)
+			.SetIcon(Icon);
+	}
+//
 	const FTabId TabId{ TabName };
 	TSharedPtr<SDockTab> CurrentTabPtr = MyGlobalTabManagerClass::Get()->TryInvokeTab(TabId);
 
