@@ -122,6 +122,7 @@ class FMenuBuilder;
 
 class FTheAudio__TheAudioSfxPluginModule : public IModuleInterface
 {
+
 public:
 
 	/** IModuleInterface implementation */
@@ -130,12 +131,10 @@ public:
 	
 	/** This function will be bound to Command (by default it will bring up plugin window) */
 	void PluginButtonClicked();
-
-protected:
-    //TSharedRef<UMGViewportComponent> SNWin;
 	
 private:
     short TabCounterInt8 = 1;
+    short TabIndexInt8 = 1;
 	void RegisterMenus();
 
 	TSharedRef<class SDockTab> OnSpawnPluginTab(const class FSpawnTabArgs& SpawnTabArgs);
