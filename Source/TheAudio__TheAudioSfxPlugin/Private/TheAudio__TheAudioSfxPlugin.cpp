@@ -109,6 +109,7 @@ static const FName FTheAudio__TheAudioSfxPluginTabName("TheAudio__TheAudioSfxPlu
 */
 TSharedRef<SDockTab> FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {
+	trace_a.push("FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab");
 
 	TSharedRef<UMGViewportComponent> SNWin = SNew(UMGViewportComponent);
 	UMGViewportComponent::FArguments InArgs;
@@ -117,6 +118,8 @@ TSharedRef<SDockTab> FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab(const 
 	TAttribute<FText> inAttributesTXT;
 	FText WidgetLabel = FText::Format(LOCTEXT("WindowWidgetText", "[{0}] - The Audio - The Audio SFX Plugin "), TabIndexInt8);
 	inAttributesTXT.Set(WidgetLabel);
+
+	trace_a.pop();
 
 	return SNew(SDockTab)
 		.TabRole(ETabRole::MajorTab)
@@ -129,6 +132,8 @@ TSharedRef<SDockTab> FTheAudio__TheAudioSfxPluginModule::OnSpawnPluginTab(const 
 
 void FTheAudio__TheAudioSfxPluginModule::PluginButtonClicked()
 {
+
+	trace_a.push("FTheAudio__TheAudioSfxPluginModule::PluginButtonClicked");
 
 	TabIndexInt8 = TabCounterInt8++;
 	const FName TabId{ *FString::FromInt(TabIndexInt8) + FString("-") + FTheAudio__TheAudioSfxPluginTabName.ToString() };
@@ -151,10 +156,14 @@ void FTheAudio__TheAudioSfxPluginModule::PluginButtonClicked()
 	// Show the window //
 	TSharedPtr<SDockTab> CurrentTabPtr = MyGlobalTabManagerClass::Get()->TryInvokeTab(TabId);
 
+	trace_a.pop();
+
 }
 
 void FTheAudio__TheAudioSfxPluginModule::RegisterMenus()
 {
+	trace_a.push("FTheAudio__TheAudioSfxPluginModule::RegisterMenus");
+
 	// Owner will be used for cleanup in call to UToolMenus::UnregisterOwner
 	FToolMenuOwnerScoped OwnerScoped(this);
 
@@ -176,10 +185,13 @@ void FTheAudio__TheAudioSfxPluginModule::RegisterMenus()
 			}
 		}
 	}
+
+	trace_a.pop();
 }
 
 void FTheAudio__TheAudioSfxPluginModule::StartupModule()
 {
+	trace_a.push("FTheAudio__TheAudioSfxPluginModule::StartupModule");
 
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 
@@ -196,10 +208,13 @@ void FTheAudio__TheAudioSfxPluginModule::StartupModule()
 
 	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FTheAudio__TheAudioSfxPluginModule::RegisterMenus));
 
+	trace_a.pop();
 }
 
 void FTheAudio__TheAudioSfxPluginModule::ShutdownModule()
 {
+	trace_a.push("FTheAudio__TheAudioSfxPluginModule::ShutdownModule");
+
 	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
 	// we call this function before unloading the module.
 
@@ -212,6 +227,8 @@ void FTheAudio__TheAudioSfxPluginModule::ShutdownModule()
 	FTheAudio__TheAudioSfxPluginCommands::Unregister();
 
 	FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(FTheAudio__TheAudioSfxPluginTabName);
+
+	trace_a.pop();
 }
 
 bool MyGlobalTabManagerClass::CanCloseManager(const TSet<TSharedRef<SDockTab>>& TabsToIgnore)

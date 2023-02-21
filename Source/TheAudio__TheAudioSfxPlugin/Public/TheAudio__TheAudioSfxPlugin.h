@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
+#include "StackTraceStdStrArray.h"
 //#include "Tones.h"
 
 class UMGViewportComponent : public SWindow
@@ -136,6 +137,7 @@ private:
     short TabCounterInt8 = 1;
     short TabIndexInt8 = 1;
 	void RegisterMenus();
+    StackTraceStdStrArray<std::string> trace_a{"FTheAudio__TheAudioSfxPluginModule"};
 
 	TSharedRef<class SDockTab> OnSpawnPluginTab(const class FSpawnTabArgs& SpawnTabArgs);
 
