@@ -14,7 +14,7 @@
 Example usage:
 
 	StackTraceStdStrArray trace_a{"Hello"}; // "Hello"
-	trace_a.push("World"); // "Hello > World"
+	trace_a.push("World"); // "Hello >> World"
 	trace_a.pop(); // "Hello"
 
 */
