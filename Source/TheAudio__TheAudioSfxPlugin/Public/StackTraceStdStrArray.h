@@ -1,8 +1,13 @@
 #pragma once
 
+// System Includes
 #include <iostream>
 #include <vector>
 #include <string>
+
+// Unreal Engine 5
+#include <Logging/LogMacros.h>
+#include <Logging/LogVerbosity.h>
 
 /**
 
@@ -17,18 +22,21 @@ template <typename InputType = std::string>
 class StackTraceStdStrArray : public std::vector<InputType>
 {
 public:
+	// Constructor
 	explicit StackTraceStdStrArray(const InputType& str) 
 	{
 		array.push_back(str);
 		join();
 	}
 
+	// Push a new element onto the array
 	void push(const InputType& str)
 	{
 		array.push_back(str);
 		join();
 	}
 
+	// Pop the last element from the array
 	InputType& pop()
 	{
 		InputType& result = array.back();
@@ -37,27 +45,36 @@ public:
 		return result;
 	}
 	
-	InputType join(const InputType separator = "\n") const
+	// Join the array into a single string with a delimiter between each element
+	InputType join(const InputType separator = " >> ") const
 	{
+		// Create a new string of type InputType
 		InputType result = InputType{};
-		InputType delim = InputType{};
-		InputType pad = InputType{ " " };
+
+		// Create a flag to indicate if this is the first element
 		bool first = true;
+
+		// Join the array into a single string
 		for (const auto& buff : array) 
 		{
+			// Add the separator if this is not the first element
 			if (!first) 
 			{
-				delim += pad;
-				result += separator + delim;
+				result += separator;
 			}
 			result += buff;
 			first = false;
 		}
-		std::cout << result << std::endl;
+
+		// Convert std::string (result) to a UE_LOG() friendly format
+		UE_LOG(LogTemp, Display, TEXT("%s"), *FString(result.c_str()));
+
+		// Return the result
 		return result;
 	}
 
 private:
+	// The array
 	std::vector<InputType> array;
 
 };
