@@ -1,63 +1,55 @@
 #include <typeinfo>
 #include <string>
+#include <cstdint>
 
-/**
-The UE5_INLINE_CLASS_ENUM custom enum class behaves like an enum class which can be inherited from - and thus is extensible; and provides improved type safety and scoping compared to the older-style enum types. This custom enum class can be used internally in lieu of string input.
-
-The UE5_INLINE_CLASS_ENUM class is intended as a more general-purpose data type that could be used throughout the engine, it may make more sense to add it to a shared library or module that can be accessed by other parts of the engine. For example, it could be added to a Runtime/Core or Runtime/Core/Public directory, which contains core engine functionality that is used throughout the engine. The UE5_INLINE_CLASS_ name is shared by a suite of other tools I am developing for Unreal Engine.
-
-// Instantiation example
-const UE5_INLINE_CLASS_ENUM UE5_INLINE_CLASS_ENUM::NONE(0);
-const UE5_INLINE_CLASS_ENUM UE5_INLINE_CLASS_ENUM::BLUE(1);
-const UE5_INLINE_CLASS_ENUM UE5_INLINE_CLASS_ENUM::GREEN(2);
-
-// Example usage:
-UE5_INLINE_CLASS_ENUM c = UE5_INLINE_CLASS_ENUM::NONE;
-*/
-
-// Example inheritance-supported custom enum class which can be used internally as a replacement for string arguments
-class UE5_INLINE_CLASS_ENUM 
+// A custom enum class which supports inheritance and can be used internally as a replacement for string arguments
+class UE5_INLINE_CLASS_ENUM_EXAMPLE 
 {
+	// An enum macro definition which can be used to define a custom enum class
+	#define UE5_INLINE_CLASS_ENUM enum class
+
+	// using declaration for unsigned long long int
+	using ULINT64 = unsigned long long int;
+
 public:
-	static const UE5_INLINE_CLASS_ENUM NONE;
-	static const UE5_INLINE_CLASS_ENUM BLUE;
-	static const UE5_INLINE_CLASS_ENUM GREEN;
+
+	// Constructor
+	explicit UE5_INLINE_CLASS_ENUM_EXAMPLE(ULINT64 value) : _value{ value } {};
 
 	// Overloaded operators
-	bool operator== (const UE5_INLINE_CLASS_ENUM& other) const 
+	bool operator== (const UE5_INLINE_CLASS_ENUM_EXAMPLE& other) const
 	{
-		return value_ == other.value_;
-	}	
+		return _value == other._value;
+	}
 
 	// Overloaded operators
-	friend std::ostream& operator<< (std::ostream& os, const UE5_INLINE_CLASS_ENUM& c)
+	friend std::ostream& operator<< (std::ostream& os, const UE5_INLINE_CLASS_ENUM_EXAMPLE& c)
 	{
 		std::string name = typeid(c).name();
 		os << name;
 		return os;
 	}
 
-	using UE5_INLINE_CLASS_ENUM_ULLI = unsigned long long;
-	template<typename TULongLongInt = UE5_INLINE_CLASS_ENUM_ULLI>
-	UE5_INLINE_CLASS_ENUM(TULongLongInt& value)
-	{
-		std::unordered_map<std::string,int> MyMap;
-		MyMap::hasher MyHashFunc = MyMap.hash_function();
-		value_  = MyHashFunc(!(value >= 0) ? typeid(this).name() : value);
-	};
+	// Static values
+	static const UE5_INLINE_CLASS_ENUM_EXAMPLE NONE;
+	static const UE5_INLINE_CLASS_ENUM_EXAMPLE BLUE;
+	static const UE5_INLINE_CLASS_ENUM_EXAMPLE GREEN;
 
-// Constructor is private to prevent instantiation of additional values
 private:
 
-	UE5_INLINE_CLASS_ENUM_ULLI value_;
-	UE5_INLINE_CLASS_ENUM& operator=(const UE5_INLINE_CLASS_ENUM& c) = delete;
-	UE5_INLINE_CLASS_ENUM(const UE5_INLINE_CLASS_ENUM& C) = delete;
+	// Internal value
+	ULINT64 _value;
+
+	// deleted assignment operator
+	UE5_INLINE_CLASS_ENUM_EXAMPLE& operator=(const UE5_INLINE_CLASS_ENUM_EXAMPLE& c) = delete;
 };
 
-using UE5_INLINE_CLASS_ENUM_ULLI = unsigned long long int;
-const UE5_INLINE_CLASS_ENUM UE5_INLINE_CLASS_ENUM::NONE(0ull);
-const UE5_INLINE_CLASS_ENUM UE5_INLINE_CLASS_ENUM::BLUE(1ull);
-const UE5_INLINE_CLASS_ENUM UE5_INLINE_CLASS_ENUM::GREEN(2ull);
+const UE5_INLINE_CLASS_ENUM_EXAMPLE UE5_INLINE_CLASS_ENUM_EXAMPLE::NONE{ 0ui64 };
 
 // Example usage:
-UE5_INLINE_CLASS_ENUM c = UE5_INLINE_CLASS_ENUM::NONE;
+UE5_INLINE_CLASS_ENUM_EXAMPLE c = UE5_INLINE_CLASS_ENUM_EXAMPLE::NONE;
+
+//static_assert(c == UE5_INLINE_CLASS_ENUM_EXAMPLE::NONE, "c is not equal to UE5_INLINE_CLASS_ENUM_EXAMPLE::NONE");
+//static_assert(c == 0ui64, "c is not equal to UE5_INLINE_CLASS_ENUM_EXAMPLE::NONE");
+
+
