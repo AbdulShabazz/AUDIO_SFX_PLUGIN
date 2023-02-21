@@ -1,91 +1,118 @@
-﻿	using namespace UE5_INLINE_CLASS_NAMESPACE;
+﻿
+//
+	InputType join(const InputType separator = " > ") const
+	{
+		InputType result = InputType{};
+		InputType delim = InputType{};
+		InputType pad = InputType{ "\t" };
+		bool first = true;
+		for (const auto& buff : array) 
+		{
+			if (!first) 
+			{
+				delim += pad;
+				result += separator + delim;
+			}
+			result += buff;
+			first = false;
+		}
 
-    class beta : public UE5_INLINE_CLASS<beta>
-    {
-    public:
-        beta()
-        {
-            //// inline class member definition(s) can be added here
-            UE5_BEGIN_CLASS_MEMBER_DEFINITIONS();
+		// Convert std::string (result) to a UE_LOG() friendly format
+		UE_LOG(LogTemp, Display, TEXT("%s"), *FString(result.c_str()));
+		return result;
+	}
+//
+		// Convert result into a UE_LOG() friendly string
+		result = std::regex_replace(result, std::regex("\n"), TEXT("\n"));
+//
+	using namespace UE5_INLINE_CLASS_NAMESPACE;
 
-            //AddPrivateAttribute(...);
-            //AddPrivateMethod(...);
-            //AddPublicAttribute(...);
-            //AddPublicMethod(...);
+	class beta : public UE5_INLINE_CLASS<beta>
+	{
+	public:
+		beta()
+		{
+			//// inline class member definition(s) can be added here
+			UE5_BEGIN_CLASS_MEMBER_DEFINITIONS();
 
-            UE5_END_CLASS_MEMBER_DEFINITIONS();
+			//AddPrivateAttribute(...);
+			//AddPrivateMethod(...);
+			//AddPublicAttribute(...);
+			//AddPublicMethod(...);
+
+			UE5_END_CLASS_MEMBER_DEFINITIONS();
 
 
-            //// Optional new class constructor
-            //UE5_BEGIN_CLASS_DEFINITION( "Class" ) : [public / private / virtual ...] , ...
+			//// Optional new class constructor
+			//UE5_BEGIN_CLASS_DEFINITION( "Class" ) : [public / private / virtual ...] , ...
 
-            //AddPrivateAttribute(...);
-            //AddPrivateMethod(...);
-            //AddPublicAttribute(...);
-            //AddPublicMethod(...);
+			//AddPrivateAttribute(...);
+			//AddPrivateMethod(...);
+			//AddPublicAttribute(...);
+			//AddPublicMethod(...);
 
-            //UE5_END_CLASS_DEFINITION() 
+			//UE5_END_CLASS_DEFINITION() 
 
-        };
-    };
+		};
+	};
 
-    // Create a reference to an object of type TRefParams by forwarding an rvalue reference.
-    TRefParams& TRefParamsObjRef = std::forward<TRefParams&>(TRefParams());
+	// Create a reference to an object of type TRefParams by forwarding an rvalue reference.
+	TRefParams& TRefParamsObjRef = std::forward<TRefParams&>(TRefParams());
 
-    // Create a reference to an object of type beta by forwarding an rvalue reference to the result of calling beta::New().
-    beta& BetaTestClass = beta::New();
+	// Create a reference to an object of type beta by forwarding an rvalue reference to the result of calling beta::New().
+	beta& BetaTestClass = beta::New();
 
-    // Add a method named "MyCustomMethod" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
-    // 1. A void function that prints "Hello World!" to the console.
-    // 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
-    // 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.    
-    BetaTestClass.AddMethod(
-        "MyCustomMethod",
-        [&](TRefParams& TRefParamsObjRef) -> TRefParams& { std::cout << "Hello World!" << std::endl; return TRefParamsObjRef; },
-        [&](TRefParams& TRefParamsObjRef) -> bool { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
-        [&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
-    );
+	// Add a method named "MyCustomMethod" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
+	// 1. A void function that prints "Hello World!" to the console.
+	// 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
+	// 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.    
+	BetaTestClass.AddMethod(
+		"MyCustomMethod",
+		[&](TRefParams& TRefParamsObjRef) -> TRefParams& { std::cout << "Hello World!" << std::endl; return TRefParamsObjRef; },
+		[&](TRefParams& TRefParamsObjRef) -> bool { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
+		[&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
+	);
 
-    // Call the "MyCustomMethod" Setter
-    BetaTestClass.Invoke("MyCustomMethod", TRefParamsObjRef);
+	// Call the "MyCustomMethod" Setter
+	BetaTestClass.Invoke("MyCustomMethod", TRefParamsObjRef);
 
-    // Call the "MyCustomMethod" Getter
-    TRefParams& TRefParamsObjRef2 = BetaTestClass.Invoke("MyCustomMethod", TRefParamsObjRef);
+	// Call the "MyCustomMethod" Getter
+	TRefParams& TRefParamsObjRef2 = BetaTestClass.Invoke("MyCustomMethod", TRefParamsObjRef);
 
 //
 void FAUDIO_SFX_PLUGINModule::FillMenu(FMenuBuilder& MenuBarBuilderRef)
 {
-    MenuBarBuilderRef.AddMenuEntry(
-        FText::FromString("Perlin Noise"),
-        FText::FromString("Generate Perlin Noise"),
-        FSlateIcon(),
-        FUIAction(
-            FExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::GeneratePerlinNoise),
-            FCanExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnGeneratePerlinNoise)
-        )
-    );
+	MenuBarBuilderRef.AddMenuEntry(
+		FText::FromString("Perlin Noise"),
+		FText::FromString("Generate Perlin Noise"),
+		FSlateIcon(),
+		FUIAction(
+			FExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::GeneratePerlinNoise),
+			FCanExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnGeneratePerlinNoise)
+		)
+	);
 }
 
 void FAUDIO_SFX_PLUGINModule::AddMenuBarExtension(FMenuBarBuilder& MenuBarBuilderRef)
 {
-    TAttribute<FText> inMenuLabelFText;
-    inMenuLabelFText.Set(FText(LOCTEXT("WindowWidgetMenuText", "Tools")));
+	TAttribute<FText> inMenuLabelFText;
+	inMenuLabelFText.Set(FText(LOCTEXT("WindowWidgetMenuText", "Tools")));
 
-    TAttribute<FText> inMenuToolTipFText;
-    inMenuLabelFText.Set(FText(LOCTEXT("WindowWidgetMenuText", "Provides channel-editing tools, features, and functionality")));
+	TAttribute<FText> inMenuToolTipFText;
+	inMenuLabelFText.Set(FText(LOCTEXT("WindowWidgetMenuText", "Provides channel-editing tools, features, and functionality")));
 
-    MenuBarBuilderRef.AddPullDownMenu(
-        inMenuLabelFText,
-        inMenuToolTipFText,
-        FNewMenuDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::FillMenu)
-    );
+	MenuBarBuilderRef.AddPullDownMenu(
+		inMenuLabelFText,
+		inMenuToolTipFText,
+		FNewMenuDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::FillMenu)
+	);
 }
 
 TSharedRef<SWidget> FAUDIO_SFX_PLUGINModule::GetTabContent(const FName& TabID)
 {
-    TAttribute<FText> TabIDFText{ FText::Format(LOCTEXT("WindowWidgetText", "This is the content of tab '{0}'"), FText::FromString(TabID.ToString())) };
-    return SNew(STextBlock)
-        .Text(TabIDFText);
+	TAttribute<FText> TabIDFText{ FText::Format(LOCTEXT("WindowWidgetText", "This is the content of tab '{0}'"), FText::FromString(TabID.ToString())) };
+	return SNew(STextBlock)
+		.Text(TabIDFText);
 }
 //
 	struct MyFSpawnTabArgs : public FSpawnTabArgs
@@ -259,155 +286,155 @@ void FTheAudio__TheAudioSfxPluginModule::StartupModule()
 //
 	FGlobalTabmanager::Get()->TryInvokeTab(FTheAudio__TheAudioSfxPluginTabName);
 //
-        template <typename ClassMemberNameStdString, typename ParamRefStruct>
-        ParamRefStruct& Invoke(const ClassMemberNameStdString& name, ParamRefStruct& params) {
-            if (_public.find(name) != _public.end())
-            {
-                _public[name](params);
-            }
-            else
-            {
-                std::cout << "Warning: UE5_INLINE_CLASS member [ " + name + " ] not found!" << std::endl;
-            }
-            return params;
-        }
+		template <typename ClassMemberNameStdString, typename ParamRefStruct>
+		ParamRefStruct& Invoke(const ClassMemberNameStdString& name, ParamRefStruct& params) {
+			if (_public.find(name) != _public.end())
+			{
+				_public[name](params);
+			}
+			else
+			{
+				std::cout << "Warning: UE5_INLINE_CLASS member [ " + name + " ] not found!" << std::endl;
+			}
+			return params;
+		}
 //
-    private:
-        // Declare private so a New invocation returns the same object. (ie. Enforce singleton pattern)
-        UE5_INLINE_CLASS() {};
+	private:
+		// Declare private so a New invocation returns the same object. (ie. Enforce singleton pattern)
+		UE5_INLINE_CLASS() {};
 //
 /*
-    // Create a reference to an object of type TRefParams by forwarding an rvalue reference.
-    TRefParams& TRefParamsObjRef = std::forward<TRefParams&>(TRefParams());
-    
-    // Create a reference to an object of type beta by forwarding an rvalue reference to the result of calling beta::New().
-    beta& BetaTestClass = beta::New();
-    
-    // Add a method named "MyCustomMethod" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
-    // 1. A void function that prints "Hello World!" to the console.
-    // 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
-    // 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.    
-    BetaTestClass.AddMethod<
-        std::string,
-        std::function<void(TRefParams&)>,
-        std::function<bool(TRefParams&)>,
-        std::function<void(TRefParams&)>>(
-        "MyCustomMethod",
-        [&](TRefParams& TRefParamsObjRef) { std::cout << "Hello World!" << std::endl; },
-        [&](TRefParams& TRefParamsObjRef) { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
-        [&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
-    );
+	// Create a reference to an object of type TRefParams by forwarding an rvalue reference.
+	TRefParams& TRefParamsObjRef = std::forward<TRefParams&>(TRefParams());
+	
+	// Create a reference to an object of type beta by forwarding an rvalue reference to the result of calling beta::New().
+	beta& BetaTestClass = beta::New();
+	
+	// Add a method named "MyCustomMethod" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
+	// 1. A void function that prints "Hello World!" to the console.
+	// 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
+	// 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.    
+	BetaTestClass.AddMethod<
+		std::string,
+		std::function<void(TRefParams&)>,
+		std::function<bool(TRefParams&)>,
+		std::function<void(TRefParams&)>>(
+		"MyCustomMethod",
+		[&](TRefParams& TRefParamsObjRef) { std::cout << "Hello World!" << std::endl; },
+		[&](TRefParams& TRefParamsObjRef) { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
+		[&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
+	);
 
-    // Call the "MyCustomMethod" Setter
-    BetaTestClass.Invoke<std::string, TRefParams&>("MyCustomMethod", TRefParamsObjRef);
+	// Call the "MyCustomMethod" Setter
+	BetaTestClass.Invoke<std::string, TRefParams&>("MyCustomMethod", TRefParamsObjRef);
 
-    // Call the "MyCustomMethod" Getter
-    TRefParams& TRefParamsObjRef2 = BetaTestClass.Invoke<std::string, TRefParams&>("MyCustomMethod", TRefParamsObjRef);
+	// Call the "MyCustomMethod" Getter
+	TRefParams& TRefParamsObjRef2 = BetaTestClass.Invoke<std::string, TRefParams&>("MyCustomMethod", TRefParamsObjRef);
 */
 //
 template <typename WidgetType>
-    class UE5_INLINE_CLASS
-    {
-    public:
+	class UE5_INLINE_CLASS
+	{
+	public:
 
-        static WidgetType& New() {
-            static WidgetType instance;
-            return instance;
-        }
+		static WidgetType& New() {
+			static WidgetType instance;
+			return instance;
+		}
 //
-    // forward declaration for later use in lieu of strings
-    enum class UE5_INLINE_CLASS_METHOD;
+	// forward declaration for later use in lieu of strings
+	enum class UE5_INLINE_CLASS_METHOD;
 //
-    template<typename T, typename... Args>
-    using UE5_VARIANT_METHOD = std::function<T& (Args&...)>;
+	template<typename T, typename... Args>
+	using UE5_VARIANT_METHOD = std::function<T& (Args&...)>;
 
-    template<typename T>
-    using UE5_VARIANT_ATTRIBUTE = std::variant<T&>;
+	template<typename T>
+	using UE5_VARIANT_ATTRIBUTE = std::variant<T&>;
 
-    template<typename T, typename... Args>
-    using UE5_METHOD = std::variant<UE5_VARIANT_METHOD<T&, Args&...>, Args&...>;
+	template<typename T, typename... Args>
+	using UE5_METHOD = std::variant<UE5_VARIANT_METHOD<T&, Args&...>, Args&...>;
 
-    template<typename... Args>
-    using UE5_ATTRIBUTE = std::variant<Args&...>;
+	template<typename... Args>
+	using UE5_ATTRIBUTE = std::variant<Args&...>;
 
-    //template<typename T>
-    //using UE5_ATTRIBUTE = std::variant<T>;
+	//template<typename T>
+	//using UE5_ATTRIBUTE = std::variant<T>;
 //
-    // Call the "MyCustomMethod" Setter
-    BetaTestClass >> "MyCustomMethod" >> TRefParamsObjRef;
+	// Call the "MyCustomMethod" Setter
+	BetaTestClass >> "MyCustomMethod" >> TRefParamsObjRef;
 
-    // Call the "MyCustomMethod" Getter
-    TRefParams& TRefParamsObjRef = BetaTestClass << "MyCustomMethod" << TRefParamsObjRef;
-    
-    /**
-    
-    // Add a named attribute "MyCustomAttribute" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
-    // 1. A TRefParams& accessor() function that prints "Hello World!" to the console.
-    // 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
-    // 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.
-    BetaTestClass.AddAttribute(...);
+	// Call the "MyCustomMethod" Getter
+	TRefParams& TRefParamsObjRef = BetaTestClass << "MyCustomMethod" << TRefParamsObjRef;
+	
+	/**
+	
+	// Add a named attribute "MyCustomAttribute" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
+	// 1. A TRefParams& accessor() function that prints "Hello World!" to the console.
+	// 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
+	// 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.
+	BetaTestClass.AddAttribute(...);
 
-    // Call the MyCustomAttribute accessor (Setter)
-    BetaTestClass >> "MyCustomAttribute" >> TRefParamsObjRef;
+	// Call the MyCustomAttribute accessor (Setter)
+	BetaTestClass >> "MyCustomAttribute" >> TRefParamsObjRef;
 
-    // Call the MyCustomAttribute accessor (Getter + Optional Setter)
-    TRefParams& TRefParamsObjRef = BetaTestClass << "MyCustomAttribute" [ << TRefParamsObjRef ];
-    
-    */
-    
+	// Call the MyCustomAttribute accessor (Getter + Optional Setter)
+	TRefParams& TRefParamsObjRef = BetaTestClass << "MyCustomAttribute" [ << TRefParamsObjRef ];
+	
+	*/
+	
 //
-        class TReturnParams
-        {
-	    public:
-            explicit TReturnParams(
-                UE5_VARIANT_METHOD<std::function<TRefParams& (TRefParams&)>,TRefParams&>
-                (std::function<TRefParams& (TRefParams&)> InlineFuncRef, TRefParams& TwoIntRefParamObjRef)
-            ) {};
+		class TReturnParams
+		{
+		public:
+			explicit TReturnParams(
+				UE5_VARIANT_METHOD<std::function<TRefParams& (TRefParams&)>,TRefParams&>
+				(std::function<TRefParams& (TRefParams&)> InlineFuncRef, TRefParams& TwoIntRefParamObjRef)
+			) {};
 
-		    explicit TReturnParams(TRefParams& TwoIntRefParamObjRef) : _TwoIntRefParamObjRef{ TwoIntRefParamObjRef = TRefParams() } {};
+			explicit TReturnParams(TRefParams& TwoIntRefParamObjRef) : _TwoIntRefParamObjRef{ TwoIntRefParamObjRef = TRefParams() } {};
 
-		    explicit TReturnParams() : _TwoIntRefParamObjRef{ TRefParams() } {};
+			explicit TReturnParams() : _TwoIntRefParamObjRef{ TRefParams() } {};
 
-		    template <typename T>
-            TReturnParams& operator >> (T& params)
-            {
+			template <typename T>
+			TReturnParams& operator >> (T& params)
+			{
 
-            };
+			};
 
-            template <typename T>
-            T& operator << (T& params)
-            {
+			template <typename T>
+			T& operator << (T& params)
+			{
 
-            };
-        
-        private:
-            TRefParams& _TwoIntRefParamObjRef;
-	    };
-    
-        // object selection operator
-        template <typename T>
-        TReturnParams& operator >> (const T& name)
-        {
+			};
+		
+		private:
+			TRefParams& _TwoIntRefParamObjRef;
+		};
+	
+		// object selection operator
+		template <typename T>
+		TReturnParams& operator >> (const T& name)
+		{
 
-        }
+		}
 
-        // object selection operator
-        template <typename T>
-        TReturnParams& operator << (const T& name)
-        {
+		// object selection operator
+		template <typename T>
+		TReturnParams& operator << (const T& name)
+		{
 
-        }
+		}
 
-        std::string& GetFullClassNameStdStr(std::string& name)
-        {
+		std::string& GetFullClassNameStdStr(std::string& name)
+		{
 
-        }
-        
-        template <typename T>
-        bool is_callable(T& func)
-        {
+		}
+		
+		template <typename T>
+		bool is_callable(T& func)
+		{
 
-        }
+		}
 //
 #include <iostream>
 #include <string>
@@ -415,286 +442,286 @@ template <typename WidgetType>
 
 class TRefParams {
 public:
-    int _a;
-    int _b;
+	int _a;
+	int _b;
 };
 
 class Beta {
 public:
-    template<typename R, typename Func, typename Pred, typename Warn>
-    void AddMethod(const std::string& name, Func func, Pred pred, Warn warn) {
-        auto method = [func, pred, warn](TRefParams& params) {
-            if (pred(params)) {
-                func(params);
-            }
-            else {
-                warn(params);
-            }
-        };
-        m_methods[name] = method;
-    }
+	template<typename R, typename Func, typename Pred, typename Warn>
+	void AddMethod(const std::string& name, Func func, Pred pred, Warn warn) {
+		auto method = [func, pred, warn](TRefParams& params) {
+			if (pred(params)) {
+				func(params);
+			}
+			else {
+				warn(params);
+			}
+		};
+		m_methods[name] = method;
+	}
 
-    void Invoke(const std::string& name, TRefParams& params) {
-        if (m_methods.find(name) != m_methods.end()) {
-            m_methods[name](params);
-        }
-    }
+	void Invoke(const std::string& name, TRefParams& params) {
+		if (m_methods.find(name) != m_methods.end()) {
+			m_methods[name](params);
+		}
+	}
 
 private:
-    std::unordered_map<std::string, std::function<void(TRefParams&)>> m_methods;
+	std::unordered_map<std::string, std::function<void(TRefParams&)>> m_methods;
 };
 
 int main() {
-    Beta BetaTestClass;
-    BetaTestClass.AddMethod<std::string>(
-        "MyCustomMethod",
-        [&](TRefParams& TRefParamsObjRef) { std::cout << "Hello World!" << std::endl; },
-        [&](TRefParams& TRefParamsObjRef) { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
-        [&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
-    );
-    TRefParams params { 0, 1 };
-    BetaTestClass.Invoke("MyCustomMethod", params);
-    return 0;
+	Beta BetaTestClass;
+	BetaTestClass.AddMethod<std::string>(
+		"MyCustomMethod",
+		[&](TRefParams& TRefParamsObjRef) { std::cout << "Hello World!" << std::endl; },
+		[&](TRefParams& TRefParamsObjRef) { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
+		[&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
+	);
+	TRefParams params { 0, 1 };
+	BetaTestClass.Invoke("MyCustomMethod", params);
+	return 0;
 }
 
 //
-        template <typename... Args>
-        void AddAttribute(Args&... values)
-        {
-            int AttributeParams = 0;
-            int ValidationCallback = 1;
-            int ErrorCallback = 2;
-        }
+		template <typename... Args>
+		void AddAttribute(Args&... values)
+		{
+			int AttributeParams = 0;
+			int ValidationCallback = 1;
+			int ErrorCallback = 2;
+		}
 //
-        template <
-            typename MethodName, 
-            typename MethodBody, 
-            typename ValidationCallback, 
-            typename ErrorCallback>
-        void AddMethod(
-            const MethodName& MethodNameStdStr,
-            MethodBody MethodBodyVoidFunc,
-            ValidationCallback ValidationCallbackBBoolFunc,
-            ErrorCallback ErrorCallbackVoidFunc)
-        {
-            int MethodName = 0;
-            int MethodBody = 1;
-		    int ValidationCallback = 2;
-            int ErrorCallback = 3;
+		template <
+			typename MethodName, 
+			typename MethodBody, 
+			typename ValidationCallback, 
+			typename ErrorCallback>
+		void AddMethod(
+			const MethodName& MethodNameStdStr,
+			MethodBody MethodBodyVoidFunc,
+			ValidationCallback ValidationCallbackBBoolFunc,
+			ErrorCallback ErrorCallbackVoidFunc)
+		{
+			int MethodName = 0;
+			int MethodBody = 1;
+			int ValidationCallback = 2;
+			int ErrorCallback = 3;
 
-            MethodNameStdStr;
-            MethodBodyVoidFunc;
-            ValidationCallbackBBoolFunc;
-            ErrorCallbackVoidFunc;
-        }
+			MethodNameStdStr;
+			MethodBodyVoidFunc;
+			ValidationCallbackBBoolFunc;
+			ErrorCallbackVoidFunc;
+		}
 //
-    BetaTestClass.AddMethod<
-        std::string,
-        std::function<void(TRefParams&)>,
-        std::function<bool(TRefParams&)>,
-        std::function<void(TRefParams&)>
-    >(
-        "MyCustomMethod",
-        [&](TRefParams& TRefParamsObjRef) { std::cout << "Hello World!" << std::endl; },
-        [&](TRefParams& TRefParamsObjRef) { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
-        [&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
-    );
+	BetaTestClass.AddMethod<
+		std::string,
+		std::function<void(TRefParams&)>,
+		std::function<bool(TRefParams&)>,
+		std::function<void(TRefParams&)>
+	>(
+		"MyCustomMethod",
+		[&](TRefParams& TRefParamsObjRef) { std::cout << "Hello World!" << std::endl; },
+		[&](TRefParams& TRefParamsObjRef) { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
+		[&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
+	);
 //
-            /* this; */
-	        /* BetaTestClass >> "MyCustomMethod2" >> TRefParamsObjRef; */
-	        /* TRefParams& TRefParamsOtherObjRef = BetaTestClass << "MyCustomMethod2" << TRefParamsObjRef; */
-            
+			/* this; */
+			/* BetaTestClass >> "MyCustomMethod2" >> TRefParamsObjRef; */
+			/* TRefParams& TRefParamsOtherObjRef = BetaTestClass << "MyCustomMethod2" << TRefParamsObjRef; */
+			
 //
-        template <typename T>
-        class is_callable
-        {
-            template <typename U>
-            static constexpr auto CheckIsFunctionType(U*) -> typename std::is_function<U>::type {};
+		template <typename T>
+		class is_callable
+		{
+			template <typename U>
+			static constexpr auto CheckIsFunctionType(U*) -> typename std::is_function<U>::type {};
 
-            template <typename>
-            static constexpr std::false_type CheckIsFunctionType(...) {};
+			template <typename>
+			static constexpr std::false_type CheckIsFunctionType(...) {};
 
-            public:
-                static constexpr bool value = decltype(CheckIsFunctionType<T>(nullptr))::value;
-        };
+			public:
+				static constexpr bool value = decltype(CheckIsFunctionType<T>(nullptr))::value;
+		};
 //
-        template <typename T, typename U>
-        bool is_of_method_type(T* foo)
-        {
-            return static_cast<bool>(std::is_same<decltype(foo), U>()::type);
-        }
+		template <typename T, typename U>
+		bool is_of_method_type(T* foo)
+		{
+			return static_cast<bool>(std::is_same<decltype(foo), U>()::type);
+		}
 
-        template <typename T, typename U>
-        bool is_of_attribute_type(T& foo)
-        {
-            return static_cast<bool>(std::is_same<decltype(foo), U>()::type);
-        }
+		template <typename T, typename U>
+		bool is_of_attribute_type(T& foo)
+		{
+			return static_cast<bool>(std::is_same<decltype(foo), U>()::type);
+		}
 //
-        template <typename... Args>
-        void AddMethod(Args&... values)
-        {
-            int MethodName = 0;
-            int MethodBody = 1;
-		    int ValidationCallback = 2;
-            int ErrorCallback = 3;
+		template <typename... Args>
+		void AddMethod(Args&... values)
+		{
+			int MethodName = 0;
+			int MethodBody = 1;
+			int ValidationCallback = 2;
+			int ErrorCallback = 3;
 
-            using U = decltype(values[MethodName]);
+			using U = decltype(values[MethodName]);
 
-            std::string& name = GetFullClassNameStdStr(values[MethodName]);
+			std::string& name = GetFullClassNameStdStr(values[MethodName]);
 
-            if (
-                    (
-                        !values[ValidationCallback] ||
-                        (
-                            /* is_callable<std::function>(values[ValidationCallback])::type && */
-                            values[ValidationCallback](values[MethodParams])
-                        )
-                    ) && !bBeginArgsFlag
-                )
-            {
-                _public[name] = &values[MethodBody];
-                _public[name + "_ValidationCallback"] = &values[ValidationCallback];
-                _public[name + "_ErrorCallback"] = &values[ErrorCallback];
-            }
-            else if(values[ErrorCallback] /* && is_callable<std::function>(values[ErrorCallback])::type */)
-            {
-                values[ErrorCallback](values[MethodParams]);
-            }
-            else
-            {
-                throw std::runtime_error(
-                    "Error: Invalid class method ValidationCallback," +
-                    " or you are attempting to call .AddAttribute while " + 
-                    "in inline class scope(See.AddPublicAttribute)!");
-            }
-        }
+			if (
+					(
+						!values[ValidationCallback] ||
+						(
+							/* is_callable<std::function>(values[ValidationCallback])::type && */
+							values[ValidationCallback](values[MethodParams])
+						)
+					) && !bBeginArgsFlag
+				)
+			{
+				_public[name] = &values[MethodBody];
+				_public[name + "_ValidationCallback"] = &values[ValidationCallback];
+				_public[name + "_ErrorCallback"] = &values[ErrorCallback];
+			}
+			else if(values[ErrorCallback] /* && is_callable<std::function>(values[ErrorCallback])::type */)
+			{
+				values[ErrorCallback](values[MethodParams]);
+			}
+			else
+			{
+				throw std::runtime_error(
+					"Error: Invalid class method ValidationCallback," +
+					" or you are attempting to call .AddAttribute while " + 
+					"in inline class scope(See.AddPublicAttribute)!");
+			}
+		}
 //
-            //int MethodType;
-            int MethodName = 0;
-            //int MethodParams;
-            int MethodBody = 1;
-		    int ValidationCallback = 2;
-            int ErrorCallback = 3;
+			//int MethodType;
+			int MethodName = 0;
+			//int MethodParams;
+			int MethodBody = 1;
+			int ValidationCallback = 2;
+			int ErrorCallback = 3;
  //   
-    /**
-    
-    // Add a named attribute "MyCustomAttribute" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
-    // 1. A void accessor() function that prints "Hello World!" to the console.
-    // 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
-    // 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.
-    BetaTestClass.AddAttribute(...);
+	/**
+	
+	// Add a named attribute "MyCustomAttribute" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
+	// 1. A void accessor() function that prints "Hello World!" to the console.
+	// 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
+	// 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.
+	BetaTestClass.AddAttribute(...);
 
-    // Call the MyCustomAttribute accessor (Setter)
-    BetaTestClass >> UE5_INLINE_CLASS_ATTRIBUTE::MyCustomAttribute >> TRefParamsObjRef;
+	// Call the MyCustomAttribute accessor (Setter)
+	BetaTestClass >> UE5_INLINE_CLASS_ATTRIBUTE::MyCustomAttribute >> TRefParamsObjRef;
 
-    // Read the MyCustomAttribute accessor (Getter + Setter)
-    TRefParams& TRefParamsObjRef = BetaTestClass << UE5_INLINE_CLASS_ATTRIBUTE::MyCustomAttribute << TRefParamsObjRef;
-    
-    */
+	// Read the MyCustomAttribute accessor (Getter + Setter)
+	TRefParams& TRefParamsObjRef = BetaTestClass << UE5_INLINE_CLASS_ATTRIBUTE::MyCustomAttribute << TRefParamsObjRef;
+	
+	*/
 //
-        template <typename T, typename U>
-        bool method_is_of_type(T* foo)
-        {
-            return static_cast<bool>(std::is_same<decltype(foo),U>()::type);
-        }
-        
-        template <typename T, typename U>
-        bool attribute_is_of_type(T& foo)
-        {
+		template <typename T, typename U>
+		bool method_is_of_type(T* foo)
+		{
 			return static_cast<bool>(std::is_same<decltype(foo),U>()::type);
-        }
-        
-        /** 
-        The has_foo_method member function now uses std::is_function to determine if the type U is a function type. */
-        template <typename T>
-        class has_foo_method
-        {
-            template <typename T, typename U>
-            constexpr auto CheckMethod(T*) -> typename { std::is_function<U>::type; };
+		}
+		
+		template <typename T, typename U>
+		bool attribute_is_of_type(T& foo)
+		{
+			return static_cast<bool>(std::is_same<decltype(foo),U>()::type);
+		}
+		
+		/** 
+		The has_foo_method member function now uses std::is_function to determine if the type U is a function type. */
+		template <typename T>
+		class has_foo_method
+		{
+			template <typename T, typename U>
+			constexpr auto CheckMethod(T*) -> typename { std::is_function<U>::type; };
 
-            template <typename T>
-            constexpr std::false_type CheckMethod(...) {};
+			template <typename T>
+			constexpr std::false_type CheckMethod(...) {};
 
-        public:            
-            constexpr bool func = decltype(CheckMethod<T>(nullptr))::func;
-        };
+		public:            
+			constexpr bool func = decltype(CheckMethod<T>(nullptr))::func;
+		};
 
-        /** 
-        In this refactored version, the has_foo_attribute class takes two template parameters: 
-        T and U. The T parameter is the type to check for the attribute, 
-        while the U parameter specifies the attribute to check. */
-        template <typename T, typename U>
-        class has_foo_attribute
-        {
-            template <typename T>
-            constexpr auto CheckAttribute(T*) -> { decltype(std::declval<T>().*std::declval<U>(), std::true_type()); };
+		/** 
+		In this refactored version, the has_foo_attribute class takes two template parameters: 
+		T and U. The T parameter is the type to check for the attribute, 
+		while the U parameter specifies the attribute to check. */
+		template <typename T, typename U>
+		class has_foo_attribute
+		{
+			template <typename T>
+			constexpr auto CheckAttribute(T*) -> { decltype(std::declval<T>().*std::declval<U>(), std::true_type()); };
 
-            template <typename>
-            constexpr std::false_type CheckAttribute(...) -> std::false_type {};
+			template <typename>
+			constexpr std::false_type CheckAttribute(...) -> std::false_type {};
 
-        public:
-            // Example usage: using has_foo_attribute = has_attribute<MyType, int MyType::*(&)(void) const noexcept>(&MyType::foo);
-            constexpr bool value = decltype(CheckAttribute<T>(nullptr))::value;
-        };
+		public:
+			// Example usage: using has_foo_attribute = has_attribute<MyType, int MyType::*(&)(void) const noexcept>(&MyType::foo);
+			constexpr bool value = decltype(CheckAttribute<T>(nullptr))::value;
+		};
 //
-    /* A type-safe implentation, using enum class */ 
-    
-    // Create a reference to an object of type TRefParams by forwarding an rvalue reference.
-    TRefParams& TRefParamsObjRef = std::forward<TRefParams&>(TRefParams());
-    
-    // Create a reference to an object of type beta by forwarding an rvalue reference to the result of calling beta::New().
-    beta& BetaTestClass = std::forward<beta&>(beta::New());
+	/* A type-safe implentation, using enum class */ 
+	
+	// Create a reference to an object of type TRefParams by forwarding an rvalue reference.
+	TRefParams& TRefParamsObjRef = std::forward<TRefParams&>(TRefParams());
+	
+	// Create a reference to an object of type beta by forwarding an rvalue reference to the result of calling beta::New().
+	beta& BetaTestClass = std::forward<beta&>(beta::New());
 
-    // Create an enum class UE5_INLINE_CLASS_MEMBERS entry for "MyCustomMethod"
-    enum class UE5_INLINE_CLASS_MEMBERS : uint32_t
-    {
-     /* MyCustomAttribute, */
-        MyCustomMethod
-    };
-    
-    // Add a method named "MyCustomMethod" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
-    // 1. A void function that prints "Hello World!" to the console.
-    // 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
-    // 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.    
-    BetaTestClass.AddMethod<
-        UE5_INLINE_CLASS_MEMBERS,
-        std::function<void(TRefParams&)>,
-        std::function<bool(TRefParams&)>,
-        std::function<void(TRefParams&)>
-    >(
-        UE5_INLINE_CLASS_MEMBERS::MyCustomMethod,
-        [&](TRefParams& TRefParamsObjRef)
-        {
-            /* this; */
-	        /* TRefParams& TRefParamsOtherObjRef = BetaTestClass >> UE5_INLINE_CLASS_MEMBERS::MyCustomMethod2 >> TRefParamsObjRef; */
-	        /* TRefParams& TRefParamsOtherObjRef = BetaTestClass >> UE5_INLINE_CLASS_MEMBERS::MyCustomAttribute2; */
-            std::cout << "Hello World!" << std::endl; 
-        },
-        [&](TRefParams& TRefParamsObjRef) { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
-        [&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
-    );
+	// Create an enum class UE5_INLINE_CLASS_MEMBERS entry for "MyCustomMethod"
+	enum class UE5_INLINE_CLASS_MEMBERS : uint32_t
+	{
+	 /* MyCustomAttribute, */
+		MyCustomMethod
+	};
+	
+	// Add a method named "MyCustomMethod" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
+	// 1. A void function that prints "Hello World!" to the console.
+	// 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
+	// 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.    
+	BetaTestClass.AddMethod<
+		UE5_INLINE_CLASS_MEMBERS,
+		std::function<void(TRefParams&)>,
+		std::function<bool(TRefParams&)>,
+		std::function<void(TRefParams&)>
+	>(
+		UE5_INLINE_CLASS_MEMBERS::MyCustomMethod,
+		[&](TRefParams& TRefParamsObjRef)
+		{
+			/* this; */
+			/* TRefParams& TRefParamsOtherObjRef = BetaTestClass >> UE5_INLINE_CLASS_MEMBERS::MyCustomMethod2 >> TRefParamsObjRef; */
+			/* TRefParams& TRefParamsOtherObjRef = BetaTestClass >> UE5_INLINE_CLASS_MEMBERS::MyCustomAttribute2; */
+			std::cout << "Hello World!" << std::endl; 
+		},
+		[&](TRefParams& TRefParamsObjRef) { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
+		[&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
+	);
 
-    // Call the MyCustomMethod on the BetaTestClass object with the TRefParamsObjRef object as the argument setter.
-    BetaTestClass >> UE5_INLINE_CLASS_MEMBERS::MyCustomMethod >> TRefParamsObjRef;
+	// Call the MyCustomMethod on the BetaTestClass object with the TRefParamsObjRef object as the argument setter.
+	BetaTestClass >> UE5_INLINE_CLASS_MEMBERS::MyCustomMethod >> TRefParamsObjRef;
 
-    // Call the MyCustomMethod on the BetaTestClass object with the TRefParamsObjRef object as the argument getter.
-    TRefParams& TRefParamsObjRef = BetaTestClass >> UE5_INLINE_CLASS_MEMBERS::MyCustomMethod >> TRefParamsObjRef;
-    
-    /**
-    
-    // Add a named attribute "MyCustomAttribute" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
-    // 1. A void accessor() function that prints "Hello World!" to the console.
-    // 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
-    // 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.
-    BetaTestClass.AddAttribute(...);
+	// Call the MyCustomMethod on the BetaTestClass object with the TRefParamsObjRef object as the argument getter.
+	TRefParams& TRefParamsObjRef = BetaTestClass >> UE5_INLINE_CLASS_MEMBERS::MyCustomMethod >> TRefParamsObjRef;
+	
+	/**
+	
+	// Add a named attribute "MyCustomAttribute" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
+	// 1. A void accessor() function that prints "Hello World!" to the console.
+	// 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
+	// 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.
+	BetaTestClass.AddAttribute(...);
 
-    // Call the MyCustomAttribute accessor Method on the BetaTestClass object with no TRefParamsObjRef object as the argument getter.
-    TRefParams& TRefParamsObjRef = BetaTestClass >> UE5_INLINE_CLASS_ATTRIBUTE::MyCustomAttribute;
+	// Call the MyCustomAttribute accessor Method on the BetaTestClass object with no TRefParamsObjRef object as the argument getter.
+	TRefParams& TRefParamsObjRef = BetaTestClass >> UE5_INLINE_CLASS_ATTRIBUTE::MyCustomAttribute;
 
-    // Call the MyCustomAttribute accessor Method on the BetaTestClass object with the TRefParamsObjRef object as the argument setter.
-    BetaTestClass >> UE5_INLINE_CLASS_ATTRIBUTE::MyCustomAttribute >> TRefParamsObjRef;
-    
-    */
+	// Call the MyCustomAttribute accessor Method on the BetaTestClass object with the TRefParamsObjRef object as the argument setter.
+	BetaTestClass >> UE5_INLINE_CLASS_ATTRIBUTE::MyCustomAttribute >> TRefParamsObjRef;
+	
+	*/
 //
 enum class UE5_INLINE_CLASS_METHODEnum : uint32_t
 {
@@ -707,75 +734,75 @@ using FRIENDLY_CAST_T = static_cast<T>;
 using FRIENDLY_CAST = FRIENDLY_CAST_T<uint32_t>;
 //
 		template <typename T>
-        TReturnParams& operator >> (T&& params)
-        {
-            std::string name = _NameStdStr;
-            if (!params)
-            {
-                std::cerr << "Error: Method or Attribute'" << name << "' missing _Accessor or params." << std::endl;
-            }
-            else
-            {
-                std::string ValidationCallback = name + "_ValidationCallback";
-                std::string ErrorCallback = name + "_ErrorCallback";
-                if (_public.find(ValidationCallback)(params))
-                {
-                    std::string nameAccessor = name + "_Accessor";
-                    if (_public.count(nameAccessor))
-                    {
-                        _public.find(nameAccessor)(params);
-                    }
-                    else
-                    {
-                        _public.find(name)(params);
-                    }
-                }
-                else
-                {
-                    _public.find(ErrorCallback)(params);
-                }
-            }
+		TReturnParams& operator >> (T&& params)
+		{
+			std::string name = _NameStdStr;
+			if (!params)
+			{
+				std::cerr << "Error: Method or Attribute'" << name << "' missing _Accessor or params." << std::endl;
+			}
+			else
+			{
+				std::string ValidationCallback = name + "_ValidationCallback";
+				std::string ErrorCallback = name + "_ErrorCallback";
+				if (_public.find(ValidationCallback)(params))
+				{
+					std::string nameAccessor = name + "_Accessor";
+					if (_public.count(nameAccessor))
+					{
+						_public.find(nameAccessor)(params);
+					}
+					else
+					{
+						_public.find(name)(params);
+					}
+				}
+				else
+				{
+					_public.find(ErrorCallback)(params);
+				}
+			}
 			return *this;
-        };
+		};
 //
-    // object selection operator
-    TReturnParams& operator >> (const std::string& name)
-    {
-        std::string name = _NameStdStr;
-        if (name == "")
-        {
-            std::cerr << "Error: Method or Attribute'" << name << "' missing _Accessor or params." << std::endl;
-        }
-        else
-        {
-            std::string ValidationCallback = name + "_ValidationCallback";
-            std::string ErrorCallback = name + "_ErrorCallback";
-            if (_public.find[ValidationCallback](params))
-            {
-                std::string nameAccessor = name + "_Accessor";
-                if (_public.count(nameAccessor))
-                {
-                    _public.find(nameAccessor)(params);
-                }
-                else
-                {
-                    _public.find(name)(params);
-                }
-            }
-            else
-            {
-                _public.find[ErrorCallback](params);
-            }
-        }
-    }
+	// object selection operator
+	TReturnParams& operator >> (const std::string& name)
+	{
+		std::string name = _NameStdStr;
+		if (name == "")
+		{
+			std::cerr << "Error: Method or Attribute'" << name << "' missing _Accessor or params." << std::endl;
+		}
+		else
+		{
+			std::string ValidationCallback = name + "_ValidationCallback";
+			std::string ErrorCallback = name + "_ErrorCallback";
+			if (_public.find[ValidationCallback](params))
+			{
+				std::string nameAccessor = name + "_Accessor";
+				if (_public.count(nameAccessor))
+				{
+					_public.find(nameAccessor)(params);
+				}
+				else
+				{
+					_public.find(name)(params);
+				}
+			}
+			else
+			{
+				_public.find[ErrorCallback](params);
+			}
+		}
+	}
 //
-    
-    // object selection operator
-    template <typename T, typename U>
-    U& operator >> (T&& params)
-    {
-    
-    }
+	
+	// object selection operator
+	template <typename T, typename U>
+	U& operator >> (T&& params)
+	{
+	
+	}
 //
 #include <functional>
 #include <string>
@@ -783,59 +810,59 @@ using FRIENDLY_CAST = FRIENDLY_CAST_T<uint32_t>;
 
 class ParamWrapper {
 public:
-    virtual ~ParamWrapper() {}
-    virtual std::unique_ptr<ParamWrapper> clone() const = 0;
-    virtual void* get() const = 0;
+	virtual ~ParamWrapper() {}
+	virtual std::unique_ptr<ParamWrapper> clone() const = 0;
+	virtual void* get() const = 0;
 };
 
 template<typename T>
 class TypedParamWrapper : public ParamWrapper {
 public:
-    TypedParamWrapper(T&& value) : value_(std::move(value)) {}
+	TypedParamWrapper(T&& value) : value_(std::move(value)) {}
 
-    std::unique_ptr<ParamWrapper> clone() const override {
-        return std::make_unique<TypedParamWrapper<T>>(value_);
-    }
+	std::unique_ptr<ParamWrapper> clone() const override {
+		return std::make_unique<TypedParamWrapper<T>>(value_);
+	}
 
-    void* get() const override {
-        return static_cast<void*>(&value_);
-    }
+	void* get() const override {
+		return static_cast<void*>(&value_);
+	}
 
 private:
-    T value_;
+	T value_;
 };
 
 class BetaTestClass {
 public:
-    class CustomClass {
-    public:
-        CustomClass(std::function<void(void*)> func, std::unique_ptr<ParamWrapper>&& param) :
-            func_(func), param_(std::move(param)) {}
+	class CustomClass {
+	public:
+		CustomClass(std::function<void(void*)> func, std::unique_ptr<ParamWrapper>&& param) :
+			func_(func), param_(std::move(param)) {}
 
-        template<typename T>
-        void operator>>(T&& param) {
-            auto cloned_param = param_->clone();
-            *(static_cast<T*>(cloned_param->get())) = std::forward<T>(param);
-            func_(cloned_param->get());
-        }
+		template<typename T>
+		void operator>>(T&& param) {
+			auto cloned_param = param_->clone();
+			*(static_cast<T*>(cloned_param->get())) = std::forward<T>(param);
+			func_(cloned_param->get());
+		}
 
-    private:
-        std::function<void(void*)> func_;
-        std::unique_ptr<ParamWrapper> param_;
-    };
+	private:
+		std::function<void(void*)> func_;
+		std::unique_ptr<ParamWrapper> param_;
+	};
 
-    CustomClass operator>>(const std::string& func_name) {
-        auto func = functions_[func_name];
-        auto param_wrapper = std::make_unique<ParamWrapper>();
-        return CustomClass(func, std::move(param_wrapper));
-    }
+	CustomClass operator>>(const std::string& func_name) {
+		auto func = functions_[func_name];
+		auto param_wrapper = std::make_unique<ParamWrapper>();
+		return CustomClass(func, std::move(param_wrapper));
+	}
 
 private:
-    static std::map<std::string, std::function<void(void*)>> functions_;
+	static std::map<std::string, std::function<void(void*)>> functions_;
 };
 
 std::map<std::string, std::function<void(void*)>> BetaTestClass::functions_ = {
-    {"MyCustomMethod", [](void* param){ /* implementation of the function */ }},
+	{"MyCustomMethod", [](void* param){ /* implementation of the function */ }},
 };
 
 Example usage:
@@ -843,40 +870,40 @@ Example usage:
 #include <iostream>
 
 struct MyParams {
-    int a;
-    double b;
+	int a;
+	double b;
 };
 
 void myCustomFunction(void* param) {
-    auto typed_param = static_cast<MyParams*>(param);
-    std::cout << "a: " << typed_param->a << ", b: " << typed_param->b << std::endl;
+	auto typed_param = static_cast<MyParams*>(param);
+	std::cout << "a: " << typed_param->a << ", b: " << typed_param->b << std::endl;
 }
 
 int main() {
-    BetaTestClass beta;
-    auto custom = beta >> "MyCustomMethod";
+	BetaTestClass beta;
+	auto custom = beta >> "MyCustomMethod";
 
-    MyParams params = { 42, 3.14 };
-    custom >> params;
+	MyParams params = { 42, 3.14 };
+	custom >> params;
 
-    // or...
+	// or...
 
-    beta >> "MyCustomMethod >> params{ 42, 3.14 };
+	beta >> "MyCustomMethod >> params{ 42, 3.14 };
 }
 
 
 //
-    //template <typename WidgetType>
-    struct TwoIntRefParamsAB;
-    void operator >> (std::function<void(TwoIntRefParamsAB&)>& args)
+	//template <typename WidgetType>
+	struct TwoIntRefParamsAB;
+	void operator >> (std::function<void(TwoIntRefParamsAB&)>& args)
 //
-    BetaTestClass ~ Add<TwoIntRefParamsAB&>(TwoIntRefParamRefsAB);
+	BetaTestClass ~ Add<TwoIntRefParamsAB&>(TwoIntRefParamRefsAB);
 //
-     //INLINE_CLASS_UE5() {}
-    //~INLINE_CLASS_UE5() {}
+	 //INLINE_CLASS_UE5() {}
+	//~INLINE_CLASS_UE5() {}
 //
-    template <typename... Args>
-    void operator~ (const std::string& name, Args&&... args)
+	template <typename... Args>
+	void operator~ (const std::string& name, Args&&... args)
 //
 
 // The MyInlineClass template allows you to define a class with a variable number of base classes.
@@ -885,37 +912,37 @@ int main() {
 template<typename... Base>
 class MyInlineClass : public Base...
 {
-    // class definition
+	// class definition
 };
 
 // This recursive template definition handles the case where there is only one base class (the base case),
 // and the case where there are two or more base classes (the recursive case).
 template<typename T, typename... Args>
 class MyInlineClass<T, Args...> : public std::conditional_t<
-        std::is_base_of_v<T, Args> || std::is_same_v<T, Args>...,
+		std::is_base_of_v<T, Args> || std::is_same_v<T, Args>...,
 
-        // Inherit from a MyInlineClass instance with the first base class removed from the parameter pack.
-        MyInlineClass<Args...>,
+		// Inherit from a MyInlineClass instance with the first base class removed from the parameter pack.
+		MyInlineClass<Args...>,
 
-        std::conditional_t<
-            std::is_same_v<T, private>,
+		std::conditional_t<
+			std::is_same_v<T, private>,
 
-            // Construct the class without T as a base class.
-            MyInlineClass<Args...>,
+			// Construct the class without T as a base class.
+			MyInlineClass<Args...>,
 
-            std::conditional_t<
-                std::is_same_v<T, virtual>,
+			std::conditional_t<
+				std::is_same_v<T, virtual>,
 
-                // Construct the class with the remaining base classes as virtual base classes.
-                MyInlineClass<virtual Args...>,
+				// Construct the class with the remaining base classes as virtual base classes.
+				MyInlineClass<virtual Args...>,
 
-                // Construct the class with T as a base class.
-                MyInlineClass<T, Args...>
-            >
-        >
-    >
+				// Construct the class with T as a base class.
+				MyInlineClass<T, Args...>
+			>
+		>
+	>
 {
-    // class definition
+	// class definition
 };
 
 
@@ -937,41 +964,41 @@ using MyClass4 = MyInlineClass<BaseClass, virtual DerivedClass, private BaseClas
 
 
 //
-    template <typename T, typename... Args>
-    void AddAttribute(const T& name, const Args&&... values)
-    {
-        int AttributeParams = 0;
-        int AttributeBody = 1;
-        int AttributeGetter = 2;
-        int AttributeSetter = 3;
-        int ValidationCallback = 4;
-        int ErrorCallback = 5;
+	template <typename T, typename... Args>
+	void AddAttribute(const T& name, const Args&&... values)
+	{
+		int AttributeParams = 0;
+		int AttributeBody = 1;
+		int AttributeGetter = 2;
+		int AttributeSetter = 3;
+		int ValidationCallback = 4;
+		int ErrorCallback = 5;
 
-        if ((!values[ValidationCallback] || values[ValidationCallback](values[AttributeParams])) && !bBeginArgsFlag)
-        {
-            _public[name] = values[AttributeBody];
-            _public[name + "_Accessor"] = values[AttributeGetter];
-            _public[name + "_AttributeSetter"] = values[AttributeSetter];
-            _public[name + "_ValidationCallback"] = std::forward<T>(values[ValidationCallback]);
-            _public[name + "_ErrorCallback"] = std::forward<T>(values[ErrorCallback]);
-        }
-        else if (values[ErrorCallback] /* && has_foo_method<WidgetType>::func*/)
-        {
-            values[ErrorCallback](values[MethodParams]);
-        }
-        else
-        {
-            throw std::runtime_error("Error: Invalid ValidationCallback parameter!");
-        }
-    }
+		if ((!values[ValidationCallback] || values[ValidationCallback](values[AttributeParams])) && !bBeginArgsFlag)
+		{
+			_public[name] = values[AttributeBody];
+			_public[name + "_Accessor"] = values[AttributeGetter];
+			_public[name + "_AttributeSetter"] = values[AttributeSetter];
+			_public[name + "_ValidationCallback"] = std::forward<T>(values[ValidationCallback]);
+			_public[name + "_ErrorCallback"] = std::forward<T>(values[ErrorCallback]);
+		}
+		else if (values[ErrorCallback] /* && has_foo_method<WidgetType>::func*/)
+		{
+			values[ErrorCallback](values[MethodParams]);
+		}
+		else
+		{
+			throw std::runtime_error("Error: Invalid ValidationCallback parameter!");
+		}
+	}
 //
 template <typename T, typename... Args>
 void AddMethod(const T& name, const Args&&... values)
 {
-    if((!values[1] || values[1])()) && !bBeginArgsFlag)
-    {
-        methods[name] = std::forward<T>(values[0]);
-    }
+	if((!values[1] || values[1])()) && !bBeginArgsFlag)
+	{
+		methods[name] = std::forward<T>(values[0]);
+	}
 }
 
 using TwoIntRefParams = std::vector<std::variant<int&>>;
@@ -979,67 +1006,67 @@ using TwoIntRefParamRefs = std::vector<std::variant<int&>>&;
 TwoIntRefParamRefs v = TwoIntRefParams(2);
 beta& BetaTestClass = beta::New();
 BetaTestClass.AddMethod<
-    std::string,
-    TwoIntRefParamRefs,
-    std::function<void ()>,
-    std::function<bool ()>,
-    std::function<void ()> 
-    >(
-    "Add", v,
-    [this]() { std::cout << "Hello World!" << std::endl; },
-    [this]() { return true;/*a >= 0 && b >= 0;*/ },
-    [this]() { std::cout << "Warning: One or more parameters less than zero!" << std::endl; }
+	std::string,
+	TwoIntRefParamRefs,
+	std::function<void ()>,
+	std::function<bool ()>,
+	std::function<void ()> 
+	>(
+	"Add", v,
+	[this]() { std::cout << "Hello World!" << std::endl; },
+	[this]() { return true;/*a >= 0 && b >= 0;*/ },
+	[this]() { std::cout << "Warning: One or more parameters less than zero!" << std::endl; }
 );
 //
-    // Create a parameter pack 
-    template <typename... T>
-    void AddMethod(const std::string name, const T&... values)
-    {
-        T& _values = { values... } ;
-        methods[name] = &std::forward<T&>(_values[0]);
-    }
+	// Create a parameter pack 
+	template <typename... T>
+	void AddMethod(const std::string name, const T&... values)
+	{
+		T& _values = { values... } ;
+		methods[name] = &std::forward<T&>(_values[0]);
+	}
 //
-    template <typename... Args>
-    void operator~ (const std::string& name, Args&... args)
-    {
-        if (methods.count(name) == 0)
-        {
-            std::cerr << "Error: Method '" << name << "' not found." << std::endl;
-            return;
-        }
+	template <typename... Args>
+	void operator~ (const std::string& name, Args&... args)
+	{
+		if (methods.count(name) == 0)
+		{
+			std::cerr << "Error: Method '" << name << "' not found." << std::endl;
+			return;
+		}
 
-        auto& method = methods[name];
-        std::visit([&](auto&& callable) {
-        using CallableType = std::decay_t<decltype(callable)>;
-        if constexpr (std::is_same_v<CallableType, std::function<void(int&, int&)>>)
-        {
-            int a = std::forward<Args>(args)...;
-            int b = std::forward<Args>(args)...;
-            std::function<bool(int&, int&)> guard = std::get<1>(methods[name]);
-            if (guard(a, b))
-            {
-                callable(a, b);
-            }
-            else
-            {
-                std::function<void()> handler = std::get<2>(methods[name]);
-                handler();
-            }
-        }
-        else if constexpr (std::is_same_v<CallableType, std::function<void()>>)
-        {
-            callable();
-        }
-        else if constexpr (std::is_same_v<CallableType, bool>)
-        {
-            std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
-        }
-        else if constexpr (std::is_same_v<CallableType, std::string>)
-        {
-            std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
-        }
-            }, method);
-    }
+		auto& method = methods[name];
+		std::visit([&](auto&& callable) {
+		using CallableType = std::decay_t<decltype(callable)>;
+		if constexpr (std::is_same_v<CallableType, std::function<void(int&, int&)>>)
+		{
+			int a = std::forward<Args>(args)...;
+			int b = std::forward<Args>(args)...;
+			std::function<bool(int&, int&)> guard = std::get<1>(methods[name]);
+			if (guard(a, b))
+			{
+				callable(a, b);
+			}
+			else
+			{
+				std::function<void()> handler = std::get<2>(methods[name]);
+				handler();
+			}
+		}
+		else if constexpr (std::is_same_v<CallableType, std::function<void()>>)
+		{
+			callable();
+		}
+		else if constexpr (std::is_same_v<CallableType, bool>)
+		{
+			std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
+		}
+		else if constexpr (std::is_same_v<CallableType, std::string>)
+		{
+			std::cerr << "Error: '" << name << "' is not a callable object." << std::endl;
+		}
+			}, method);
+	}
 //
 /**Use the spread operator to dereference a parameter pack*/
 
@@ -1327,22 +1354,22 @@ private:
 	std::unordered_map<std::string, std::variant<int, bool, void*, WidgetType, UE5_METHOD<void(WidgetType*)>>> _private;
 	std::unordered_map<std::string, std::variant<int, bool, void*, WidgetType, UE5_METHOD<void(WidgetType*)>>> _public;
 
-    /** 
-    
-        Example usage: 
-    
-        struct A
-        {
-            int bar;
-        };
+	/** 
+	
+		Example usage: 
+	
+		struct A
+		{
+			int bar;
+		};
 
-        int main()
-        {
-            static_assert(has_foo_method<A>::func, "A does not have a func method");
-            return 0;
-        }  
-        
-    */
+		int main()
+		{
+			static_assert(has_foo_method<A>::func, "A does not have a func method");
+			return 0;
+		}  
+		
+	*/
 	template <typename T>
 	class has_foo_method
 	{
@@ -1355,23 +1382,23 @@ private:
 	public:
 		static constexpr bool func = decltype(check<T>(0))::func;
 	};
-    
-    /**
-    
-        Example usage: 
-    
-        struct A
-        {
-            int bar;
-        };
+	
+	/**
+	
+		Example usage: 
+	
+		struct A
+		{
+			int bar;
+		};
 
-        int main()
-        {
-            static_assert(has_foo_attribute<A>::value, "A does not have a value attribute");
-            return 0;
-        }
-        
-    */
+		int main()
+		{
+			static_assert(has_foo_attribute<A>::value, "A does not have a value attribute");
+			return 0;
+		}
+		
+	*/
 	template <typename T>
 	class has_foo_attribute
 	{
@@ -1412,7 +1439,7 @@ VARIANT<int, std::string, int> v;
 template <typename... Ts>
 struct overloaded : Ts...
 {
-    using Ts::operator()...;
+	using Ts::operator()...;
 };
 template <typename... Ts>
 overloaded(Ts...) -> overloaded<Ts...>;
@@ -1421,28 +1448,28 @@ std::variant<int, float, std::string, bool, char> var;
 
 void PrintVar(const auto& var)
 {
-    std::visit(overloaded{
-        [](int x) { std::cout << "int: " << x << std::endl; },
-        [](float x) { std::cout << "float: " << x << std::endl; },
-        [](const std::string& x) { std::cout << "string: " << x << std::endl; },
-        [](bool x) { std::cout << "bool: " << x << std::endl; },
-        [](char x) { std::cout << "char: " << x << std::endl; }
-    }, var);
+	std::visit(overloaded{
+		[](int x) { std::cout << "int: " << x << std::endl; },
+		[](float x) { std::cout << "float: " << x << std::endl; },
+		[](const std::string& x) { std::cout << "string: " << x << std::endl; },
+		[](bool x) { std::cout << "bool: " << x << std::endl; },
+		[](char x) { std::cout << "char: " << x << std::endl; }
+	}, var);
 }
 
 int main()
 {
-    var = 42;
-    PrintVar(var);
-    var = 3.14f;
-    PrintVar(var);
-    var = "Hello, world!";
-    PrintVar(var);
-    var = true;
-    PrintVar(var);
-    var = 'x';
-    PrintVar(var);
-    return 0;
+	var = 42;
+	PrintVar(var);
+	var = 3.14f;
+	PrintVar(var);
+	var = "Hello, world!";
+	PrintVar(var);
+	var = true;
+	PrintVar(var);
+	var = 'x';
+	PrintVar(var);
+	return 0;
 }
 
 //
@@ -1472,16 +1499,16 @@ int main()
 class MyClass {
 public:
   struct MyProxy {
-    int x;
-    int y;
+	int x;
+	int y;
 
-    int operator->*(int) {
-      return x + y;
-    }
+	int operator->*(int) {
+	  return x + y;
+	}
   };
 
   MyProxy operator->() {
-    return { x, y };
+	return { x, y };
   }
 
 private:
@@ -1759,7 +1786,7 @@ struct SLATE_BEGIN_ARGS_UE5
 
 //
 public:
-    MyGlobalTabManagerClass();
+	MyGlobalTabManagerClass();
    ~MyGlobalTabManagerClass();
 
 MyGlobalTabManagerClass::MyGlobalTabManagerClass()
@@ -1773,234 +1800,234 @@ MyGlobalTabManagerClass::~MyGlobalTabManagerClass()
 }
 //
 public:
-    DECLARE_EVENT_OneParam(OnTabCloseEventHandler, FGlobalTabmanager::OnTabClosing);
+	DECLARE_EVENT_OneParam(OnTabCloseEventHandler, FGlobalTabmanager::OnTabClosing);
 //
-    #include <Logging/LogMacros.h>
-    #include <Logging/LogVerbosity.h>
+	#include <Logging/LogMacros.h>
+	#include <Logging/LogVerbosity.h>
 
-    UE_LOG(LogTemp, Warning, TEXT("FAUDIO_SFX_PLUGINModule::PluginButtonClicked( %d )"), DebugInt32++);
+	UE_LOG(LogTemp, Warning, TEXT("FAUDIO_SFX_PLUGINModule::PluginButtonClicked( %d )"), DebugInt32++);
 //
-    bool PluginButtonClickedCalledFromStartupModuleBool = false;
-    // No need to call RegisterNomadTabSpawner via PluginButtonClicked
-    PluginButtonClickedCalledFromStartupModuleBool = true;
+	bool PluginButtonClickedCalledFromStartupModuleBool = false;
+	// No need to call RegisterNomadTabSpawner via PluginButtonClicked
+	PluginButtonClickedCalledFromStartupModuleBool = true;
 //
 void FAUDIO_SFX_PLUGINModule::PluginButtonClicked()
 {
-    const FName TabName{ *FString::FromInt(TabCounterInt32++) + FString("_") + AUDIO_SFX_PLUGINTabName.ToString() };
-        
-    // Get an icon for our nomad tab //
-    const ISlateStyle& Style = FAUDIO_SFX_PLUGINStyle::Get();
-    FSlateIcon Icon{ Style.GetStyleSetName(), "AUDIO_SFX_PLUGIN.OpenPluginWindow" };
+	const FName TabName{ *FString::FromInt(TabCounterInt32++) + FString("_") + AUDIO_SFX_PLUGINTabName.ToString() };
+		
+	// Get an icon for our nomad tab //
+	const ISlateStyle& Style = FAUDIO_SFX_PLUGINStyle::Get();
+	FSlateIcon Icon{ Style.GetStyleSetName(), "AUDIO_SFX_PLUGIN.OpenPluginWindow" };
 
-    FText WindowText = FText::Format(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "{0}"), FText::FromString(TabName.ToString()));
-    
-    // Add a (Toolbar) button to level editor @submenu LevelEditor.MainMenu[.Window, .Tools, ..] 
-    //   in UToolMenus::RegisterStartupCallback(...)
-    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
-        TabName,
-        FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
-    )
-        .SetDisplayName(WindowText)
-        .SetMenuType(ETabSpawnerMenuType::Enabled) // Hide this LevelEditor.MainMenu.Window button, we'll create our own...
-        .SetTooltipText(WindowText)
-        .SetIcon(Icon);
-    
-    const FTabId TabId{ TabName };
-    TSharedPtr<SDockTab> CurrentTabPtr = FGlobalTabmanager::Get()->TryInvokeTab(TabId);
-    TAttribute<FText> inAttributesTXT;
-    FText WidgetLabel = FText::Format(LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool - {0}"), FText::FromString(*FString::FromInt(TabCounterInt32-1)));
-    inAttributesTXT.Set(WidgetLabel);
-    CurrentTabPtr->SetLabel(inAttributesTXT);
+	FText WindowText = FText::Format(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "{0}"), FText::FromString(TabName.ToString()));
+	
+	// Add a (Toolbar) button to level editor @submenu LevelEditor.MainMenu[.Window, .Tools, ..] 
+	//   in UToolMenus::RegisterStartupCallback(...)
+	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+		TabName,
+		FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
+	)
+		.SetDisplayName(WindowText)
+		.SetMenuType(ETabSpawnerMenuType::Enabled) // Hide this LevelEditor.MainMenu.Window button, we'll create our own...
+		.SetTooltipText(WindowText)
+		.SetIcon(Icon);
+	
+	const FTabId TabId{ TabName };
+	TSharedPtr<SDockTab> CurrentTabPtr = FGlobalTabmanager::Get()->TryInvokeTab(TabId);
+	TAttribute<FText> inAttributesTXT;
+	FText WidgetLabel = FText::Format(LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool - {0}"), FText::FromString(*FString::FromInt(TabCounterInt32-1)));
+	inAttributesTXT.Set(WidgetLabel);
+	CurrentTabPtr->SetLabel(inAttributesTXT);
 }
 //
-        FText::Format(
-            LOCTEXT("WindowWidgetText", "{0}_{1}"), 
-            FString::FString(AUDIO_SFX_PLUGINTabName.ToString()),
-            *FString::FromInt(TabCounterInt32++)
-        )
+		FText::Format(
+			LOCTEXT("WindowWidgetText", "{0}_{1}"), 
+			FString::FString(AUDIO_SFX_PLUGINTabName.ToString()),
+			*FString::FromInt(TabCounterInt32++)
+		)
 //
-    const TSharedPtr<SDockTab> CurrentTabPtr = FGlobalTabmanager::Get()->TryInvokeTab(AUDIO_SFX_PLUGINTabName);
+	const TSharedPtr<SDockTab> CurrentTabPtr = FGlobalTabmanager::Get()->TryInvokeTab(AUDIO_SFX_PLUGINTabName);
 //
-    FGlobalTabmanager::Get()->GetOwnerTab()->GetAllChildren();
+	FGlobalTabmanager::Get()->GetOwnerTab()->GetAllChildren();
 //
-    TSharedRef<FGlobalTabmanager::FLayout> FLayoutObjRef;
+	TSharedRef<FGlobalTabmanager::FLayout> FLayoutObjRef;
 //
-    const TSharedPtr<SDockTab> NewTab = FGlobalTabmanager::Get()->TryInvokeTab(AUDIO_SFX_PLUGINTabName, true);
-    const FGlobalTabmanager::ESearchPreference::Type ESearchPreferenceEnum = FGlobalTabmanager::ESearchPreference::PreferLiveTab;
-    const FName TabID { *FString::FromInt(TabCounterInt32++) };
-    FGlobalTabmanager::Get()->InsertNewDocumentTab(TabID, ESearchPreferenceEnum, NewTab.ToSharedRef());
+	const TSharedPtr<SDockTab> NewTab = FGlobalTabmanager::Get()->TryInvokeTab(AUDIO_SFX_PLUGINTabName, true);
+	const FGlobalTabmanager::ESearchPreference::Type ESearchPreferenceEnum = FGlobalTabmanager::ESearchPreference::PreferLiveTab;
+	const FName TabID { *FString::FromInt(TabCounterInt32++) };
+	FGlobalTabmanager::Get()->InsertNewDocumentTab(TabID, ESearchPreferenceEnum, NewTab.ToSharedRef());
 //
 TSharedRef<SWidget> FAUDIO_SFX_PLUGINModule::GetTabContent(const FName& TabID)
 {
-    TAttribute<FText> TabIDFText{ FText::Format(LOCTEXT("WindowWidgetText", "This is the content of tab '{0}'"), FText::FromString(TabID.ToString())) };
-    return SNew(STextBlock)
-        .Text(TabIDFText);
+	TAttribute<FText> TabIDFText{ FText::Format(LOCTEXT("WindowWidgetText", "This is the content of tab '{0}'"), FText::FromString(TabID.ToString())) };
+	return SNew(STextBlock)
+		.Text(TabIDFText);
 }
 //
 TSharedRef<SWidget> FAUDIO_SFX_PLUGINModule::GetTabContent(const FName& TabID)
 {
-    TAttribute<FText> TabIDFText{ FText(LOCTEXT("WindowWidgetMenuText", "Tools")) };
-    return SNew(STextBlock)
-        .Text(TabIDFText);
+	TAttribute<FText> TabIDFText{ FText(LOCTEXT("WindowWidgetMenuText", "Tools")) };
+	return SNew(STextBlock)
+		.Text(TabIDFText);
 }
 //
-    const FTabId TabId{ *FString::FromInt(TabCounterInt32++) };
+	const FTabId TabId{ *FString::FromInt(TabCounterInt32++) };
 //
-    FGlobalTabmanager::InsertNewDocumentTab(TabId, FSearchPreference, TSharedPtr<SWindow>());
+	FGlobalTabmanager::InsertNewDocumentTab(TabId, FSearchPreference, TSharedPtr<SWindow>());
 //
-    if (NewTab.IsValid())
-    {
-        StackToSpawnIn->OpenTab(NewTab.ToSharedRef(), INDEX_NONE, bInvokeAsInactive);
-        NewTab->PlaySpawnAnim();
-        FGlobalTabmanager::Get()->UpdateMainMenu(NewTab.ToSharedRef(), false);
-    }
+	if (NewTab.IsValid())
+	{
+		StackToSpawnIn->OpenTab(NewTab.ToSharedRef(), INDEX_NONE, bInvokeAsInactive);
+		NewTab->PlaySpawnAnim();
+		FGlobalTabmanager::Get()->UpdateMainMenu(NewTab.ToSharedRef(), false);
+	}
 //
-    TSharedPtr<SDockTab> NewTab = FGlobalTabmanager::Get()->TryInvokeTab(AUDIO_SFX_PLUGINTabName,true);
+	TSharedPtr<SDockTab> NewTab = FGlobalTabmanager::Get()->TryInvokeTab(AUDIO_SFX_PLUGINTabName,true);
 //
-    const FGlobalTabmanager::FSearchPreference& FSearchPreference();
-    const FTabId TabId{ *FString::FromInt(TabCounterInt32++) };
+	const FGlobalTabmanager::FSearchPreference& FSearchPreference();
+	const FTabId TabId{ *FString::FromInt(TabCounterInt32++) };
 
-    // layout info about this tab not found //
-    TSharedRef<FGlobalTabmanager::FArea> NewAreaForTab = FGlobalTabmanager::NewArea(NewTab->GetDesiredSize())
-        ->SetOrientation(Orient_Vertical)
-        ->Split
-        (
-            FGlobalTabmanager::NewStack()
-            ->SetSizeCoefficient(0.2f)
-            ->SetHideTabWell(true)
-        )
-        ->Split
-        (
-            FGlobalTabmanager::NewStack()
-            ->SetSizeCoefficient(0.8f)
-        );
+	// layout info about this tab not found //
+	TSharedRef<FGlobalTabmanager::FArea> NewAreaForTab = FGlobalTabmanager::NewArea(NewTab->GetDesiredSize())
+		->SetOrientation(Orient_Vertical)
+		->Split
+		(
+			FGlobalTabmanager::NewStack()
+			->SetSizeCoefficient(0.2f)
+			->SetHideTabWell(true)
+		)
+		->Split
+		(
+			FGlobalTabmanager::NewStack()
+			->SetSizeCoefficient(0.8f)
+		);
 //
-    if (FLayoutObjRef == nullptr)
-    {
-        FLayoutObjRef = FGlobalTabmanager::NewLayout("NewLayout")
-            ->AddArea
-            (
-                FGlobalTabmanager::NewPrimaryArea()
-                ->SetOrientation(Orient_Vertical)
-                ->Split
-                (
-                    FGlobalTabmanager::NewStack()
-                    ->SetSizeCoefficient(0.2f)
-                    ->SetHideTabWell(true)
-                )
-                ->Split
-                (
-                    FGlobalTabmanager::NewStack()
-                    ->SetSizeCoefficient(0.8f)
-                )
-            );
+	if (FLayoutObjRef == nullptr)
+	{
+		FLayoutObjRef = FGlobalTabmanager::NewLayout("NewLayout")
+			->AddArea
+			(
+				FGlobalTabmanager::NewPrimaryArea()
+				->SetOrientation(Orient_Vertical)
+				->Split
+				(
+					FGlobalTabmanager::NewStack()
+					->SetSizeCoefficient(0.2f)
+					->SetHideTabWell(true)
+				)
+				->Split
+				(
+					FGlobalTabmanager::NewStack()
+					->SetSizeCoefficient(0.8f)
+				)
+			);
 
-        FGlobalTabmanager::Get()->SetMenuMultiBox(FLayoutObjRef, FOnGetContent::CreateStatic(&FAUDIO_SFX_PLUGINModule::GetTabContent));
-    }
+		FGlobalTabmanager::Get()->SetMenuMultiBox(FLayoutObjRef, FOnGetContent::CreateStatic(&FAUDIO_SFX_PLUGINModule::GetTabContent));
+	}
 
-    const FGlobalTabmanager::FSearchPreference& FSearchPreference();
-    FName TabID = FName(*FString::FromInt(TabCounterInt32++));
-    FLayoutObjRef->GetPrimaryArea()->GetChildren()[1]->AddTab(FGlobalTabmanager::InsertNewDocumentTab(TabID, TabID, FSearchPreference, NewTab.ToSharedRef()));
+	const FGlobalTabmanager::FSearchPreference& FSearchPreference();
+	FName TabID = FName(*FString::FromInt(TabCounterInt32++));
+	FLayoutObjRef->GetPrimaryArea()->GetChildren()[1]->AddTab(FGlobalTabmanager::InsertNewDocumentTab(TabID, TabID, FSearchPreference, NewTab.ToSharedRef()));
 //
-    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
-        AUDIO_SFX_PLUGINTabName,
-        FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
-    )
-    .SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
-    .SetMenuType(ETabSpawnerMenuType::Hidden) // Hide TabSpawner menu button
-    .SetIcon(Icon);
+	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+		AUDIO_SFX_PLUGINTabName,
+		FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab)
+	)
+	.SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
+	.SetMenuType(ETabSpawnerMenuType::Hidden) // Hide TabSpawner menu button
+	.SetIcon(Icon);
 //
-    const TSharedPtr<SWindow> SWin = SpawnTabArgs.GetOwnerWindow();
-    const FTabId& TabID = SpawnTabArgs.GetTabId();
+	const TSharedPtr<SWindow> SWin = SpawnTabArgs.GetOwnerWindow();
+	const FTabId& TabID = SpawnTabArgs.GetTabId();
 
-    const SWindow::FArguments InArgsSWin;
-    SWin->Construct(InArgsSWin);
+	const SWindow::FArguments InArgsSWin;
+	SWin->Construct(InArgsSWin);
 
-    //
+	//
 
-    TSharedRef<UMGViewportComponent> SNWin = SNew(UMGViewportComponent);
-    UMGViewportComponent::FArguments InArgs;
+	TSharedRef<UMGViewportComponent> SNWin = SNew(UMGViewportComponent);
+	UMGViewportComponent::FArguments InArgs;
 
-    SNWin.Get().Construct(InArgs);
-    TAttribute<FText> inAttributesTXT;
-    FText WidgetLabel = FText(LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool"));
-    inAttributesTXT.Set(WidgetLabel);
-    return SNew(SDockTab)
-        .TabRole(ETabRole::MajorTab)
-        .Label(inAttributesTXT)
-        [
-            SNWin
-        ];
+	SNWin.Get().Construct(InArgs);
+	TAttribute<FText> inAttributesTXT;
+	FText WidgetLabel = FText(LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool"));
+	inAttributesTXT.Set(WidgetLabel);
+	return SNew(SDockTab)
+		.TabRole(ETabRole::MajorTab)
+		.Label(inAttributesTXT)
+		[
+			SNWin
+		];
 
-        //
+		//
 
    FLevelEditorModule& LevelEditorModuleRef = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor.MainMenu");
-    TSharedPtr<FExtender> Extender = MakeShareable(new FExtender);
-    Extender->AddMenuBarExtension(
-        AUDIO_SFX_PLUGINTabName,
-        EExtensionHook::After,
-        nullptr,
-        FMenuBarExtensionDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::AddMenuBarExtension)
-    );
-    LevelEditorModuleRef.GetMenuExtensibilityManager()->AddExtender(Extender);
+	TSharedPtr<FExtender> Extender = MakeShareable(new FExtender);
+	Extender->AddMenuBarExtension(
+		AUDIO_SFX_PLUGINTabName,
+		EExtensionHook::After,
+		nullptr,
+		FMenuBarExtensionDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::AddMenuBarExtension)
+	);
+	LevelEditorModuleRef.GetMenuExtensibilityManager()->AddExtender(Extender);
 
 //
-    /** Owner will be used for cleanup in call to UToolMenus::UnregisterOwner */
-    FToolMenuOwnerScoped OwnerScoped(this);
-    const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
-    UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Tools");
-    FToolMenuSection& Section = Menu->FindOrAddSection("Audio_Plugins");
-    Section.AddMenuEntryWithCommandList(CommandActions.OpenPluginWindow, PluginCommands);
+	/** Owner will be used for cleanup in call to UToolMenus::UnregisterOwner */
+	FToolMenuOwnerScoped OwnerScoped(this);
+	const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
+	UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Tools");
+	FToolMenuSection& Section = Menu->FindOrAddSection("Audio_Plugins");
+	Section.AddMenuEntryWithCommandList(CommandActions.OpenPluginWindow, PluginCommands);
 
-    //
-    
-    // Add (Toolbar) button to level editor submenu (eg. Window, Tools, etc) at UToolMenus::RegisterStartupCallback(...)
-    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
-        AUDIO_SFX_PLUGINTabName,
-        FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab))
-            .SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
-            .SetMenuType(ETabSpawnerMenuType::Enabled);
+	//
+	
+	// Add (Toolbar) button to level editor submenu (eg. Window, Tools, etc) at UToolMenus::RegisterStartupCallback(...)
+	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+		AUDIO_SFX_PLUGINTabName,
+		FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab))
+			.SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
+			.SetMenuType(ETabSpawnerMenuType::Enabled);
 
-            //
+			//
 
-        const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
+		const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
 
-        {
-            // Add menu to the 'Window' sub menu of the level editor
-            UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Window");
-            {
-                FToolMenuSection& Section = Menu->FindOrAddSection("Audio_Plugins");
-                Section.AddMenuEntryWithCommandList(CommandActions.OpenPluginWindow, PluginCommands);
-            }
-        }
+		{
+			// Add menu to the 'Window' sub menu of the level editor
+			UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Window");
+			{
+				FToolMenuSection& Section = Menu->FindOrAddSection("Audio_Plugins");
+				Section.AddMenuEntryWithCommandList(CommandActions.OpenPluginWindow, PluginCommands);
+			}
+		}
 
-        {
-            UToolMenu* ToolbarMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.LevelEditorToolBar");
-            {
-                FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("Settings");
-                {
-                    FToolMenuEntry& Entry = Section.AddEntry(FToolMenuEntry::InitToolBarButton(CommandActions.OpenPluginWindow));
-                    Entry.SetCommandList(PluginCommands);
-                }
-            }
-        }
+		{
+			UToolMenu* ToolbarMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.LevelEditorToolBar");
+			{
+				FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("Settings");
+				{
+					FToolMenuEntry& Entry = Section.AddEntry(FToolMenuEntry::InitToolBarButton(CommandActions.OpenPluginWindow));
+					Entry.SetCommandList(PluginCommands);
+				}
+			}
+		}
 
-        //
+		//
 
-                TCHAR* ResultTCHPTR = ResultFStr.GetCharArray().GetData();
+				TCHAR* ResultTCHPTR = ResultFStr.GetCharArray().GetData();
 
-                //
+				//
 
-            DECLARE_LOG_CATEGORY_EXTERN(AudioDebug, Log, All);
+			DECLARE_LOG_CATEGORY_EXTERN(AudioDebug, Log, All);
 
-            //
+			//
 
-                FText NameStr = FText::Format( 
-                    LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "Extender found: %s"), 
-                    CommandListRefT.GetUObject()->GetFName().ToString()
-                    );
-                FString ResultFStr = NameStr.ToString();
-                TCHAR* ResultTCHPTR = ResultFStr.GetCharArray().GetData();
+				FText NameStr = FText::Format( 
+					LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "Extender found: %s"), 
+					CommandListRefT.GetUObject()->GetFName().ToString()
+					);
+				FString ResultFStr = NameStr.ToString();
+				TCHAR* ResultTCHPTR = ResultFStr.GetCharArray().GetData();
 
 //
 
@@ -2015,92 +2042,100 @@ UE_LOG(LogTemp, [Error (Red), Warning (Yellow), Display (Beige), Fatal (outputs 
 int32 ValueInt32 = 2;
 UE_LOG(LogTemp, Warning, TEXT("ValueInt32 = %d"), ValueInt32);
 
+UE_LOG(LogTemp, Display, TEXT("%s"), "string");
+
+std::string result = "Hello World!";
+UE_LOG(LogTemp, Display, TEXT("%s"), result.c_str()); 
+
+	// Convert std::string (result) to a UE_LOG() friendly format
+	UE_LOG(LogTemp, Display, TEXT("%s"), *FString(result.c_str()));
+
 //
-    //UI_COMMAND(GeneratePerlinNoise, "Generate Perlin Noise", "Bring up Noise Generation settings.", EUserInterfaceActionType::Button, FInputChord());
+	//UI_COMMAND(GeneratePerlinNoise, "Generate Perlin Noise", "Bring up Noise Generation settings.", EUserInterfaceActionType::Button, FInputChord());
 
-    GeneratePerlinNoise = FUICommandInfo::MakeCommandInfo(
-        "GeneratePerlinNoise",
-        FText::FromString("Generate Perlin Noise"),
-        FText::FromString("Bring up the Perlin Noise Generation settings."),
-        FSlateIcon(FEditorStyle::GetStyleSetName(),"PlaceholderButtinIcon.svg"),
-        FInputGesture(),
-        EUserInterfaceActionType::Button, FInputChord());
+	GeneratePerlinNoise = FUICommandInfo::MakeCommandInfo(
+		"GeneratePerlinNoise",
+		FText::FromString("Generate Perlin Noise"),
+		FText::FromString("Bring up the Perlin Noise Generation settings."),
+		FSlateIcon(FEditorStyle::GetStyleSetName(),"PlaceholderButtinIcon.svg"),
+		FInputGesture(),
+		EUserInterfaceActionType::Button, FInputChord());
 
-        //
+		//
 
 void FAUDIO_SFX_PLUGINModule::FillToolBar()
 {
-    FUIAction ActFUI;
-    TSharedPtr<FToolBarBuilder> FTB = MakeShareable(new FToolBarBuilder(ActFUI));
-    FTB->AddToolBarButton(ActFUI);
+	FUIAction ActFUI;
+	TSharedPtr<FToolBarBuilder> FTB = MakeShareable(new FToolBarBuilder(ActFUI));
+	FTB->AddToolBarButton(ActFUI);
 }
 
 //
 
-    TSharedPtr<FUICommandInfo> GenerateNoise;
+	TSharedPtr<FUICommandInfo> GenerateNoise;
 
-    UI_COMMAND(GenerateNoise, "Generate Noise", "Bring up the Noise Generation settings.", EUserInterfaceActionType::Button, FInputChord());
+	UI_COMMAND(GenerateNoise, "Generate Noise", "Bring up the Noise Generation settings.", EUserInterfaceActionType::Button, FInputChord());
 
-    CommandListFUI->MapAction(
-        CommandActions.GenerateNoise,
-        FExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnGenerateNoiseAPI),
-        FCanExecuteAction(),
-        FIsActionChecked());
+	CommandListFUI->MapAction(
+		CommandActions.GenerateNoise,
+		FExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnGenerateNoiseAPI),
+		FCanExecuteAction(),
+		FIsActionChecked());
 
-    FLevelEditorModule& LevelEditorModuleRef = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor.MainMenu");
-    TSharedPtr<FExtender> Extender = MakeShareable(new FExtender);
-    Extender->AddToolBarExtension(
-        "Audio SFX"
-        EExtensionHook::After,
-        CommandListFUI,
-        FToolBarExtensionDelegate::CreateRaw(&FAUDIO_SFX_PLUGINModule::FillToolbar));
+	FLevelEditorModule& LevelEditorModuleRef = FModuleManager::LoadModuleChecked<FLevelEditorModule>("LevelEditor.MainMenu");
+	TSharedPtr<FExtender> Extender = MakeShareable(new FExtender);
+	Extender->AddToolBarExtension(
+		"Audio SFX"
+		EExtensionHook::After,
+		CommandListFUI,
+		FToolBarExtensionDelegate::CreateRaw(&FAUDIO_SFX_PLUGINModule::FillToolbar));
 
-        //
+		//
 
 template <typename T>
 std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>>& PopulateConvolutionReverbHashTableT()
 {
-    ConvolutionReverbHashTableT<ConvolutionReverbEnumFLAGS, Vector2DT<T>> ConvolutionReverbHashTableT;
-    
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlateEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::PlateFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSpringEnumFlag] =
-        ConvolutionReverbFIRObj<T>::SpringFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConvoluteEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::ConvolutionFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbWoodenEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::WoodenRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGlassEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::GlassRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbTitaniumEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::TitaniumRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbIronEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::IronRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbLeadEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::LeadRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGoldEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::GoldRoomFiniteImpulseResponse;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSteelEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::SteelRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbAluminumEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::AluminumRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbRubberEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::RubberRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCeramicEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CeramicRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlasticEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::PlasticRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCottonEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CottonRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbMediumHallEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::MediumHallFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertHallEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertHallFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCathedralEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::CathedralFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertStadiumEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertStadiumFiniteImpulseResponseFIRVector2DT;
-    return ConvolutionReverbHashTableT;
+	ConvolutionReverbHashTableT<ConvolutionReverbEnumFLAGS, Vector2DT<T>> ConvolutionReverbHashTableT;
+	
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlateEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::PlateFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSpringEnumFlag] =
+		ConvolutionReverbFIRObj<T>::SpringFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConvoluteEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::ConvolutionFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbWoodenEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::WoodenRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGlassEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::GlassRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbTitaniumEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::TitaniumRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbIronEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::IronRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbLeadEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::LeadRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGoldEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::GoldRoomFiniteImpulseResponse;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSteelEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::SteelRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbAluminumEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::AluminumRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbRubberEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::RubberRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCeramicEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CeramicRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlasticEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::PlasticRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCottonEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CottonRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbMediumHallEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::MediumHallFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertHallEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertHallFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCathedralEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::CathedralFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertStadiumEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertStadiumFiniteImpulseResponseFIRVector2DT;
+	return ConvolutionReverbHashTableT;
 }
 
 //
@@ -2111,24 +2146,24 @@ std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>>& Convolu
 
 //
 
-    TSharedPtr<FExtender> MyExtender = MakeShareable(new FExtender);
-    MyExtender->AddToolBarExtension("Settings", EExtensionHook::After, NULL, FToolBarExtensionDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::GenerateNoise));
+	TSharedPtr<FExtender> MyExtender = MakeShareable(new FExtender);
+	MyExtender->AddToolBarExtension("Settings", EExtensionHook::After, NULL, FToolBarExtensionDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::GenerateNoise));
 
   //
   
-    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
-        AUDIO_SFX_PLUGINTabName,
-        FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab))
-        .SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
-        .SetMenuType(ETabSpawnerMenuType::Enabled)
-        .SetIcon(FSlateIcon( FName(TEXT("HIcon")), FName(TEXT("HIcon"))));
+	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(
+		AUDIO_SFX_PLUGINTabName,
+		FOnSpawnTab::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab))
+		.SetDisplayName(LOCTEXT("FAUDIO_SFX_PLUGINTabTitle", "AUDIO_SFX_PLUGIN"))
+		.SetMenuType(ETabSpawnerMenuType::Enabled)
+		.SetIcon(FSlateIcon( FName(TEXT("HIcon")), FName(TEXT("HIcon"))));
 
 //
 
-        .RenderOpacity(0.25f)
-        [
-            SNWin
-        ];
+		.RenderOpacity(0.25f)
+		[
+			SNWin
+		];
 
 //#include <Widgets/SWindow.h>
 //#include <Engine/Classes/Engine/GameInstance.h>
@@ -2144,51 +2179,51 @@ std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>>& Convolu
 
 //
 
-    TSharedPtr<FUICommandList> PluginCommands = MakeShareable(new FUICommandList);
-    const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
-    PluginCommands->MapAction(
-        CommandActions.GenerateNoise,
-        FExecuteAction::CreateRaw(this, &UMGViewportComponent::GeneratePerlinNoiseMenuAPI),
-        FCanExecuteAction(),
-        FIsActionChecked());
+	TSharedPtr<FUICommandList> PluginCommands = MakeShareable(new FUICommandList);
+	const FAUDIO_SFX_PLUGINCommands& CommandActions = FAUDIO_SFX_PLUGINCommands::Get();
+	PluginCommands->MapAction(
+		CommandActions.GenerateNoise,
+		FExecuteAction::CreateRaw(this, &UMGViewportComponent::GeneratePerlinNoiseMenuAPI),
+		FCanExecuteAction(),
+		FIsActionChecked());
 
-        //
-    
-    // Destroy the 3D viewport widget
+		//
+	
+	// Destroy the 3D viewport widget
    /* GEngine->GameViewport->RemoveViewportWidgetContent(
-        SNew(SMy3DViewport).AddMetaData<FTagMetaData>(FTagMetaData(TEXT("MyViewport")))
-    );*/
-    
-    //{
-    //    UToolMenu* ToolbarMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.LevelEditorToolBar");
-    //    {
-    //        FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("Settings");
-    //        {
-    //            FToolMenuEntry& Entry = Section.AddEntry(FToolMenuEntry::InitToolBarButton(CommandActions.OpenPluginWindow));
-    //            Entry.SetCommandList(PluginCommands);
-    //        }
-    //    }
-    //}
+		SNew(SMy3DViewport).AddMetaData<FTagMetaData>(FTagMetaData(TEXT("MyViewport")))
+	);*/
+	
+	//{
+	//    UToolMenu* ToolbarMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.LevelEditorToolBar");
+	//    {
+	//        FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("Settings");
+	//        {
+	//            FToolMenuEntry& Entry = Section.AddEntry(FToolMenuEntry::InitToolBarButton(CommandActions.OpenPluginWindow));
+	//            Entry.SetCommandList(PluginCommands);
+	//        }
+	//    }
+	//}
 
-    //// Register the menu for the 3D viewport
-    //{
-    //    UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.ViewportContextMenu");
-    //    {
-    //        FToolMenuSection& Section = Menu->FindOrAddSection("LevelEditorViewport");
-    //        Section.AddMenuEntryWithCommandList(CommandActions.OpenPluginWindow, PluginCommands);
-    //    }
-    //}
+	//// Register the menu for the 3D viewport
+	//{
+	//    UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.ViewportContextMenu");
+	//    {
+	//        FToolMenuSection& Section = Menu->FindOrAddSection("LevelEditorViewport");
+	//        Section.AddMenuEntryWithCommandList(CommandActions.OpenPluginWindow, PluginCommands);
+	//    }
+	//}
 
-    /* {
-         UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("AUDIO_SFX.ViewportContextMenu");
-         {
-             FToolMenuSection& Section = Menu->FindOrAddSection("GenerateNoise");
-             Section.AddMenuEntryWithCommandList(CommandActions.GenerateNoise, PluginCommands);
-         }
-     }*/
+	/* {
+		 UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("AUDIO_SFX.ViewportContextMenu");
+		 {
+			 FToolMenuSection& Section = Menu->FindOrAddSection("GenerateNoise");
+			 Section.AddMenuEntryWithCommandList(CommandActions.GenerateNoise, PluginCommands);
+		 }
+	 }*/
 
-     // Get the main menu builder
-     //FMenuBarBuilder MenuBarBuilder = FMenuBarBuilder(PluginCommands);
+	 // Get the main menu builder
+	 //FMenuBarBuilder MenuBarBuilder = FMenuBarBuilder(PluginCommands);
   //   MenuBarBuilder.AddMenuEntry(
   //       FText::FromString("Generate Noise"),
   //       FText::FromString("Generate Perlin Noise"),
@@ -2196,92 +2231,92 @@ std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>>& Convolu
   //       FUIAction(FExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::GeneratePerlinNoiseMenuAPI))
   //       );
 
-    // Add a top level menu to the Unreal Editor's menu bar
-    PluginCommands->MapAction(
-        CommandActions.GenerateNoise,
-        FExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::GeneratePerlinNoiseMenuAPI),
-        FCanExecuteAction(),
-        FIsActionChecked());
+	// Add a top level menu to the Unreal Editor's menu bar
+	PluginCommands->MapAction(
+		CommandActions.GenerateNoise,
+		FExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::GeneratePerlinNoiseMenuAPI),
+		FCanExecuteAction(),
+		FIsActionChecked());
 
 //
 
-    FMessageDialog::Open(
-        EAppMsgType::Ok,
-        FText(LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool")), 
-        FText(LOCTEXT("WindowWidgetText", "Information")));
+	FMessageDialog::Open(
+		EAppMsgType::Ok,
+		FText(LOCTEXT("WindowWidgetText", "The Audio SFX Design Tool")), 
+		FText(LOCTEXT("WindowWidgetText", "Information")));
 
-        //
+		//
 
 #include <Framework/Commands/UIAction.h>
 class FAUDIO_SFX_MENU_Class : public FMenuExtensionDelegate
 {
-    // This is the class that will be used to create the menu extension
+	// This is the class that will be used to create the menu extension
 public:
-     FAUDIO_SFX_MENU_Class();
-    ~FAUDIO_SFX_MENU_Class();
+	 FAUDIO_SFX_MENU_Class();
+	~FAUDIO_SFX_MENU_Class();
 
-    void GeneratePerlinNoiseMenuAPI();
+	void GeneratePerlinNoiseMenuAPI();
 
-    // This is the function that will be called when the menu extension is created
-    virtual void AddMenuExtension(FMenuBuilder& Builder) override;
+	// This is the function that will be called when the menu extension is created
+	virtual void AddMenuExtension(FMenuBuilder& Builder) override;
 
-    // This is the function that will be called when the menu extension is destroyed
-    virtual void RemoveMenuExtension(FMenuBuilder& Builder) override;
+	// This is the function that will be called when the menu extension is destroyed
+	virtual void RemoveMenuExtension(FMenuBuilder& Builder) override;
 
-    // This is the function that will be called when the menu extension is ticked
-    virtual void TickMenuExtension(float DeltaTime) override;
+	// This is the function that will be called when the menu extension is ticked
+	virtual void TickMenuExtension(float DeltaTime) override;
 
-    // This is the function that will be called when the menu extension is rendered
-    virtual void RenderMenuExtension(FViewport* Viewport, const FSceneView* View, FPrimitiveDrawInterface* PDI) override;
+	// This is the function that will be called when the menu extension is rendered
+	virtual void RenderMenuExtension(FViewport* Viewport, const FSceneView* View, FPrimitiveDrawInterface* PDI) override;
 
-    // This is the function that will be called when the menu extension is rendered
-    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas) override;
+	// This is the function that will be called when the menu extension is rendered
+	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas) override;
 
-    // This is the function that will be called when the menu extension is rendered
-    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize) override;
+	// This is the function that will be called when the menu extension is rendered
+	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize) override;
 
-    // This is the function that will be called when the menu extension is rendered
-    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize) override;
+	// This is the function that will be called when the menu extension is rendered
+	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize) override;
 
-    // This is the function that will be called when the menu extension is rendered
-    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize, FVector2D ViewportPos) override;
+	// This is the function that will be called when the menu extension is rendered
+	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize, FVector2D ViewportPos) override;
 
-    // This is the function that will be called when the menu extension is rendered
-    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize, FVector2D ViewportPos, FVector2D ViewportSizeFraction) override;
+	// This is the function that will be called when the menu extension is rendered
+	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize, FVector2D ViewportPos, FVector2D ViewportSizeFraction) override;
 
-    // This is the function that will be called when the menu extension is rendered
-    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize, FVector2D ViewportPos, FVector2D ViewportSizeFraction, FVector2D ViewportPosFraction) override;
+	// This is the function that will be called when the menu extension is rendered
+	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D CanvasSize, FVector2D ViewportSize, FVector2D ViewportPos, FVector2D ViewportSizeFraction, FVector2D ViewportPosFraction) override;
 
-    // This is the function that will be called when the menu extension is rendered
-    virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D DCanvasSize, FVector2D ViewportSize, FVector2D ViewportPos, FVector2D ViewportSizeFraction, FVector2D ViewportPosFraction, FVector2D ViewportSizeFractionFraction) override;
+	// This is the function that will be called when the menu extension is rendered
+	virtual void RenderMenuExtension(FViewport* Viewport, FCanvas* Canvas, FVector2D DCanvasSize, FVector2D ViewportSize, FVector2D ViewportPos, FVector2D ViewportSizeFraction, FVector2D ViewportPosFraction, FVector2D ViewportSizeFractionFraction) override;
 };
 
 
 
 FAUDIO_SFX_MENU_Class::FAUDIO_SFX_MENU_Class()
 {
-    // Register the menu for the 3D viewport
-    {
-        UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.ViewportContextMenu");
-        {
-            FToolMenuSection& Section = Menu->FindOrAddSection("LevelEditorViewport");
-            Section.AddMenuEntryWithCommandList(FAUDIO_SFX_PLUGINCommands::Get().OpenPluginWindow, PluginCommands);
-        }
-    }
+	// Register the menu for the 3D viewport
+	{
+		UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.ViewportContextMenu");
+		{
+			FToolMenuSection& Section = Menu->FindOrAddSection("LevelEditorViewport");
+			Section.AddMenuEntryWithCommandList(FAUDIO_SFX_PLUGINCommands::Get().OpenPluginWindow, PluginCommands);
+		}
+	}
 }
 
 FAUDIO_SFX_MENU_Class::~FAUDIO_SFX_MENU_Class()
 {
-    
+	
 }
 
 void FAUDIO_SFX_MENU_Class::AddMenuExtension(FMenuBuilder& Builder)
 {
-    Builder.AddMenuEntry(
-        FText::FromString("Generate Noise"),
-        FText::FromString("Generate Perlin Noise"),
-        FSlateIcon(),
-        FUIAction( FExecuteAction::CreateRaw( this, &FAUDIO_SFX_MENU_Class::GeneratePerlinNoiseMenuAPI)));
+	Builder.AddMenuEntry(
+		FText::FromString("Generate Noise"),
+		FText::FromString("Generate Perlin Noise"),
+		FSlateIcon(),
+		FUIAction( FExecuteAction::CreateRaw( this, &FAUDIO_SFX_MENU_Class::GeneratePerlinNoiseMenuAPI)));
 }
 
 void FAUDIO_SFX_MENU_Class::RemoveMenuExtension(FMenuBuilder& Builder)
@@ -2293,268 +2328,268 @@ void FAUDIO_SFX_MENU_Class::TickMenuExtension(float DeltaTime)
 }
 
 void FAUDIO_SFX_MENU_Class::RenderMenuExtension(
-    FViewport* Viewport, 
-    const FSceneView* View, 
-    FPrimitiveDrawInterface* PDI)
+	FViewport* Viewport, 
+	const FSceneView* View, 
+	FPrimitiveDrawInterface* PDI)
 {
 }
 
 void FAUDIO_SFX_MENU_Class::RenderMenuExtension(
-    FViewport* Viewport, 
-    FCanvas* Canvas)
+	FViewport* Viewport, 
+	FCanvas* Canvas)
 {
 }
 
 void FAUDIO_SFX_MENU_Class::RenderMenuExtension(
-    FViewport* Viewport,
-    FCanvas* Canvas,
-    FVector2D CanvasSize)
+	FViewport* Viewport,
+	FCanvas* Canvas,
+	FVector2D CanvasSize)
 {
 }
 
 void FAUDIO_SFX_MENU_Class::RenderMenuExtension(
-    FViewport* Viewport, 
-    FCanvas* Canvas, 
-    FVector2D CanvasSize, 
-    FVector2D ViewportSize)
+	FViewport* Viewport, 
+	FCanvas* Canvas, 
+	FVector2D CanvasSize, 
+	FVector2D ViewportSize)
 {
 }
 
 void FAUDIO_SFX_MENU_Class::RenderMenuExtension(
-    FViewport* Viewport,
-    FCanvas* Canvas,
-    FVector2D CanvasSize,
-    FVector2D ViewportSize,
-    FVector2D ViewportPos)
+	FViewport* Viewport,
+	FCanvas* Canvas,
+	FVector2D CanvasSize,
+	FVector2D ViewportSize,
+	FVector2D ViewportPos)
 {
 }
 
 void FAUDIO_SFX_MENU_Class::RenderMenuExtension(
-    FViewport* Viewport,
-    FCanvas* Canvas,
-    FVector2D CanvasSize,
-    FVector2D ViewportSize,
-    FVector2D ViewportPos,
-    FVector2D ViewportSizeFraction)
+	FViewport* Viewport,
+	FCanvas* Canvas,
+	FVector2D CanvasSize,
+	FVector2D ViewportSize,
+	FVector2D ViewportPos,
+	FVector2D ViewportSizeFraction)
 {
 }
 
 void FAUDIO_SFX_MENU_Class::RenderMenuExtension(
-    FViewport* Viewport,
-    FCanvas* Canvas,
-    FVector2D CanvasSize,
-    FVector2D ViewportSize,
-    FVector2D ViewportPos,
-    FVector2D ViewportSizeFraction,
-    FVector2D ViewportPosFraction)
+	FViewport* Viewport,
+	FCanvas* Canvas,
+	FVector2D CanvasSize,
+	FVector2D ViewportSize,
+	FVector2D ViewportPos,
+	FVector2D ViewportSizeFraction,
+	FVector2D ViewportPosFraction)
 {
 }
 
 void FAUDIO_SFX_MENU_Class::RenderMenuExtension(
-    FViewport* Viewport,
-    FCanvas* Canvas,
-    FVector2D DCanvasSize,
-    FVector2D ViewportSize,
-    FVector2D ViewportPos,
-    FVector2D ViewportSizeFraction,
-    FVector2D ViewportPosFraction,
-    FVector2D ViewportSizeFractionFraction)
+	FViewport* Viewport,
+	FCanvas* Canvas,
+	FVector2D DCanvasSize,
+	FVector2D ViewportSize,
+	FVector2D ViewportPos,
+	FVector2D ViewportSizeFraction,
+	FVector2D ViewportPosFraction,
+	FVector2D ViewportSizeFractionFraction)
 {
 }
 
 //
 
-    std::vector<std::string>& WordVectorBuffRef = FileInfoObjRefT.nlp_ipa_WordVectorBuffRef;
-    const U nIndexConstUInt64 = FileInfoObjRefT.nlp_ipa_nIndexUInt64;
+	std::vector<std::string>& WordVectorBuffRef = FileInfoObjRefT.nlp_ipa_WordVectorBuffRef;
+	const U nIndexConstUInt64 = FileInfoObjRefT.nlp_ipa_nIndexUInt64;
 
-    using WordVectorBuffConstRef[nIndexUInt64] as LetterAttributesObjRef;
-    const std::string& LetterStrConstRef = LetterAttributesObjRef.LetterStrConstRef;
-    bool SilentPronunciateFlag = LetterAttributesObjRef.SilentPronunciateFlag;
-    bool LongVowelFlag = LetterAttributesObjRef.LongVowelFlag;
-    bool LongConsonantFlag = LetterAttributesObjRef.LongConsonantFlag;
+	using WordVectorBuffConstRef[nIndexUInt64] as LetterAttributesObjRef;
+	const std::string& LetterStrConstRef = LetterAttributesObjRef.LetterStrConstRef;
+	bool SilentPronunciateFlag = LetterAttributesObjRef.SilentPronunciateFlag;
+	bool LongVowelFlag = LetterAttributesObjRef.LongVowelFlag;
+	bool LongConsonantFlag = LetterAttributesObjRef.LongConsonantFlag;
 
-    //
+	//
 
-    this->ChildSlot
-        [
-            SNew(SVerticalBox)
-            
-            + SVerticalBox::Slot()
-            .Padding(0.0f, 10.0f)
-            .AutoHeight()
-            [
-                SNew(SBox)
-                .MinDesiredHeight(320.0f)
-                .MinDesiredWidth(450.0f)
-                .RenderOpacity(0.5f)
-            ]
-    
-            + SVerticalBox::Slot()
-            .AutoHeight()
-            .Padding(2)
-            [
-                SNew(SBox)
-                .MinDesiredHeight(320.0f)
-                .MinDesiredWidth(450.0f)
-                .RenderOpacity(0.25f)
-            ]
-        ];
+	this->ChildSlot
+		[
+			SNew(SVerticalBox)
+			
+			+ SVerticalBox::Slot()
+			.Padding(0.0f, 10.0f)
+			.AutoHeight()
+			[
+				SNew(SBox)
+				.MinDesiredHeight(320.0f)
+				.MinDesiredWidth(450.0f)
+				.RenderOpacity(0.5f)
+			]
+	
+			+ SVerticalBox::Slot()
+			.AutoHeight()
+			.Padding(2)
+			[
+				SNew(SBox)
+				.MinDesiredHeight(320.0f)
+				.MinDesiredWidth(450.0f)
+				.RenderOpacity(0.25f)
+			]
+		];
 
-    return SNew(SDockTab)
-        .TabRole(ETabRole::MajorTab)
-        .Label(inAttributesTXT)
-        [
-            SNew(SVerticalBox)
-            + SVerticalBox::Slot()
-            .Padding(0.0f, 10.0f)
-            .AutoHeight()
-            [
-                SNew(SInlineEditableTextBlock)
-                .IsReadOnly(false)
-                .Text(FText::Format(
-                    LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
-                    FText::FromString(TEXT("FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab")),
-                    FText::FromString(TEXT("AUDIO_SFX_PLUGIN.cpp"))
-                ))
-            ]
-        ];
+	return SNew(SDockTab)
+		.TabRole(ETabRole::MajorTab)
+		.Label(inAttributesTXT)
+		[
+			SNew(SVerticalBox)
+			+ SVerticalBox::Slot()
+			.Padding(0.0f, 10.0f)
+			.AutoHeight()
+			[
+				SNew(SInlineEditableTextBlock)
+				.IsReadOnly(false)
+				.Text(FText::Format(
+					LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
+					FText::FromString(TEXT("FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab")),
+					FText::FromString(TEXT("AUDIO_SFX_PLUGIN.cpp"))
+				))
+			]
+		];
 
-    ChildSlot
-    [
-        SNew(SVerticalBox)
-        + SVerticalBox::Slot()
-        .Padding(0.0f, 10.0f)
-        .AutoHeight()
-        [
-            SNew(SBox)
-            .MinDesiredHeight(320.0f)
-            .MinDesiredWidth(450.0f)
-        ]
-        + SVerticalBox::Slot()
-        .AutoHeight()
-        .Padding(2)
-        [
-            SNew(SBox)
-            .MinDesiredHeight(320.0f)
-            .MinDesiredWidth(450.0f)
-        ]
-    ];
+	ChildSlot
+	[
+		SNew(SVerticalBox)
+		+ SVerticalBox::Slot()
+		.Padding(0.0f, 10.0f)
+		.AutoHeight()
+		[
+			SNew(SBox)
+			.MinDesiredHeight(320.0f)
+			.MinDesiredWidth(450.0f)
+		]
+		+ SVerticalBox::Slot()
+		.AutoHeight()
+		.Padding(2)
+		[
+			SNew(SBox)
+			.MinDesiredHeight(320.0f)
+			.MinDesiredWidth(450.0f)
+		]
+	];
 
 namespace ToneLibrary
 {
 
-    template<typename T, typename U>
-    class nlp
-    {
-    public:
-        nlp();
-    };
-    
-    template<typename T>
-    std::unordered_map<std::string, ComplexVector2DT<T>> GetNLPMap()
-    {
-        // LIST THE 44 (MOST COMMON) ENGLISH PHONEMES
-        std::unordered_map<std::string, ComplexVector2DT<T>> NLPMap;
-        
-        // 1. VOWELS
-        NLPMap["p"] = nlpVector2DTPat;	// as in "pat"
-        NLPMap["b"] = nlpVector2DTBat;	// as in "bat"	
-        NLPMap["t"] = nlpVector2DTap;	// as in "tap"
-        NLPMap["d"] = nlpVector2DTDog;	// as in "dog"		
-        NLPMap["k"] = nlpVector2DTCat;	// as in "cat"
-        NLPMap["g"] = nlpVector2DTGo;	// as in "go"
-        NLPMap["f"] = nlpVector2DTFish;	// as in "fish"
-        NLPMap["v"] = nlpVector2DTVat;	// as in "vat"
-        NLPMap["θ"] = nlpVector2DTTHink;// as in "think"
-        NLPMap["ð"] = nlpVector2DTTHis; // as in "this"
-        NLPMap["s"] = nlpVector2DTSip;	// as in "sip"
-        NLPMap["z"] = nlpVector2DTZip;	// as in "zip"
-        NLPMap["ʃ"] = nlpVector2DTSHeep;	// as in "sheep"
-        NLPMap["ʒ"] = nlpVector2DTMeasure;	// as in "measure"
-        NLPMap["h"] = nlpVector2DTHat;	// as in "hat"
-        NLPMap["m"] = nlpVector2DTMat;	// as in "mat"
-        NLPMap["n"] = nlpVector2DTNap;	// as in "nap"
-        NLPMap["ŋ"] = nlpVector2DTsINg; // as in "sing"
-        NLPMap["l"] = nlpVector2DTLip;	// as in "lip"
-        NLPMap["r"] = nlpVector2DTRip;	// as in "rip"
-        NLPMap["j"] = nlpVector2DTYacht;// as in "yacht"
-        NLPMap["w"] = nlpVector2DTWet;	// as in "wet"
+	template<typename T, typename U>
+	class nlp
+	{
+	public:
+		nlp();
+	};
+	
+	template<typename T>
+	std::unordered_map<std::string, ComplexVector2DT<T>> GetNLPMap()
+	{
+		// LIST THE 44 (MOST COMMON) ENGLISH PHONEMES
+		std::unordered_map<std::string, ComplexVector2DT<T>> NLPMap;
+		
+		// 1. VOWELS
+		NLPMap["p"] = nlpVector2DTPat;	// as in "pat"
+		NLPMap["b"] = nlpVector2DTBat;	// as in "bat"	
+		NLPMap["t"] = nlpVector2DTap;	// as in "tap"
+		NLPMap["d"] = nlpVector2DTDog;	// as in "dog"		
+		NLPMap["k"] = nlpVector2DTCat;	// as in "cat"
+		NLPMap["g"] = nlpVector2DTGo;	// as in "go"
+		NLPMap["f"] = nlpVector2DTFish;	// as in "fish"
+		NLPMap["v"] = nlpVector2DTVat;	// as in "vat"
+		NLPMap["θ"] = nlpVector2DTTHink;// as in "think"
+		NLPMap["ð"] = nlpVector2DTTHis; // as in "this"
+		NLPMap["s"] = nlpVector2DTSip;	// as in "sip"
+		NLPMap["z"] = nlpVector2DTZip;	// as in "zip"
+		NLPMap["ʃ"] = nlpVector2DTSHeep;	// as in "sheep"
+		NLPMap["ʒ"] = nlpVector2DTMeasure;	// as in "measure"
+		NLPMap["h"] = nlpVector2DTHat;	// as in "hat"
+		NLPMap["m"] = nlpVector2DTMat;	// as in "mat"
+		NLPMap["n"] = nlpVector2DTNap;	// as in "nap"
+		NLPMap["ŋ"] = nlpVector2DTsINg; // as in "sing"
+		NLPMap["l"] = nlpVector2DTLip;	// as in "lip"
+		NLPMap["r"] = nlpVector2DTRip;	// as in "rip"
+		NLPMap["j"] = nlpVector2DTYacht;// as in "yacht"
+		NLPMap["w"] = nlpVector2DTWet;	// as in "wet"
 
-        // 2. CONSONANTS
-        NLPMap["i"] = nlpVector2DTbEEt; // as in "beet"
-        NLPMap["ɪ"] = nlpVector2DTbIt;	// as in "bit"
-        NLPMap["e"] = nlpVector2DTbAIt; // as in "bait"
-        NLPMap["ɛ"] = nlpVector2DTbEt;	// as in "bet"
-        NLPMap["æ"] = nlpVector2DTbAt;	// as in "bat"
-        NLPMap["a"] = nlpVector2DTfAther;	// as in "father"
-        NLPMap["ɑ"] = nlpVector2DTbOUGHt;	// as in "bought"
-        NLPMap["ɔ"] = nlpVector2DTbAWl; // as in "bawl"
-        NLPMap["o"] = nlpVector2DTOAt;	// as in "oat"
-        NLPMap["ʊ"] = nlpVector2DTfOOt; // as in "foot"
-        NLPMap["u"] = nlpVector2DTbOOt; // as in "boot"
-        return NLPMap;
-    }	
+		// 2. CONSONANTS
+		NLPMap["i"] = nlpVector2DTbEEt; // as in "beet"
+		NLPMap["ɪ"] = nlpVector2DTbIt;	// as in "bit"
+		NLPMap["e"] = nlpVector2DTbAIt; // as in "bait"
+		NLPMap["ɛ"] = nlpVector2DTbEt;	// as in "bet"
+		NLPMap["æ"] = nlpVector2DTbAt;	// as in "bat"
+		NLPMap["a"] = nlpVector2DTfAther;	// as in "father"
+		NLPMap["ɑ"] = nlpVector2DTbOUGHt;	// as in "bought"
+		NLPMap["ɔ"] = nlpVector2DTbAWl; // as in "bawl"
+		NLPMap["o"] = nlpVector2DTOAt;	// as in "oat"
+		NLPMap["ʊ"] = nlpVector2DTfOOt; // as in "foot"
+		NLPMap["u"] = nlpVector2DTbOOt; // as in "boot"
+		return NLPMap;
+	}	
 }
 
-    // Apply time stretching
-    U OutputSampleIndex = 0;  StretchRatio;
-    for (U Channel = 0; Channel < NumChannels; Channel++)
-    {
-        oBuffer[Channel] = VectorT<T>(NumSamples);
-        for (U Sample = 0; Sample < NumSamples; Sample++)
-        {
-            oBuffer[Channel][Sample] = (1 - Sample) * oBuffer[Channel][Sample] + Sample * oBufferTemp[Channel][Sample];
-        }
-    }
+	// Apply time stretching
+	U OutputSampleIndex = 0;  StretchRatio;
+	for (U Channel = 0; Channel < NumChannels; Channel++)
+	{
+		oBuffer[Channel] = VectorT<T>(NumSamples);
+		for (U Sample = 0; Sample < NumSamples; Sample++)
+		{
+			oBuffer[Channel][Sample] = (1 - Sample) * oBuffer[Channel][Sample] + Sample * oBufferTemp[Channel][Sample];
+		}
+	}
 
-    // Apply time stretching
-    U OutputSampleIndex = 0;  StretchRatio;
-    for (U Channel = 0; Channel < NumChannels; Channel++)
-    {
-        oBuffer[Channel] = VectorT<T>(NumSamples);
-        for (U Sample = 0; Sample < NumSamples; Sample++)
-        {
-            oBuffer[Channel][Sample] = oBufferTemp[Channel][OutputSampleIndex];
-        }
-        OutputSampleIndex++;
-    }
-    
-    // Apply time stretching
-    U OutputSampleIndex = 0;  StretchRatio;
-    for (U Channel = 0; Channel < NumChannels; Channel++)
-    {
-        oBuffer[Channel] = VectorT<T>(NumSamples);
-        for (U Sample = 0; Sample < NumSamples; Sample++)
-        {
-            oBuffer[Channel][Sample] = oBufferTemp[Channel][OutputSampleIndex];
-        }
-        OutputSampleIndex += StretchRatio;
-    }
+	// Apply time stretching
+	U OutputSampleIndex = 0;  StretchRatio;
+	for (U Channel = 0; Channel < NumChannels; Channel++)
+	{
+		oBuffer[Channel] = VectorT<T>(NumSamples);
+		for (U Sample = 0; Sample < NumSamples; Sample++)
+		{
+			oBuffer[Channel][Sample] = oBufferTemp[Channel][OutputSampleIndex];
+		}
+		OutputSampleIndex++;
+	}
+	
+	// Apply time stretching
+	U OutputSampleIndex = 0;  StretchRatio;
+	for (U Channel = 0; Channel < NumChannels; Channel++)
+	{
+		oBuffer[Channel] = VectorT<T>(NumSamples);
+		for (U Sample = 0; Sample < NumSamples; Sample++)
+		{
+			oBuffer[Channel][Sample] = oBufferTemp[Channel][OutputSampleIndex];
+		}
+		OutputSampleIndex += StretchRatio;
+	}
 
-    public:
-        void SetSize(FILEINFO_Obj<T, U>&);
-        void SetDamping(FILEINFO_Obj<T, U>&);
-        void SetWetLevel(FILEINFO_Obj<T, U>&);
-        void SetDryLevel(FILEINFO_Obj<T, U>&);
-    private:
-        T& AudioBufferPrivateFloat64TRef;
-        T& AudioBufferTempPrivateFloat64TRef;
-        U NumChannelsPrivateUint64T;
-        U NumSamplesPrivateUint64T;
-        U NumSamplesPerChannelPrivateUint64T;
-        U SampleRatePrivateUint64T;
-        U SizePrivateUint64T;
-        T WetLevelPrivateFloat64T;
-        T DryLevelPrivateFloat64T;
-        T DampingPrivateFloat64T;
+	public:
+		void SetSize(FILEINFO_Obj<T, U>&);
+		void SetDamping(FILEINFO_Obj<T, U>&);
+		void SetWetLevel(FILEINFO_Obj<T, U>&);
+		void SetDryLevel(FILEINFO_Obj<T, U>&);
+	private:
+		T& AudioBufferPrivateFloat64TRef;
+		T& AudioBufferTempPrivateFloat64TRef;
+		U NumChannelsPrivateUint64T;
+		U NumSamplesPrivateUint64T;
+		U NumSamplesPerChannelPrivateUint64T;
+		U SampleRatePrivateUint64T;
+		U SizePrivateUint64T;
+		T WetLevelPrivateFloat64T;
+		T DryLevelPrivateFloat64T;
+		T DampingPrivateFloat64T;
 
-    U PlateReverbNumChannelsUint64T;
-    U PlateReverbNumSamplesUint64T;
-    U PlateReverbNumSamplesPerChannelUint64T;
-    T PlateReverbSampleRateFloat64T;
-    T PlateReverbWetLevelFloat64T;
-    T PlateReverbDryLevelFloat64T;
-    T PlateReverbDampingFloat64T;
+	U PlateReverbNumChannelsUint64T;
+	U PlateReverbNumSamplesUint64T;
+	U PlateReverbNumSamplesPerChannelUint64T;
+	T PlateReverbSampleRateFloat64T;
+	T PlateReverbWetLevelFloat64T;
+	T PlateReverbDryLevelFloat64T;
+	T PlateReverbDampingFloat64T;
 
 /**
 * Plate Reverb synthesis tool
@@ -2566,109 +2601,109 @@ namespace ToneLibrary
 */
 template<typename T, typename U>
 void PlateReverb<T, U>::GeneratePlateReverb(
-    FILEINFO_Obj<T, U>& FileInfoObj_Ref
-    )
+	FILEINFO_Obj<T, U>& FileInfoObj_Ref
+	)
 {
-    // Loop through the channels
-    for (U nChannelUInt64 = 0; nChannelUInt64 < FileInfoObj_Ref.PlateReverb3DVectorTRef[0].size(); nChannelUInt64++)
-    {
-        // Loop through the samples
-        for (U nSampleIdxUInt64 = 0; nSampleIdxUInt64 < PlateReverb3DVectorTRef[0][nChannelUInt64].size(); nSampleIdxUInt64++)
-        {
-            // Apply the plate algorithm
-            FileInfoObj_Ref.PlateReverb3DVectorTRef[1][nChannelUInt64][nSampleIdxUInt64] =
-                FileInfoObj_Ref.PlateReverb3DVectorTRef[0][nChannelUInt64][nSampleIdxUInt64] *
-                (1 - FileInfoObj_Ref.PlateReverbWetnessFloat64T) +
-                (
-                    (
-                        FileInfoObj_Ref.PlateReverbWetnessFloat64T * 
-                        FileInfoObj_Ref.PlateReverbDampingFloat64T
-                    ) *
-                    FileInfoObj_Ref.PlateReverb3DVectorTRef[0][nChannelUInt64][nSampleIdxUInt64] +
-                    FileInfoObj_Ref.PlateReverb3DVectorTRef[1][nChannelUInt64][nSampleIdxUInt64 - 1]
-                );
-        }
-    }
+	// Loop through the channels
+	for (U nChannelUInt64 = 0; nChannelUInt64 < FileInfoObj_Ref.PlateReverb3DVectorTRef[0].size(); nChannelUInt64++)
+	{
+		// Loop through the samples
+		for (U nSampleIdxUInt64 = 0; nSampleIdxUInt64 < PlateReverb3DVectorTRef[0][nChannelUInt64].size(); nSampleIdxUInt64++)
+		{
+			// Apply the plate algorithm
+			FileInfoObj_Ref.PlateReverb3DVectorTRef[1][nChannelUInt64][nSampleIdxUInt64] =
+				FileInfoObj_Ref.PlateReverb3DVectorTRef[0][nChannelUInt64][nSampleIdxUInt64] *
+				(1 - FileInfoObj_Ref.PlateReverbWetnessFloat64T) +
+				(
+					(
+						FileInfoObj_Ref.PlateReverbWetnessFloat64T * 
+						FileInfoObj_Ref.PlateReverbDampingFloat64T
+					) *
+					FileInfoObj_Ref.PlateReverb3DVectorTRef[0][nChannelUInt64][nSampleIdxUInt64] +
+					FileInfoObj_Ref.PlateReverb3DVectorTRef[1][nChannelUInt64][nSampleIdxUInt64 - 1]
+				);
+		}
+	}
 }
 
 template <typename T>
 std::unordered_map<enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>> PopulateConvolutionReverbHashTableT()
 {
-    ConvolutionReverbHashTableT<ConvolutionReverbEnumFLAGS, Vector2DT<T>> ConvolutionReverbHashTableT;
-    
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlateEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::PlateFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSpringEnumFlag] =
-        ConvolutionReverbFIRObj<T>::SpringFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConvoluteEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::ConvolutionFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbWoodenEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::WoodenRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGlassEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::GlassRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbTitaniumEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::TitaniumRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbIronEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::IronRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbLeadEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::LeadRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGoldEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::GoldRoomFiniteImpulseResponse;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSteelEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::SteelRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbAluminumEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::AluminumRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbRubberEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::RubberRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCeramicEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CeramicRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlasticEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::PlasticRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCottonEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CottonRoomFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbMediumHallEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj.MediumHallFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertHallEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertHallFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCathedralEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::CathedralFiniteImpulseResponseFIRVector2DT;
-    ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertStadiumEnumFlag] = 
-        ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertStadiumFiniteImpulseResponseFIRVector2DT;
-    return ConvolutionReverbHashTableT;
+	ConvolutionReverbHashTableT<ConvolutionReverbEnumFLAGS, Vector2DT<T>> ConvolutionReverbHashTableT;
+	
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlateEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::PlateFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSpringEnumFlag] =
+		ConvolutionReverbFIRObj<T>::SpringFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConvoluteEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::ConvolutionFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbWoodenEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::WoodenRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGlassEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::GlassRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbTitaniumEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::TitaniumRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbIronEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::IronRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbLeadEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::LeadRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbGoldEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::GoldRoomFiniteImpulseResponse;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbSteelEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::SteelRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbAluminumEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::MetalObj::AluminumRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbRubberEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::RubberRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCeramicEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CeramicRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlasticEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::PlasticRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCottonEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::SmallRoomObj::CottonRoomFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbMediumHallEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj.MediumHallFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertHallEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertHallFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbCathedralEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::CathedralFiniteImpulseResponseFIRVector2DT;
+	ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbConcertStadiumEnumFlag] = 
+		ConvolutionReverbFIRObj<T>::AlgorithmicObj::ConcertStadiumFiniteImpulseResponseFIRVector2DT;
+	return ConvolutionReverbHashTableT;
 }
 
 template <typename T>
 ConvolutionReverbHashTableT<T>[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlateEnumFlag] = ConvolutionReverbFIRObj<T>::PlateFiniteImpulseResponseFIRVector2DT;
 
-    switch (FileInfoObjRef.ConvolutionReverbMethodEnumFlag)
-    {
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbPlateEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbSpringEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConvoluteEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbWoodenEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbGlassEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbTitaniumEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbIronEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbLeadEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbGoldEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbSteelEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbAluminumEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbRubberEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCeramicEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbPlasticEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCottonEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbMediumHallEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConcertHallEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCathedralEnumFlag:
-    case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConcertStadiumEnumFlag:
-        ConvolutionTargetFIRVector2DTREF = 
-            FileInfoObjRef.ConvolutionReverbImpulseResponseTObj.ConcertHallFiniteImpulseResponseFIRVector2DT;
-        break;
+	switch (FileInfoObjRef.ConvolutionReverbMethodEnumFlag)
+	{
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbPlateEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbSpringEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConvoluteEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbWoodenEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbGlassEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbTitaniumEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbIronEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbLeadEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbGoldEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbSteelEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbAluminumEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbRubberEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCeramicEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbPlasticEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCottonEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbMediumHallEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConcertHallEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbCathedralEnumFlag:
+	case FileInfoObjRef.ConvolutionReverbEnumFlags::ConvolutionReverbConcertStadiumEnumFlag:
+		ConvolutionTargetFIRVector2DTREF = 
+			FileInfoObjRef.ConvolutionReverbImpulseResponseTObj.ConcertHallFiniteImpulseResponseFIRVector2DT;
+		break;
 
-    default: // FileInfoObjRef.ConvolutionReverbNoneSelectedEnumFlag
-        std::cout << "Error - ConvolutionReverb::GenerateConvolutionReverb FileInfoObjRef.ConvolutionReverbNoneSelectedEnumFlag. " << std::endl;
-        return;
-    }	
+	default: // FileInfoObjRef.ConvolutionReverbNoneSelectedEnumFlag
+		std::cout << "Error - ConvolutionReverb::GenerateConvolutionReverb FileInfoObjRef.ConvolutionReverbNoneSelectedEnumFlag. " << std::endl;
+		return;
+	}	
 
 template <typename T, typename U>
 using HashMapT = std::unordered_map<T, U>;
@@ -2679,123 +2714,123 @@ HashMapT <enum class ConvolutionReverbEnumFLAGS, Vector2DT<T>> ConvolutionReverb
 template <typename T, typename U>
 ConvolutionReverbHashTableT[ConvolutionReverbEnumFLAGS::ConvolutionReverbPlateEnumFlag] = ConvolutionReverbFIRObj<T, U>::PlateFiniteImpulseResponseFIRVector2DT<T, U>;
 
-        // Average the audio for the entire channel
-        FileInfoObjRef.AudioMixMixedAudioResultVector2DTRef[nChannelUInt64] /= 
-            FileInfoObjRef.AudioMixFileAVector2DTRef.size();
-            
-    VectorT<T> TimeVector;
-    VectorT<U> AmplitudeVector;
-    T GlobalSampleRate;
-    T WaveSpeed;
-    T WaveLength;
-    T StartTime;
-    T GlobalAmplitude;
-    T GlobalFrequency;
-    T AmplitudeDecibels;
-    T AmplitudeDecibelsNormalized;
+		// Average the audio for the entire channel
+		FileInfoObjRef.AudioMixMixedAudioResultVector2DTRef[nChannelUInt64] /= 
+			FileInfoObjRef.AudioMixFileAVector2DTRef.size();
+			
+	VectorT<T> TimeVector;
+	VectorT<U> AmplitudeVector;
+	T GlobalSampleRate;
+	T WaveSpeed;
+	T WaveLength;
+	T StartTime;
+	T GlobalAmplitude;
+	T GlobalFrequency;
+	T AmplitudeDecibels;
+	T AmplitudeDecibelsNormalized;
 
-        void BluesteinFFT(
-            FILEINFO_Obj<T,U>& FileInfoObj,
-            ComplexVector3DT<T>&
-            );
-        void Radix2FFT(
-            FILEINFO_Obj<T,U>& FileInfoObj,
-            ComplexVector3DT<T>&
-            );
+		void BluesteinFFT(
+			FILEINFO_Obj<T,U>& FileInfoObj,
+			ComplexVector3DT<T>&
+			);
+		void Radix2FFT(
+			FILEINFO_Obj<T,U>& FileInfoObj,
+			ComplexVector3DT<T>&
+			);
 
-    /**
-    * TemporaryAudioFileComplexVector2DTRef[AudioChannel][Stream]
-    */
-    ComplexVector2DT<T>& TemporaryAudioFileComplexVector2DTRef;
-    /**
-    * ProjectFilesComplexVector2DFloat64T[AudioFile][AudioChannel][Stream]
-    */
-    ComplexVector3DT<T>& ProjectFileComplexVector3DTRef;
+	/**
+	* TemporaryAudioFileComplexVector2DTRef[AudioChannel][Stream]
+	*/
+	ComplexVector2DT<T>& TemporaryAudioFileComplexVector2DTRef;
+	/**
+	* ProjectFilesComplexVector2DFloat64T[AudioFile][AudioChannel][Stream]
+	*/
+	ComplexVector3DT<T>& ProjectFileComplexVector3DTRef;
 
-    switch (FileInfoObj.AudioEqualizationAlgorithmEnum)
-    {
-        bool ProperCallBool = false;
-        case FILEINFO_Obj::AudioEqualizationENUM::Blustein:
-            BluesteinFFT(FileInfoObj, {});
-            break;
-        case FILEINFO_Obj::AudioEqualizationENUM::Radix2:
-            Radix2FFT(FileInfoObj, {});
-            break;
-        case FILEINFO_Obj::AudioEqualizationENUM::CooleyTukey:
-            ProperCallBool = true;
-        default:
-            if(!ProperCallBool)
-            {
-                std::cout << "Error - AudioEqualization<T>::ApplyAudioEqualizationFilterT : invalid FileInfoObj.AudioEqualizationAlgorithmEnum" << std::endl;
-            }
-            FileInfoObj.TemporaryAudioFileComplexVectorTRef =
-                ComplexVectorT<T>(FileInfoObj.NoiseBufferVectorTRef.size());
-            CooleyTukeyFFT(FileInfoObj, FileInfoObj.NoiseBufferVectorTRef);
-            NormalizeAudioT(NoiseBufferComplexVectorTRef);
-            CooleyTukeyFFT(FileInfoObj, {});
-            std::transform(
-                NoiseBufferComplexVectorTRef.begin(),
-                NoiseBufferComplexVectorTRef.end(),
-                [](ComplexT<T> x)
-                {
-                    return static_cast<T>(x / NoiseBufferComplexVectorTRef.size());
-                }
-            );
-            break;
-    }
+	switch (FileInfoObj.AudioEqualizationAlgorithmEnum)
+	{
+		bool ProperCallBool = false;
+		case FILEINFO_Obj::AudioEqualizationENUM::Blustein:
+			BluesteinFFT(FileInfoObj, {});
+			break;
+		case FILEINFO_Obj::AudioEqualizationENUM::Radix2:
+			Radix2FFT(FileInfoObj, {});
+			break;
+		case FILEINFO_Obj::AudioEqualizationENUM::CooleyTukey:
+			ProperCallBool = true;
+		default:
+			if(!ProperCallBool)
+			{
+				std::cout << "Error - AudioEqualization<T>::ApplyAudioEqualizationFilterT : invalid FileInfoObj.AudioEqualizationAlgorithmEnum" << std::endl;
+			}
+			FileInfoObj.TemporaryAudioFileComplexVectorTRef =
+				ComplexVectorT<T>(FileInfoObj.NoiseBufferVectorTRef.size());
+			CooleyTukeyFFT(FileInfoObj, FileInfoObj.NoiseBufferVectorTRef);
+			NormalizeAudioT(NoiseBufferComplexVectorTRef);
+			CooleyTukeyFFT(FileInfoObj, {});
+			std::transform(
+				NoiseBufferComplexVectorTRef.begin(),
+				NoiseBufferComplexVectorTRef.end(),
+				[](ComplexT<T> x)
+				{
+					return static_cast<T>(x / NoiseBufferComplexVectorTRef.size());
+				}
+			);
+			break;
+	}
 
-    ComplexVector2DT<T> NoiseBufferComplexVectorTRef = ComplexVector2DT<T>(FileInfoObj.NoiseBufferVectorTRef.size());
+	ComplexVector2DT<T> NoiseBufferComplexVectorTRef = ComplexVector2DT<T>(FileInfoObj.NoiseBufferVectorTRef.size());
 
-    for (T idxComplexVectorT : NoiseBufferComplex2DT)
-    {
-        ComplexVectorT idxComplexVectorT = ComplexT<T>(
-            std::cos(2 * static_cast<T>(UE_FLOAT64_PI) / nUInt64),
-            std::sin(2 * static_cast<T>(UE_FLOAT64_PI) / nUInt64)
-            );
-    }
+	for (T idxComplexVectorT : NoiseBufferComplex2DT)
+	{
+		ComplexVectorT idxComplexVectorT = ComplexT<T>(
+			std::cos(2 * static_cast<T>(UE_FLOAT64_PI) / nUInt64),
+			std::sin(2 * static_cast<T>(UE_FLOAT64_PI) / nUInt64)
+			);
+	}
 
-    if(!AtHighestScopeLevelBool)
-    {
-        for (U iUInt64 = 0; iUInt64 < nHalfRangeUInt64; iUInt64++)
-        {
-            EvenComplexVectorT[iUInt64] = NoiseBufferComplexVectorTRef[iUInt64 * 2];
-            OddComplexVectorT[iUInt64] = NoiseBufferComplexVectorTRef[iUInt64 * 2 + 1];
-        }
-    }
-    else
-    {
-        for (U iUInt64 = 0; iUInt64 < nHalfRangeUInt64; iUInt64++)
-        {
-            EvenComplexVectorT[iUInt64].real(FileInfoObj.NoiseBufferVectorTRef[iUInt64 * 2]);
-            OddComplexVectorT[iUInt64].real(FileInfoObj.NoiseBufferVectorTRef[iUInt64 * 2 + 1]);
-        }
-    }
+	if(!AtHighestScopeLevelBool)
+	{
+		for (U iUInt64 = 0; iUInt64 < nHalfRangeUInt64; iUInt64++)
+		{
+			EvenComplexVectorT[iUInt64] = NoiseBufferComplexVectorTRef[iUInt64 * 2];
+			OddComplexVectorT[iUInt64] = NoiseBufferComplexVectorTRef[iUInt64 * 2 + 1];
+		}
+	}
+	else
+	{
+		for (U iUInt64 = 0; iUInt64 < nHalfRangeUInt64; iUInt64++)
+		{
+			EvenComplexVectorT[iUInt64].real(FileInfoObj.NoiseBufferVectorTRef[iUInt64 * 2]);
+			OddComplexVectorT[iUInt64].real(FileInfoObj.NoiseBufferVectorTRef[iUInt64 * 2 + 1]);
+		}
+	}
 
-    bool AtHighestScopeLevelBool = false;
+	bool AtHighestScopeLevelBool = false;
 
-    UE_UINT64 nUInt64 = FileInfoObj.LengthUInt64;
+	UE_UINT64 nUInt64 = FileInfoObj.LengthUInt64;
 
-    if (!NoiseBufferComplexVectorTRef.empty() && NoiseBufferComplexVectorTRef.size() < 2)
-    {
-        return;
-    }
-    else 
-    if (!NoiseBufferComplexVectorTRef.empty())
-    {
-        nUInt64 = NoiseBufferComplexVectorTRef.size();
-    }
-    else // NoiseBufferComplexVectorTRef.empty()
-    {
-        NoiseBufferComplexVectorTRef = ComplexVectorT<T>(nUInt64);
+	if (!NoiseBufferComplexVectorTRef.empty() && NoiseBufferComplexVectorTRef.size() < 2)
+	{
+		return;
+	}
+	else 
+	if (!NoiseBufferComplexVectorTRef.empty())
+	{
+		nUInt64 = NoiseBufferComplexVectorTRef.size();
+	}
+	else // NoiseBufferComplexVectorTRef.empty()
+	{
+		NoiseBufferComplexVectorTRef = ComplexVectorT<T>(nUInt64);
 
-        AtHighestScopeLevelBool = true;
-    }
+		AtHighestScopeLevelBool = true;
+	}
 
-    enum class AudioSettingsENUM
-    {
-        Speed = 1,
-        Precision
-    };
+	enum class AudioSettingsENUM
+	{
+		Speed = 1,
+		Precision
+	};
 
 template<typename T, typename T>
 class RangeT
@@ -2805,171 +2840,171 @@ template<short T>
 class PlaybackPrecision : public BuildPrecision
 {
 public:
-    // forbid an rvalue constructor //
-    explicit PlaybackPrecision(
-        T tl = 0, // Lower
-        T tu = 8, // Upper
-        T ts = 8  // Set
-        ) 
-    {
-        iSettings = BuildSettings(tl, tu, ts);
-    };
-    virtual std::string FloatPrecision(T ts) override
-    {   
-        return iSettings.FloatPrecision(ts);
-    };
-    virtual std::string IntPrecision(T ts) override
-    {
-        return iSettings.IntPrecision(ts);
-    };
-    virtual std::string UnsignedIntPrecision(T ts) override
-    {
-        return iSettings.UnsignedIntPrecision(ts);
-    };
+	// forbid an rvalue constructor //
+	explicit PlaybackPrecision(
+		T tl = 0, // Lower
+		T tu = 8, // Upper
+		T ts = 8  // Set
+		) 
+	{
+		iSettings = BuildSettings(tl, tu, ts);
+	};
+	virtual std::string FloatPrecision(T ts) override
+	{   
+		return iSettings.FloatPrecision(ts);
+	};
+	virtual std::string IntPrecision(T ts) override
+	{
+		return iSettings.IntPrecision(ts);
+	};
+	virtual std::string UnsignedIntPrecision(T ts) override
+	{
+		return iSettings.UnsignedIntPrecision(ts);
+	};
 private:
-    BuildSettings iSettings;
+	BuildSettings iSettings;
 };{
 
 public:
-    explicit RangeT(
-        T tu = static_cast<T>(0), // Upper
-        T tl = static_cast<T>(8), // Lower
-        T ts = static_cast<T>(8) // Set
-        ) // forbid an rvalue constructor //
-    {
-        lvalT = static_cast<char>(std::abs<T>(tt%MaxRangeT));
-    };
-    std::string ValueT(T ts)
-    {
-        std::string ResultStdString = "UE_FLOAT64";
-        static_assert(std::is_integral<T>::value, "RangeT<T> : T must be an integer type");
-        T result = (ts != 0) ? static_cast<char>(std::abs<T>(ts % MaxRangeT)) : lvalT;
-        if (result <= 1)
-        {
-            ResultStdString = "char";
-        }
-        else
-        if(result <= 2)
-        { 
-            ResultStdString = "short"
-        }
-        else
-        if (result <= 3)
-        {
-            ResultStdString = "int"
-        }
-        else
-        if (result <= 4)
-        {
-            ResultStdString = "long";
-        }
-        else
-        if (result <= 5)
-        {
-            ResultStdString = "long long"
-        }
-        else
-        if (result <= 6)
-        {
-            ResultStdString = "UE_FLOAT16"
-        }
-        else
-        if (result <= 7)
-        {
-            ResultStdString = "UE_FLOAT32";
-        } // else  ResultStdString = "UE_FLOAT64";
-        return ResultStdString;
-    };
+	explicit RangeT(
+		T tu = static_cast<T>(0), // Upper
+		T tl = static_cast<T>(8), // Lower
+		T ts = static_cast<T>(8) // Set
+		) // forbid an rvalue constructor //
+	{
+		lvalT = static_cast<char>(std::abs<T>(tt%MaxRangeT));
+	};
+	std::string ValueT(T ts)
+	{
+		std::string ResultStdString = "UE_FLOAT64";
+		static_assert(std::is_integral<T>::value, "RangeT<T> : T must be an integer type");
+		T result = (ts != 0) ? static_cast<char>(std::abs<T>(ts % MaxRangeT)) : lvalT;
+		if (result <= 1)
+		{
+			ResultStdString = "char";
+		}
+		else
+		if(result <= 2)
+		{ 
+			ResultStdString = "short"
+		}
+		else
+		if (result <= 3)
+		{
+			ResultStdString = "int"
+		}
+		else
+		if (result <= 4)
+		{
+			ResultStdString = "long";
+		}
+		else
+		if (result <= 5)
+		{
+			ResultStdString = "long long"
+		}
+		else
+		if (result <= 6)
+		{
+			ResultStdString = "UE_FLOAT16"
+		}
+		else
+		if (result <= 7)
+		{
+			ResultStdString = "UE_FLOAT32";
+		} // else  ResultStdString = "UE_FLOAT64";
+		return ResultStdString;
+	};
 private:
-    T MaxRangeT = static_cast<T>(5);
-    T lvalT = static_cast<T>(0);
+	T MaxRangeT = static_cast<T>(5);
+	T lvalT = static_cast<T>(0);
 };
 
 void AudioEqualization::iCooleyTukeyFFT(
-    FILEINFO_Obj& FileInfoObj,
-    ComplexVectorFloat64T& NoiseBufferComplexFloat64
+	FILEINFO_Obj& FileInfoObj,
+	ComplexVectorFloat64T& NoiseBufferComplexFloat64
 )
 {
-    bool AtHighestScopeLevelBool = false;
+	bool AtHighestScopeLevelBool = false;
 
-    UE_UINT64 nUInt64 = FileInfoObj.LengthUInt64;
+	UE_UINT64 nUInt64 = FileInfoObj.LengthUInt64;
 
-    if (!NoiseBufferComplexFloat64.empty() && NoiseBufferComplexFloat64.size() < 2)
-    {
-        return;
-    }
-    else 
-    if (!NoiseBufferComplexFloat64.empty())
-    {
-        nUInt64 = NoiseBufferComplexFloat64.size();
-    }
-    else // NoiseBufferComplexFloat64.empty()
-    {
-        NoiseBufferComplexFloat64 = ComplexVectorFloat64T(nUInt64);
+	if (!NoiseBufferComplexFloat64.empty() && NoiseBufferComplexFloat64.size() < 2)
+	{
+		return;
+	}
+	else 
+	if (!NoiseBufferComplexFloat64.empty())
+	{
+		nUInt64 = NoiseBufferComplexFloat64.size();
+	}
+	else // NoiseBufferComplexFloat64.empty()
+	{
+		NoiseBufferComplexFloat64 = ComplexVectorFloat64T(nUInt64);
 
-        AtHighestScopeLevelBool = true;
-    }
+		AtHighestScopeLevelBool = true;
+	}
 
-    UE_UINT64 nHalfRangeUInt64 = static_cast<UE_UINT64>( nUInt64 / 2);
+	UE_UINT64 nHalfRangeUInt64 = static_cast<UE_UINT64>( nUInt64 / 2);
 
-    ComplexVectorFloat64T EvenComplexVectorFloat64T = ComplexVectorFloat64T(nHalfRangeUInt64);
-    ComplexVectorFloat64T OddComplexVectorFloat64T = ComplexVectorFloat64T(nHalfRangeUInt64);
+	ComplexVectorFloat64T EvenComplexVectorFloat64T = ComplexVectorFloat64T(nHalfRangeUInt64);
+	ComplexVectorFloat64T OddComplexVectorFloat64T = ComplexVectorFloat64T(nHalfRangeUInt64);
 
-    if(!AtHighestScopeLevelBool)
-    {
-        for (UE_UINT64 iUInt64 = 0; iUInt64 < nHalfRangeUInt64; iUInt64++)
-        {
-            EvenComplexVectorFloat64T[iUInt64] = NoiseBufferComplexFloat64[iUInt64 * 2];
-            OddComplexVectorFloat64T[iUInt64] = NoiseBufferComplexFloat64[iUInt64 * 2 + 1];
-        }
-    }
-    else
-    {
-        for (UE_UINT64 iUInt64 = 0; iUInt64 < nHalfRangeUInt64; iUInt64++)
-        {
-            EvenComplexVectorFloat64T[iUInt64].real(FileInfoObj.NoiseBufferFloat64[iUInt64 * 2]);
-            OddComplexVectorFloat64T[iUInt64].real(FileInfoObj.NoiseBufferFloat64[iUInt64 * 2 + 1]);
-        }
-    }
+	if(!AtHighestScopeLevelBool)
+	{
+		for (UE_UINT64 iUInt64 = 0; iUInt64 < nHalfRangeUInt64; iUInt64++)
+		{
+			EvenComplexVectorFloat64T[iUInt64] = NoiseBufferComplexFloat64[iUInt64 * 2];
+			OddComplexVectorFloat64T[iUInt64] = NoiseBufferComplexFloat64[iUInt64 * 2 + 1];
+		}
+	}
+	else
+	{
+		for (UE_UINT64 iUInt64 = 0; iUInt64 < nHalfRangeUInt64; iUInt64++)
+		{
+			EvenComplexVectorFloat64T[iUInt64].real(FileInfoObj.NoiseBufferFloat64[iUInt64 * 2]);
+			OddComplexVectorFloat64T[iUInt64].real(FileInfoObj.NoiseBufferFloat64[iUInt64 * 2 + 1]);
+		}
+	}
 
-    iCooleyTukeyFFT(FileInfoObj, EvenComplexVectorFloat64T);
-    iCooleyTukeyFFT(FileInfoObj, OddComplexVectorFloat64T);
+	iCooleyTukeyFFT(FileInfoObj, EvenComplexVectorFloat64T);
+	iCooleyTukeyFFT(FileInfoObj, OddComplexVectorFloat64T);
 
-    ComplexFloat64T 
-        wComplexFloat64 = ComplexFloat64T(1.0f), 
-        wnComplexFloat64 = ComplexFloat64T(std::cos(2 * M_PI / nUInt64), std::sin(2 * M_PI / nUInt64));
+	ComplexFloat64T 
+		wComplexFloat64 = ComplexFloat64T(1.0f), 
+		wnComplexFloat64 = ComplexFloat64T(std::cos(2 * M_PI / nUInt64), std::sin(2 * M_PI / nUInt64));
 
-    for (UE_UINT64 kUInt64 = 0; kUInt64 < nHalfRangeUInt64; kUInt64++)
-    {
-        ComplexFloat64T tComplexFloat64 = wComplexFloat64 + OddComplexVectorFloat64T[kUInt64];
-        NoiseBufferComplexFloat64[kUInt64] = EvenComplexVectorFloat64T[kUInt64] + tComplexFloat64;
-        NoiseBufferComplexFloat64[kUInt64 + nHalfRangeUInt64] = EvenComplexVectorFloat64T[kUInt64] - tComplexFloat64;
-        wComplexFloat64 *= wnComplexFloat64;
-    }
+	for (UE_UINT64 kUInt64 = 0; kUInt64 < nHalfRangeUInt64; kUInt64++)
+	{
+		ComplexFloat64T tComplexFloat64 = wComplexFloat64 + OddComplexVectorFloat64T[kUInt64];
+		NoiseBufferComplexFloat64[kUInt64] = EvenComplexVectorFloat64T[kUInt64] + tComplexFloat64;
+		NoiseBufferComplexFloat64[kUInt64 + nHalfRangeUInt64] = EvenComplexVectorFloat64T[kUInt64] - tComplexFloat64;
+		wComplexFloat64 *= wnComplexFloat64;
+	}
 
-    if (AtHighestScopeLevelBool)
-    {
-        NormalizeAudio(NoiseBufferComplexFloat64);
-    }
+	if (AtHighestScopeLevelBool)
+	{
+		NormalizeAudio(NoiseBufferComplexFloat64);
+	}
 }
 
-    for (UE_UINT64 kUInt64 = 0; kUInt64 < nHalfRangeUInt64; kUInt64++)
-    {
-        std::complex < UE_FLOAT64 > tComplexFloat64 = 
-            std::polar < UE_FLOAT64 > (1.0f, -2.0f * M_PI * kUInt64 / nUInt64) * 
-                OddComplexVectorFloat64T[kUInt64];
-        NoiseBufferComplexFloat64[kUInt64] = EvenComplexVectorFloat64T[kUInt64] + tComplexFloat64;
-        NoiseBufferComplexFloat64[kUInt64 + nHalfRangeUInt64] = EvenComplexVectorFloat64T[kUInt64] - tComplexFloat64;
-    }
+	for (UE_UINT64 kUInt64 = 0; kUInt64 < nHalfRangeUInt64; kUInt64++)
+	{
+		std::complex < UE_FLOAT64 > tComplexFloat64 = 
+			std::polar < UE_FLOAT64 > (1.0f, -2.0f * M_PI * kUInt64 / nUInt64) * 
+				OddComplexVectorFloat64T[kUInt64];
+		NoiseBufferComplexFloat64[kUInt64] = EvenComplexVectorFloat64T[kUInt64] + tComplexFloat64;
+		NoiseBufferComplexFloat64[kUInt64 + nHalfRangeUInt64] = EvenComplexVectorFloat64T[kUInt64] - tComplexFloat64;
+	}
 
 using PolarT = std::polar<UE_FLOAT64>;
 
 template <typename T>
 PolarT ComplexNumberToPolarT(const T real, const T imag)
 {
-    T magnitude = std::sqrt(real * real + imag * imag);
-    T phase = std::atan2(imag, real);
-    return std::polar<T>(magnitude, phase);     
+	T magnitude = std::sqrt(real * real + imag * imag);
+	T phase = std::atan2(imag, real);
+	return std::polar<T>(magnitude, phase);     
 }
 
 using ComplexNumberToPolarFloat64T = ComplexNumberToPolarT<UE_FLOAT64>;
@@ -2979,7 +3014,7 @@ bool AtHighestScopeLevelBool = EvenComplexVectorFloat64.size() == UE_UINT64(File
 template<typename T>
 T operator"" _ghz(T iFloat64)
 {
-    return iFloat64 * 1e9;
+	return iFloat64 * 1e9;
 }
 
 
@@ -2990,49 +3025,49 @@ T operator"" _ghz(T iFloat64)
 class FMYViewport : public FViewport
 {
 public:
-    virtual void* GetWindow() override;
-    virtual void MoveWindow(int32 NewPosX, int32 NewPosY, int32 NewSizeX, int32 NewSizeY) override;
-    virtual void Destroy() override;
-    virtual bool SetUserFocus(bool bFocus) override;
-    virtual bool KeyState(FKey Key) const override;
-    virtual int32 GetMouseX() const override;
-    virtual int32 GetMouseY() const override;
-    virtual void GetMousePos(FIntPoint& MousePosition, const bool bLocalPosition = true) override;
-    virtual void SetMouse(int32 x, int32 y) override;
-    virtual void ProcessInput(float DeltaTime) override;
-    virtual FVector2D VirtualDesktopPixelToViewport(FIntPoint VirtualDesktopPointPx) const override;
-    virtual FIntPoint ViewportToVirtualDesktopPixel(FVector2D ViewportCoordinate) const override;
-    virtual void InvalidateDisplay() override;
-    virtual FViewportFrame* GetViewportFrame() override;
+	virtual void* GetWindow() override;
+	virtual void MoveWindow(int32 NewPosX, int32 NewPosY, int32 NewSizeX, int32 NewSizeY) override;
+	virtual void Destroy() override;
+	virtual bool SetUserFocus(bool bFocus) override;
+	virtual bool KeyState(FKey Key) const override;
+	virtual int32 GetMouseX() const override;
+	virtual int32 GetMouseY() const override;
+	virtual void GetMousePos(FIntPoint& MousePosition, const bool bLocalPosition = true) override;
+	virtual void SetMouse(int32 x, int32 y) override;
+	virtual void ProcessInput(float DeltaTime) override;
+	virtual FVector2D VirtualDesktopPixelToViewport(FIntPoint VirtualDesktopPointPx) const override;
+	virtual FIntPoint ViewportToVirtualDesktopPixel(FVector2D ViewportCoordinate) const override;
+	virtual void InvalidateDisplay() override;
+	virtual FViewportFrame* GetViewportFrame() override;
 };
 
 class FMYViewportClient : public FViewportClient
 {
 public:
-    FMYViewportClient() {};
-    ~FMYViewportClient() {};
-    TSharedPtr<FMYViewport> Viewport;
+	FMYViewportClient() {};
+	~FMYViewportClient() {};
+	TSharedPtr<FMYViewport> Viewport;
 };
 
 class FCamera : public ACameraActor
 {
 public:
-    FCamera() {};
-    ~FCamera() {};
+	FCamera() {};
+	~FCamera() {};
 };
 
 class FCharacter : public ACharacter
 {
 public:
-    FCharacter() {};
-    ~FCharacter() {};
+	FCharacter() {};
+	~FCharacter() {};
 };
 
 class FPlayerController : public APlayerController
 {
 public:
-    FPlayerController() {};
-    ~FPlayerController() {};
+	FPlayerController() {};
+	~FPlayerController() {};
 };
 
 /*******************
@@ -3041,7 +3076,7 @@ public:
 
 void* FMYViewport::GetWindow()
 {
-    return nullptr;
+	return nullptr;
 }
 
 void FMYViewport::MoveWindow(int32 NewPosX, int32 NewPosY, int32 NewSizeX, int32 NewSizeY)
@@ -3054,22 +3089,22 @@ void FMYViewport::Destroy()
 
 bool FMYViewport::SetUserFocus(bool bFocus)
 {
-    return false;
+	return false;
 }
 
 bool FMYViewport::KeyState(FKey Key) const
 {
-    return false;
+	return false;
 }
 
 int32 FMYViewport::GetMouseX() const
 {
-    return int32();
+	return int32();
 }
 
 int32 FMYViewport::GetMouseY() const
 {
-    return int32();
+	return int32();
 }
 
 void FMYViewport::GetMousePos(FIntPoint& MousePosition, const bool bLocalPosition)
@@ -3086,12 +3121,12 @@ void FMYViewport::ProcessInput(float DeltaTime)
 
 FVector2D FMYViewport::VirtualDesktopPixelToViewport(FIntPoint VirtualDesktopPointPx) const
 {
-    return FVector2D();
+	return FVector2D();
 }
 
 FIntPoint FMYViewport::ViewportToVirtualDesktopPixel(FVector2D ViewportCoordinate) const
 {
-    return FIntPoint();
+	return FIntPoint();
 }
 
 void FMYViewport::InvalidateDisplay()
@@ -3100,7 +3135,7 @@ void FMYViewport::InvalidateDisplay()
 
 FViewportFrame* FMYViewport::GetViewportFrame()
 {
-    return nullptr;
+	return nullptr;
 }
 
 
@@ -3108,125 +3143,125 @@ FViewportFrame* FMYViewport::GetViewportFrame()
 void FAUDIO_SFX_PLUGINModule::CreatCameraViewportPlayerControllerEtc()
 {
 
-    //TObjectPtr<UWorld> World = GEngine->GetWorld();
+	//TObjectPtr<UWorld> World = GEngine->GetWorld();
 
-    //GEngine->GameViewport->AddViewportWidgetContent(
-    //    SNew(SMy3DViewport).AddMetaData<FTagMetaData>(FTagMetaData(TEXT("MyViewport")))
-    //);
+	//GEngine->GameViewport->AddViewportWidgetContent(
+	//    SNew(SMy3DViewport).AddMetaData<FTagMetaData>(FTagMetaData(TEXT("MyViewport")))
+	//);
 
-    // Create a camera actor
-    //FActorSpawnParameters SpawnParams;
-    //SpawnParams.Name = TEXT("MyCamera");
-    //TObjectPtr<FCamera> CameraActor = World->SpawnActor<FCamera>(FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
-    //CameraActor->SetActorLabel(TEXT("MyCameraActor"));
+	// Create a camera actor
+	//FActorSpawnParameters SpawnParams;
+	//SpawnParams.Name = TEXT("MyCamera");
+	//TObjectPtr<FCamera> CameraActor = World->SpawnActor<FCamera>(FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
+	//CameraActor->SetActorLabel(TEXT("MyCameraActor"));
 
-    // Create a 3D viewport
-    //TObjectPtr<FMYViewportClient> ViewportClient = new FMYViewportClient();
-    //TSharedPtr<FMYViewportClient> ViewportClient = GEngine->GameViewport();
-    //ViewportClient->Viewport = MakeShareable(new FMYViewport(ViewportClient));
-    //ViewportClient->Viewport->SetSize(FIntPoint(1024, 768));
-    //ViewportClient->Viewport->SetInitialSize(FIntPoint(1024, 768));
-    //ViewportClient->Viewport->SetViewLocation(FVector::ZeroVector);
-    //ViewportClient->Viewport->SetViewRotation(FRotator::ZeroRotator);
-    //ViewportClient->Viewport->SetViewTarget(CameraActor);
+	// Create a 3D viewport
+	//TObjectPtr<FMYViewportClient> ViewportClient = new FMYViewportClient();
+	//TSharedPtr<FMYViewportClient> ViewportClient = GEngine->GameViewport();
+	//ViewportClient->Viewport = MakeShareable(new FMYViewport(ViewportClient));
+	//ViewportClient->Viewport->SetSize(FIntPoint(1024, 768));
+	//ViewportClient->Viewport->SetInitialSize(FIntPoint(1024, 768));
+	//ViewportClient->Viewport->SetViewLocation(FVector::ZeroVector);
+	//ViewportClient->Viewport->SetViewRotation(FRotator::ZeroRotator);
+	//ViewportClient->Viewport->SetViewTarget(CameraActor);
 
-    // Create a character controller
-    //TObjectPtr<FCharacter> Character = World->SpawnActor<FCharacter>(FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
+	// Create a character controller
+	//TObjectPtr<FCharacter> Character = World->SpawnActor<FCharacter>(FVector::ZeroVector, FRotator::ZeroRotator, SpawnParams);
 
-    // Set the camera actor as the current player controller's controlled camera
-    //TObjectPtr<FPlayerController> PlayerController = (FPlayerController*) GEngine->GetFirstLocalPlayerController(GEngine->GetWorld());
-    //PlayerController->SetViewTarget(CameraActor);
+	// Set the camera actor as the current player controller's controlled camera
+	//TObjectPtr<FPlayerController> PlayerController = (FPlayerController*) GEngine->GetFirstLocalPlayerController(GEngine->GetWorld());
+	//PlayerController->SetViewTarget(CameraActor);
 
-    // Create a camera actor
-    //TObjectPtr<UEngine> GEngineObjPtr = NewObject<UEngine>();
-    World = GEngine->GetWorld(); // GEngineObjPtr->GetWorld(); //
-    Camera = World->SpawnActor<ACameraActor>(FVector::ZeroVector, FRotator::ZeroRotator);
+	// Create a camera actor
+	//TObjectPtr<UEngine> GEngineObjPtr = NewObject<UEngine>();
+	World = GEngine->GetWorld(); // GEngineObjPtr->GetWorld(); //
+	Camera = World->SpawnActor<ACameraActor>(FVector::ZeroVector, FRotator::ZeroRotator);
 
-    // Set the camera properties
-    Camera->SetActorLocation(FVector::ZeroVector);
-    Camera->SetActorRotation(FRotator::ZeroRotator);
-    Camera->SetActorScale3D(FVector::ZeroVector);
+	// Set the camera properties
+	Camera->SetActorLocation(FVector::ZeroVector);
+	Camera->SetActorRotation(FRotator::ZeroRotator);
+	Camera->SetActorScale3D(FVector::ZeroVector);
 
-    // Create a player controller
-    PlayerController = World->SpawnActor<APlayerController>(FVector::ZeroVector, FRotator::ZeroRotator);
+	// Create a player controller
+	PlayerController = World->SpawnActor<APlayerController>(FVector::ZeroVector, FRotator::ZeroRotator);
 
-    // Set the player controller's properties
-    PlayerController->SetControlRotation(FRotator::ZeroRotator);
-    PlayerController->bShowMouseCursor = true;
-    PlayerController->bEnableClickEvents = true;
-    PlayerController->bEnableMouseOverEvents = true;
+	// Set the player controller's properties
+	PlayerController->SetControlRotation(FRotator::ZeroRotator);
+	PlayerController->bShowMouseCursor = true;
+	PlayerController->bEnableClickEvents = true;
+	PlayerController->bEnableMouseOverEvents = true;
 
-    // Create a render target for the viewport
+	// Create a render target for the viewport
 
-    //ViewportClient = NewObject<UGameViewportClient>();
-    ViewportClient = NewObject<FViewportClient>();
+	//ViewportClient = NewObject<UGameViewportClient>();
+	ViewportClient = NewObject<FViewportClient>();
 
-    // Set the viewport properties
-    ViewportClient->Viewport->SetInitialSize(FIntPoint(1024, 725));
+	// Set the viewport properties
+	ViewportClient->Viewport->SetInitialSize(FIntPoint(1024, 725));
 
-    // Create a render target for the viewport
-    //Viewport = NewObject<FViewport>();
+	// Create a render target for the viewport
+	//Viewport = NewObject<FViewport>();
 
-    // Set the viewport properties
-    //Viewport->SetInitialSize(FIntPoint(1024, 725));
-    //Viewport->SetRealtime(true); // real-time rendering
-    //Viewport->bIsSlateViewport = true;
+	// Set the viewport properties
+	//Viewport->SetInitialSize(FIntPoint(1024, 725));
+	//Viewport->SetRealtime(true); // real-time rendering
+	//Viewport->bIsSlateViewport = true;
 }
 TSharedRef<SDockTab> FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {
-    //DXRApplication THE_RTX_APP;
+	//DXRApplication THE_RTX_APP;
 
-    FText WidgetText = FText::Format(
-        LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
-        FText::FromString(TEXT("FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab")),
-        FText::FromString(TEXT("AUDIO_SFX_PLUGIN.cpp"))
-        );
+	FText WidgetText = FText::Format(
+		LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
+		FText::FromString(TEXT("FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab")),
+		FText::FromString(TEXT("AUDIO_SFX_PLUGIN.cpp"))
+		);
 
-    // Init viewport et al.
-    CreatCameraViewportPlayerControllerEtc();
+	// Init viewport et al.
+	CreatCameraViewportPlayerControllerEtc();
 
-    return SNew(SDockTab)
-        .TabRole(ETabRole::MajorTab)
-        [
-            // Put your tab content here!
-            //SNew(SViewport)
-            /*SNew(SBox)
-            .HAlign(HAlign_Fill)
-            .VAlign(VAlign_Fill)
-            [
-                SNew(SViewport)
-            ]*/
+	return SNew(SDockTab)
+		.TabRole(ETabRole::MajorTab)
+		[
+			// Put your tab content here!
+			//SNew(SViewport)
+			/*SNew(SBox)
+			.HAlign(HAlign_Fill)
+			.VAlign(VAlign_Fill)
+			[
+				SNew(SViewport)
+			]*/
 
-            //SNew(SMy3DViewport)
-            
-            SNew(SBox)
-            .HAlign(HAlign_Center)
-            .VAlign(VAlign_Center)
-            [
-                SNew(STextBlock)
-                .Text(WidgetText)
-            ]
-        ];
+			//SNew(SMy3DViewport)
+			
+			SNew(SBox)
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Center)
+			[
+				SNew(STextBlock)
+				.Text(WidgetText)
+			]
+		];
 }
 
 
  /*   return SNew(SWindow)
-        .Title(LOCTEXT("FAUDIO_SFX_PLUGINTabWindowTitle", "The Audio SFX Designer"))
-        .ClientSize(FVector2D(1024, 728))
-        .CreateTitleBar(true);*/
+		.Title(LOCTEXT("FAUDIO_SFX_PLUGINTabWindowTitle", "The Audio SFX Designer"))
+		.ClientSize(FVector2D(1024, 728))
+		.CreateTitleBar(true);*/
 
-    return SNew(SDockTab)
-        .TabRole(ETabRole::MajorTab)
-        [            
-           /* SNew(SBox)
-            .HAlign(HAlign_Center)
-            .VAlign(VAlign_Center)
-            [
-                SNew(STextBlock)
-                .Text(WidgetText)
-            ]*/
-            WindowObjPtr
-        ];
+	return SNew(SDockTab)
+		.TabRole(ETabRole::MajorTab)
+		[            
+		   /* SNew(SBox)
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Center)
+			[
+				SNew(STextBlock)
+				.Text(WidgetText)
+			]*/
+			WindowObjPtr
+		];
 
 
 
@@ -3235,12 +3270,12 @@ class UMGViewportComponent : public SWindow
 
 public:
 
-    UMGViewportComponent();
+	UMGViewportComponent();
    ~UMGViewportComponent();
 
-    void OpenAsWindow();
-    void SetManualDPIScaling();
-    void OverrideWindowManualDPIScaling();
+	void OpenAsWindow();
+	void SetManualDPIScaling();
+	void OverrideWindowManualDPIScaling();
 
 };
 
@@ -3250,11 +3285,11 @@ class UMGViewportComponent : public SWindow
 
 public:
 
-    UMGViewportComponent();
+	UMGViewportComponent();
    ~UMGViewportComponent();
 
 public:
-    TSharedPtr<UMGViewportComponent> toSharedPtr();
+	TSharedPtr<UMGViewportComponent> toSharedPtr();
 
 };
 
@@ -3262,16 +3297,16 @@ public:
 
 UMGViewportComponent::UMGViewportComponent()
 {
-    this->SetTitle(FText::FromString(TEXT("The Audio SFX Designer")));
-    this->bCreateTitleBar = true;
+	this->SetTitle(FText::FromString(TEXT("The Audio SFX Designer")));
+	this->bCreateTitleBar = true;
 
-    /*void* WindowHandlePtr = 0;
-    uint32 SizeXINT32 = 1024;
-    uint32 SizeYINT32 = 728;
-    bool isFullcreenBOOL = false;
-    EPixelFormat PreferredPixelFormatENUM = EPixelFormat::PF_R32G32B32A32_UINT;
+	/*void* WindowHandlePtr = 0;
+	uint32 SizeXINT32 = 1024;
+	uint32 SizeYINT32 = 728;
+	bool isFullcreenBOOL = false;
+	EPixelFormat PreferredPixelFormatENUM = EPixelFormat::PF_R32G32B32A32_UINT;
 
-    RHICreateViewport(WindowHandlePtr, SizeXINT32, SizeYINT32, isFullcreenBOOL, PreferredPixelFormatENUM);*/
+	RHICreateViewport(WindowHandlePtr, SizeXINT32, SizeYINT32, isFullcreenBOOL, PreferredPixelFormatENUM);*/
 }
 
 UMGViewportComponent::~UMGViewportComponent()
@@ -3280,18 +3315,18 @@ UMGViewportComponent::~UMGViewportComponent()
 
 TSharedPtr<UMGViewportComponent> UMGViewportComponent::toSharedPtr()
 {
-    return TSharedPtr<UMGViewportComponent>();
+	return TSharedPtr<UMGViewportComponent>();
 }
 
 
-    return SNew(SDockTab)
-        .TabRole(ETabRole::MajorTab)
-        [
-            /*SNew(SWindow)
-            .Title(LOCTEXT("FAUDIO_SFX_PLUGINTabWindowTitle", "The Audio SFX Designer"))
-            .CreateTitleBar(true)*/
-            SNew(SWindow)
-        ];
+	return SNew(SDockTab)
+		.TabRole(ETabRole::MajorTab)
+		[
+			/*SNew(SWindow)
+			.Title(LOCTEXT("FAUDIO_SFX_PLUGINTabWindowTitle", "The Audio SFX Designer"))
+			.CreateTitleBar(true)*/
+			SNew(SWindow)
+		];
 
 
 
@@ -3308,40 +3343,40 @@ UMGViewportComponent::~UMGViewportComponent()
 //    return TSharedRef<UMGViewportComponent>();
 //}
 
-    TSharedRef<SDockTab> MySDockTabObjPtr = SNew(SDockTab).TabRole(ETabRole::MajorTab);
+	TSharedRef<SDockTab> MySDockTabObjPtr = SNew(SDockTab).TabRole(ETabRole::MajorTab);
 
-    TSharedRef<SWindow> QuickWindowObjRef = TSharedRef<SWindow>();
-    //TSharedRef<UMGViewportComponent> QuickWindowObjRef = MakeSharedRef<UMGViewportComponent>();
-    //MySDockTabObjPtr->SetContent(QuickWindowObjRef);
+	TSharedRef<SWindow> QuickWindowObjRef = TSharedRef<SWindow>();
+	//TSharedRef<UMGViewportComponent> QuickWindowObjRef = MakeSharedRef<UMGViewportComponent>();
+	//MySDockTabObjPtr->SetContent(QuickWindowObjRef);
 
-    return MySDockTabObjPtr;
+	return MySDockTabObjPtr;
 
 
 void FAUDIO_SFX_PLUGINModule::CreateCameraViewportPlayerControllerEtc()
 {
-    //WindowObjPtr = SNew(SWindow)
-        //.Title(FText::FromString(TEXT("The Audio SFX Designer")))
-        //.CreateTitleBar(true)
-        ;
-    //WindowObjPtr->SetTitle(FText::FromString(TEXT("The Audio SFX Designer")));
-    //WindowObjPtr->bCreateTitleBar = true;
-    //WindowObjPtr->SetContent
+	//WindowObjPtr = SNew(SWindow)
+		//.Title(FText::FromString(TEXT("The Audio SFX Designer")))
+		//.CreateTitleBar(true)
+		;
+	//WindowObjPtr->SetTitle(FText::FromString(TEXT("The Audio SFX Designer")));
+	//WindowObjPtr->bCreateTitleBar = true;
+	//WindowObjPtr->SetContent
 }
 
 
-    //TSharedRef<SWindow>(QuickWindowObjRef);
-    //TSharedRef<SWindow> QuickWindowObjRef = SNew(SWindow);
-    //TSharedRef<UMGViewportComponent> QuickWindowObjRef = MakeSharedRef<UMGViewportComponent>();
-    //MySDockTabObjPtr->SetContent(QuickWindowObjRef);
+	//TSharedRef<SWindow>(QuickWindowObjRef);
+	//TSharedRef<SWindow> QuickWindowObjRef = SNew(SWindow);
+	//TSharedRef<UMGViewportComponent> QuickWindowObjRef = MakeSharedRef<UMGViewportComponent>();
+	//MySDockTabObjPtr->SetContent(QuickWindowObjRef);
 
-    //TSharedPtr<UMGViewportComponent> QuickWindowObjRef;
-    //TSharedRef<UMGViewportComponent> QuickWindowObjRef;
-    //UMGViewportComponent QuickWindowObjRef;
-    //TSharedRef<SWindow> QuickWindowObjRef;
-    //UMGViewportComponent ViewportClientComponent;
+	//TSharedPtr<UMGViewportComponent> QuickWindowObjRef;
+	//TSharedRef<UMGViewportComponent> QuickWindowObjRef;
+	//UMGViewportComponent QuickWindowObjRef;
+	//TSharedRef<SWindow> QuickWindowObjRef;
+	//UMGViewportComponent ViewportClientComponent;
 
-    //UMGViewportComponent::FArguments InArgs;
-    //QuickWindowObjRef->Construct(InArgs);
+	//UMGViewportComponent::FArguments InArgs;
+	//QuickWindowObjRef->Construct(InArgs);
 
 
 //class IModuleInterface;
@@ -3351,27 +3386,27 @@ void FAUDIO_SFX_PLUGINModule::CreateCameraViewportPlayerControllerEtc()
 //class UMGViewportComponent;
 
 
-    SpawnTabArgs.GetTabId();
+	SpawnTabArgs.GetTabId();
 
-    if (SpawnTabArgs.GetTabId() == )
-    {
+	if (SpawnTabArgs.GetTabId() == )
+	{
 
-    }
+	}
 
 
-    //TSharedRef<UMGViewportComponent> SNWin = SNew(UMGViewportComponent)
-        //.Title(FText::FromString(TEXT("The Audio SFX Designer")))
-        //.CreateTitleBar(true)
-        //.HasCloseButton(false)
-        ;
+	//TSharedRef<UMGViewportComponent> SNWin = SNew(UMGViewportComponent)
+		//.Title(FText::FromString(TEXT("The Audio SFX Designer")))
+		//.CreateTitleBar(true)
+		//.HasCloseButton(false)
+		;
 
-    return SNew(SDockTab)
-        .TabRole(ETabRole::MajorTab)
-        .Label(inAttributesTXT)
-        [
-            SNWin
-        ]
-        ;
+	return SNew(SDockTab)
+		.TabRole(ETabRole::MajorTab)
+		.Label(inAttributesTXT)
+		[
+			SNWin
+		]
+		;
 
 
 void CreateCameraViewportPlayerControllerEtc();
@@ -3385,82 +3420,82 @@ void FAUDIO_SFX_PLUGINModule::CreateCameraViewportPlayerControllerEtc()
 }
 
 
-    //DXRApplication THE_RTX_APP;
+	//DXRApplication THE_RTX_APP;
 
-    FText WidgetText = FText::Format(
-        LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
-        FText::FromString(TEXT("FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab")),
-        FText::FromString(TEXT("AUDIO_SFX_PLUGIN.cpp"))
-        );
+	FText WidgetText = FText::Format(
+		LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
+		FText::FromString(TEXT("FAUDIO_SFX_PLUGINModule::OnSpawnPluginTab")),
+		FText::FromString(TEXT("AUDIO_SFX_PLUGIN.cpp"))
+		);
 
 
-    UE_UINT64 iUInt64 = 0;
-    for (UE_FLOAT64REF SampleIdxFloat64Ref : FileInfoObj.NoiseBufferFloat64)
-    {
-        /* UE_UINT64 frequencyUInt64 = 1 << iUInt64; */
-        UE_UINT64 amplitude = std::pow(FileInfoObj.BlackNoisePersistenceValueFloat64, iUInt64++);
-        SampleIdxFloat64Ref += dis(gen) + amplitude;
-    }
+	UE_UINT64 iUInt64 = 0;
+	for (UE_FLOAT64REF SampleIdxFloat64Ref : FileInfoObj.NoiseBufferFloat64)
+	{
+		/* UE_UINT64 frequencyUInt64 = 1 << iUInt64; */
+		UE_UINT64 amplitude = std::pow(FileInfoObj.BlackNoisePersistenceValueFloat64, iUInt64++);
+		SampleIdxFloat64Ref += dis(gen) + amplitude;
+	}
 
 class Tone : public 
-    BlackNoise, 
-    BlueNoise,
-    GreyNoise,
-    PinkNoise,
-    PurpleNoise,
-    WhiteNoise//,
-    //WhitePerlinNoise
+	BlackNoise, 
+	BlueNoise,
+	GreyNoise,
+	PinkNoise,
+	PurpleNoise,
+	WhiteNoise//,
+	//WhitePerlinNoise
 {
 
 public:
 
-    Tone();
+	Tone();
 
-    struct NOISE_OBJ
-    {
-        BlackNoise Black;
-        BlueNoise Blue;
-        GreyNoise Grey;
-        PinkNoise Pink;
-        PurpleNoise Purple;
-        WhiteNoise White;
-       // WhitePerlinNoise Perlin;
-    } NoiseObj;
+	struct NOISE_OBJ
+	{
+		BlackNoise Black;
+		BlueNoise Blue;
+		GreyNoise Grey;
+		PinkNoise Pink;
+		PurpleNoise Purple;
+		WhiteNoise White;
+	   // WhitePerlinNoise Perlin;
+	} NoiseObj;
 
-    struct RANDOMTONE_OBJ {
+	struct RANDOMTONE_OBJ {
 
-    } RandomToneGenerateObj;
+	} RandomToneGenerateObj;
 };
 
 /*
 class Tone : public 
-    BlackNoise, 
-    BlueNoise,
-    GreyNoise,
-    PinkNoise,
-    PurpleNoise,
-    WhiteNoise,
-    WhitePerlinNoise,
-    SimplexNoise,
-    FractalNoise
+	BlackNoise, 
+	BlueNoise,
+	GreyNoise,
+	PinkNoise,
+	PurpleNoise,
+	WhiteNoise,
+	WhitePerlinNoise,
+	SimplexNoise,
+	FractalNoise
 {
 
 public:
 
-    Tone();
+	Tone();
 
-    struct NOISE_OBJ
-    {
-        BlackNoise Black;
-        BlueNoise Blue;
-        GreyNoise Grey;
-        PinkNoise Pink;
-        PurpleNoise Purple;
-        WhiteNoise White;
-        WhitePerlinNoise PerlinWhite;
-        SimplexNoise PerlinSimplex;
-        FractalNoise Fractal;
-    } NoiseObj;
+	struct NOISE_OBJ
+	{
+		BlackNoise Black;
+		BlueNoise Blue;
+		GreyNoise Grey;
+		PinkNoise Pink;
+		PurpleNoise Purple;
+		WhiteNoise White;
+		WhitePerlinNoise PerlinWhite;
+		SimplexNoise PerlinSimplex;
+		FractalNoise Fractal;
+	} NoiseObj;
 
 };
 */
@@ -3471,7 +3506,7 @@ public:
 //}
 
 
-    {
-        std::cout << "Error - AudioEqualization::CooleyTukeyFFT: invalid parameter, FileInfoObj.LengthUInt64" << std::endl;
-        return;
-    }
+	{
+		std::cout << "Error - AudioEqualization::CooleyTukeyFFT: invalid parameter, FileInfoObj.LengthUInt64" << std::endl;
+		return;
+	}
