@@ -1,4 +1,92 @@
-﻿
+﻿	using namespace UE5_INLINE_CLASS_NAMESPACE;
+
+    class beta : public UE5_INLINE_CLASS<beta>
+    {
+    public:
+        beta()
+        {
+            //// inline class member definition(s) can be added here
+            UE5_BEGIN_CLASS_MEMBER_DEFINITIONS();
+
+            //AddPrivateAttribute(...);
+            //AddPrivateMethod(...);
+            //AddPublicAttribute(...);
+            //AddPublicMethod(...);
+
+            UE5_END_CLASS_MEMBER_DEFINITIONS();
+
+
+            //// Optional new class constructor
+            //UE5_BEGIN_CLASS_DEFINITION( "Class" ) : [public / private / virtual ...] , ...
+
+            //AddPrivateAttribute(...);
+            //AddPrivateMethod(...);
+            //AddPublicAttribute(...);
+            //AddPublicMethod(...);
+
+            //UE5_END_CLASS_DEFINITION() 
+
+        };
+    };
+
+    // Create a reference to an object of type TRefParams by forwarding an rvalue reference.
+    TRefParams& TRefParamsObjRef = std::forward<TRefParams&>(TRefParams());
+
+    // Create a reference to an object of type beta by forwarding an rvalue reference to the result of calling beta::New().
+    beta& BetaTestClass = beta::New();
+
+    // Add a method named "MyCustomMethod" to the BetaTestClass object, which takes a TRefParams reference and has three associated std::function objects:
+    // 1. A void function that prints "Hello World!" to the console.
+    // 2. A boolean function that checks if the values of TRefParamsObjRef's _a and _b member variables are non-negative and returns a boolean.
+    // 3. A void function that prints a warning message to the console if the values of TRefParamsObjRef's _a and _b member variables are negative.    
+    BetaTestClass.AddMethod(
+        "MyCustomMethod",
+        [&](TRefParams& TRefParamsObjRef) -> TRefParams& { std::cout << "Hello World!" << std::endl; return TRefParamsObjRef; },
+        [&](TRefParams& TRefParamsObjRef) -> bool { return TRefParamsObjRef._a >= 0 && TRefParamsObjRef._b >= 0; },
+        [&](TRefParams& TRefParamsObjRef) { std::cout << "Warning: One or more parameters is less than zero!" << std::endl; }
+    );
+
+    // Call the "MyCustomMethod" Setter
+    BetaTestClass.Invoke("MyCustomMethod", TRefParamsObjRef);
+
+    // Call the "MyCustomMethod" Getter
+    TRefParams& TRefParamsObjRef2 = BetaTestClass.Invoke("MyCustomMethod", TRefParamsObjRef);
+
+//
+void FAUDIO_SFX_PLUGINModule::FillMenu(FMenuBuilder& MenuBarBuilderRef)
+{
+    MenuBarBuilderRef.AddMenuEntry(
+        FText::FromString("Perlin Noise"),
+        FText::FromString("Generate Perlin Noise"),
+        FSlateIcon(),
+        FUIAction(
+            FExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::GeneratePerlinNoise),
+            FCanExecuteAction::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::OnGeneratePerlinNoise)
+        )
+    );
+}
+
+void FAUDIO_SFX_PLUGINModule::AddMenuBarExtension(FMenuBarBuilder& MenuBarBuilderRef)
+{
+    TAttribute<FText> inMenuLabelFText;
+    inMenuLabelFText.Set(FText(LOCTEXT("WindowWidgetMenuText", "Tools")));
+
+    TAttribute<FText> inMenuToolTipFText;
+    inMenuLabelFText.Set(FText(LOCTEXT("WindowWidgetMenuText", "Provides channel-editing tools, features, and functionality")));
+
+    MenuBarBuilderRef.AddPullDownMenu(
+        inMenuLabelFText,
+        inMenuToolTipFText,
+        FNewMenuDelegate::CreateRaw(this, &FAUDIO_SFX_PLUGINModule::FillMenu)
+    );
+}
+
+TSharedRef<SWidget> FAUDIO_SFX_PLUGINModule::GetTabContent(const FName& TabID)
+{
+    TAttribute<FText> TabIDFText{ FText::Format(LOCTEXT("WindowWidgetText", "This is the content of tab '{0}'"), FText::FromString(TabID.ToString())) };
+    return SNew(STextBlock)
+        .Text(TabIDFText);
+}
 //
 	struct MyFSpawnTabArgs : public FSpawnTabArgs
 	{
