@@ -7,7 +7,7 @@ namespace AUDIO_SFX_PLUGIN_ERROR
     class sfx_Error
     {
     public:
-        static int _sfx_Error(const sfx_func& func, const sfx_params& params) const
+        int _sfx_Error(const sfx_func& func, const sfx_params& params) const
         {
             using namespace std;
             int retval = 0;
@@ -54,6 +54,7 @@ namespace AUDIO_SFX_PLUGIN_ERROR
         };
 
     private:
+        template<typename TExcept>
         void sfx_ProcessExceptionCode(const TExcept& e)
         {
             using namespace std;
