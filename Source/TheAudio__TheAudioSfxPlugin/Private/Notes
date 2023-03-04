@@ -395,6 +395,34 @@ hand-off, for smoother wave-shaping between ingress and egress. (1) is appealing
 for performance reasons, however syncing the shaping parameters may prove difficult;
 (2) may be the most straightforawrd to implement, but it may not offer superior performance.
 
+NOTES
+
+what are some operations that can be performed on a pair or multiple pairs of audio signals?
+
+
+There are many operations that can be performed on pairs or multiple pairs of audio signals, depending on the specific needs of the application. Some common operations include:
+1. Mixing: This involves combining two or more audio signals into a single signal. This can be used to combine multiple tracks into a single audio file, or to adjust the balance between different tracks.
+2. Summing: This involves adding two or more audio signals together, point by point. This can be used to create a composite signal by adding together multiple tracks or to create a louder overall signal.
+3. Crossfading: This involves blending two audio signals together by gradually increasing the volume of one signal while decreasing the volume of the other. This can be used to smooth transitions between tracks or to blend together different sections of a single track.
+4. Equalization: This involves adjusting the balance of different frequency bands within an audio signal. This can be used to enhance or alter the overall tonal character of a signal, or to match the frequencies of different tracks.
+5. Time stretching: This involves changing the duration of an audio signal without changing its pitch. This can be used to match the tempo of different tracks or to create special effects.
+6. Pitch shifting: This involves changing the pitch of an audio signal without changing its duration. This can be used to create harmonies or to transpose a signal to a different musical key.
+7. Reverberation: This involves simulating the sound of an audio signal being played in a particular acoustic space, such as a room or a concert hall. This can be used to add depth and ambiance to a signal or to create special effects.
+
+
+NOTES
+
+how many kinds of reverberation are there?
+
+There are many different types of reverberation that can be used in audio signal processing, ranging from simple algorithms that simulate the reflections in a small room to complex algorithms that simulate the reflections in large spaces such as concert halls or cathedrals. Some common types of reverberation include:
+
+1. Plate reverberation: This is a simple form of reverberation that simulates the reflections in a small room or space. It is achieved by using a delay line to simulate the time it takes for sound to bounce off the walls, and a low-pass filter to simulate the damping of the reflections over time.
+2. Spring reverberation: This type of reverberation simulates the reflections in a space using a mechanical spring. It is commonly used in guitar amplifiers to create a sense of space.
+3. Convolution reverberation: This type of reverberation involves convolving an audio signal with an impulse response recorded in a particular space. The impulse response captures the reflections and characteristics of the space, and convolving the signal with the impulse response applies those characteristics to the signal.
+4. Algorithmic reverberation: This type of reverberation involves using a computer algorithm to simulate the reflections in a particular space. There are many different algorithms that can be used for this purpose, ranging from simple models that simulate the reflections in a small room to complex models that simulate the reflections in large spaces such as concert halls or cathedrals.
+
+In addition to these types of reverberation, there are also many different variations and combinations of these techniques that can be used to achieve a wide range of different sounds and effects.
+
 NOTE: 
 
 Implement spellcheck or branch archive database.corpus.generated.log; 
