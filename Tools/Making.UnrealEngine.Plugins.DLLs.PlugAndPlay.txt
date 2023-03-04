@@ -1,0 +1,87 @@
+A STATELESS PLUG-AND-PLAY PLUGIN MANAGER
+
+Q: Currently, Unreal Engine DLLs (plugins) require an engine restart to be recognized by the engine and begin to function. How can Unreal Engine DLLs be made plug-and-play, along the same lines?
+
+A: To make Unreal Engine DLLs (plugins) plug-and-play, you would need to implement a mechanism for the engine to dynamically load and unload these DLLs at runtime, without requiring an engine restart. This is commonly referred to as dynamic linking or dynamic loading.
+
+Here are the general steps that could be followed to implement this:
+
+    1. Create a plugin manager that can be used to dynamically load and unload plugins. The manager would need to be able to locate and load plugin DLLs, initialize them, and unload them when they are no longer needed.
+
+    2. Implement a plugin interface that plugins can implement to register themselves with the engine. This interface would define the necessary functions and data structures that the engine needs to interact with the plugin.
+
+    3. Modify the engine to use the plugin interface to discover and interact with plugins. The engine would need to be able to locate and load the plugin DLLs, initialize them, and use the plugin interface to interact with the plugin.
+
+    4. Implement a mechanism for the engine to detect changes to the plugins at runtime, and unload and reload the plugins as necessary. This could involve using file system notifications to detect changes to the plugin DLLs, or providing a mechanism for the engine to explicitly reload plugins when necessary.
+
+By implementing these steps, you would be able to make Unreal Engine DLLs plug-and-play, allowing new plugins to be loaded and used at runtime without requiring an engine restart. This would provide a more seamless and flexible development experience for Unreal Engine users.
+
+Q: Would step 4 be a daemon which runs alongside Unreal Engine?
+
+A: Step 4 could indeed involve a daemon or background process that runs alongside the Unreal Engine to detect changes to plugin DLLs and reload them as necessary.
+
+The daemon would need to monitor the file system for changes to the plugin DLLs and trigger a reload of the affected plugins when changes are detected. This could be done using file system notifications or by periodically scanning the plugin directory for changes.
+
+To interact with the Unreal Engine, the daemon would need to use the plugin interface that was implemented in step 2. This would allow the daemon to load and unload plugins, and to notify the engine of changes to the plugin set.
+
+The advantage of using a separate daemon process for this functionality is that it can run independently of the Unreal Engine and continue to monitor for changes even if the engine itself crashes or needs to be restarted. This can help to ensure that plugins are always up-to-date and available for use, without requiring manual intervention from the user. Additionally, it can help to reduce the load on the Unreal Engine itself, which can focus on running the game or application without being distracted by plugin loading and unloading tasks.
+
+Q: So plugin loading and unloading would be offloaded to- and managed by- the plugin manager? Is the plugin manager also a daemon or part of the Unreal Engine itself?
+
+A: The plugin manager can be implemented as part of the Unreal Engine itself, and does not necessarily need to be a separate daemon or process. In this case, the plugin manager would be responsible for dynamically loading and unloading plugin DLLs at runtime, and for managing the interactions between the engine and the plugins.
+
+By integrating the plugin manager into the Unreal Engine, you can provide a seamless and integrated experience for users, and avoid the need for additional processes or daemons running alongside the engine.
+
+The plugin manager can be designed as a module or subsystem within the engine that is responsible for locating and loading plugin DLLs, initializing them, and interacting with them using the plugin interface. The manager can also be responsible for detecting changes to the plugin set, and unloading and reloading plugins as necessary.
+
+One advantage of implementing the plugin manager within the Unreal Engine is that it can leverage the engine's existing infrastructure and frameworks, such as the module system, to provide a clean and standardized way of managing plugins. Additionally, by integrating the plugin manager into the engine, you can ensure that it is always available and up-to-date with the latest changes and features of the engine itself.
+
+Overall, the choice of whether to implement the plugin manager as a separate daemon or as part of the Unreal Engine itself will depend on the specific needs and requirements of your project. Both approaches have their own advantages and disadvantages, and the best choice will depend on factors such as performance, maintainability, and ease of use.
+
+Q: I like the idea of a plugin manager as a separate daemon for stability and ease of update reasons. To improve the daemon's performance, however, can it share the Unreal Engine's memory space?
+
+A: It is possible to share memory between a plugin manager daemon and the Unreal Engine to improve performance. One approach to do this is by implementing a shared memory system that allows the plugin manager to communicate with the engine directly without the need for inter-process communication.
+
+In this approach, the shared memory area would be used to exchange data between the plugin manager and the engine, such as information about loaded plugins, changes to the plugin set, and requests to load or unload plugins. The shared memory system could be implemented using a memory-mapped file or a system-specific shared memory API.
+
+Sharing memory between the plugin manager daemon and the Unreal Engine can offer several benefits, such as reducing the overhead of inter-process communication, improving performance by reducing the amount of data copying and serialization, and simplifying the implementation of the plugin manager.
+
+However, it is important to ensure that the shared memory system is implemented securely and with proper synchronization mechanisms to avoid issues such as data corruption or race conditions. It may also be necessary to implement mechanisms for error handling and recovery in case of unexpected events or crashes.
+
+Overall, sharing memory between the plugin manager daemon and the Unreal Engine can be a powerful approach for improving performance, but it requires careful design and implementation to ensure the stability and robustness of the system.
+
+Q: And how would the singular plugin interface between Unreal Engine, the plugin manager daemon, and the file system daemon be implemented?
+
+A: The plugin interface that is used to communicate between the Unreal Engine, the plugin manager daemon, and the file system daemon can be implemented as a set of well-defined functions and data structures that all parties agree upon. These functions and data structures would define the interface that each component uses to communicate with the others.
+
+Here are the general steps that could be followed to implement the plugin interface:
+
+    1. Define a set of functions and data structures that are used to communicate between the Unreal Engine, the plugin manager daemon, and the file system daemon. These functions and data structures would define the information that is passed between the components, such as the name and location of plugin DLLs, plugin initialization and cleanup functions, and plugin metadata.
+
+    2. Implement the plugin interface in the Unreal Engine, the plugin manager daemon, and the file system daemon. Each component would implement the necessary functions and data structures to interact with the others.
+
+    3. Ensure that all components use the same version of the plugin interface. To do this, you can define a version number or identifier that is included in the plugin interface, and ensure that all components use the same version number.
+
+    4. Test the plugin interface to ensure that it is working as expected. This can involve testing each component separately, as well as testing the interaction between the components.
+
+By implementing a common plugin interface that is used by all components, you can ensure that the components can communicate effectively and reliably, and that changes to the interface are managed in a controlled and backward-compatible way. This can help to improve the stability and performance of the system, as well as simplify the implementation and maintenance of the overall plugin management system.
+
+Q: To make the interface stateless (to improve crash resilience!) is it possible to implement a git-like commit log or something similar to blockchain technology, so instabilities can always be re-wound, fast-forwarded or bypassed?
+
+A: It is possible to implement a git-like commit log or blockchain-like system to make the plugin interface stateless and improve crash resilience. This approach can allow for more reliable recovery from crashes or other issues, by allowing the system to easily revert to a previous state or fast-forward to a new state.
+
+Here's how this approach could work:
+
+    1. Define a set of operations that can be performed on the plugin set, such as adding or removing a plugin, updating a plugin, or renaming a plugin.
+
+    2. Implement a commit log or blockchain system that records all operations that are performed on the plugin set. Each operation would be timestamped and associated with a unique identifier.
+
+    3. Ensure that the commit log or blockchain system is stored in a persistent and secure location, such as a file system or a database.
+
+    4. Implement a mechanism for replaying the commit log or blockchain system to restore the plugin set to a previous state or fast-forward to a new state. This can involve iterating through the commit log or blockchain system and performing the operations in the correct order.
+
+    5. Ensure that the plugin manager daemon, the Unreal Engine, and the file system daemon all use the same commit log or blockchain system, and that they all agree on the current state of the system.
+
+Using a commit log or blockchain system in this way can make the plugin interface stateless, by allowing the current state of the system to be reconstructed from the commit log or blockchain system, rather than relying on persistent in-memory state. This can make the system more resilient to crashes or other issues, by allowing the system to easily revert to a previous state or fast-forward to a new state.
+
+However, it is important to ensure that the commit log or blockchain system is implemented securely and with proper synchronization mechanisms to avoid issues such as data corruption or race conditions. Additionally, the overhead of managing a commit log or blockchain system can impact performance, so careful consideration should be given to the design and implementation of the system to ensure that it is scalable and efficient.
