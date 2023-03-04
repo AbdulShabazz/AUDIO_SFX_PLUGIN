@@ -5,7 +5,7 @@
 #include "TheAudio__TheAudioSfxPluginStyle.h"
 #include "TheAudio__TheAudioSfxPluginCommands.h"
 //#include "UE5.DeclarativeSyntaxSupport.h"
-//#include "UE5.EnumClass.h"
+#include "UE5.EnumClass.h"
 
 // Unreal Engine 5 (global)
 #include "LevelEditor.h"
