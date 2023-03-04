@@ -422,6 +422,94 @@ NOTE:
 
 UE Widget Reflector (Viewer) : Ctl + SHIFT + W
 
+THE AUDIO
+
+IMPLEMENTATION SCHEDULE 
+- icons
+- menus
+- toolbars
+- windows 
+- create an Undo buffer 
+- patch dual module compilation bug
+- Develop connected phoneme or partial phoneme sound synthesis process by noting waveform inflection points
+- Map phonemes to word syllable > Map syllables to phrases > Map phrases to words > Map words to clauses > Map clauses to sentences 
+- Apply tone to sentences generated . Consider tagging sentences as: affirmative, interrogative or exclamatory sentences. One of the techniques for pitch modification uses discrete cosine transform (DCT) in the source domain (linear prediction residual). Inflection points may be unique identifiers (and synthesis targets) for each phoneme
+- CoArticulation is the key to prosody, which is difficult to model in TTS and SSTs. Theory: develop a compact Turing Complete number theoretical fully programmable model that can be to capture the functionality desired . Theory: Analyze synthesis results via Filters (eg. volume of features such as poles measured) can improve vocodec performance 
+- Until IPA library is completed, implement the IPA phonetic voice module as a user defined implementation of the required IPA pronunciations along with the option to share the library.
+- Musical instruments mimic the frequencies in nature. With software, more nuanced and flexible virtual instruments can be developed.
+- Synthesized phoneme waves should connect like perfect penmanship.
+- Speech can be decoupled into three independent subtextual components as deliverables : content (information), speaker (information), prosody (information).
+- Theory: GPT-3 is a full language compiler equivalent interconnected matrice implemented on the GPU
+- Support text-based descriptions to synthesize sound effects on-the-fly
+
+What Are Common Audio Effects?
+
+Provide these as built in templates, brushes, and toolbars 
+
+- Time-based audio effects: Reverb, Delay, and Echo.
+- Modulation audio effects: Chorus, Tremolo, Flanger, and Phaser.
+- Spectral audio effects: Panning and Equalization.
+- Dynamic audio effects: Compression and distortion.
+- Filters.
+- Dithering Effects, Quantization Effects, Dynamic Range Controls
+- Audio Filters are time invariant, Audio Effects use time-sensitive filters
+- IIR-, FIR- Filters; Resonance; Comb Filters 
+- Mix multi channel Audio files and then normalize 
+- Add multi channel Audio files and then normalize from their Fourier transform 
+- An audio signal spectrogram shows the 2d inception and duration of constituent frequencies ( resembles piano roll )
+- Provide signal assignable oscillators to perform operations on signals
+- vibrato, tremolo, echo ( or delay: typically 100s of milliseconds to be perceptible ), convolution reverb, chorus, flanger, phaser, panning 
+- Support text-to-speech synthesis & effects; musical note-, and musical instrument synthesis and signal processing . User-tweakable settings 
+- Enable Solo channel and or track functionality 
+
+Static Sound Effects 
+
+Ever wonder what sonic fuzz sounds like?  Static sound effects are often made from white, pink, or even brown noise that's then chopped up and subjected to ASDR envelopes. Google that one if you're new to sound synthesis. Check out Interference to add intensity to your sci-fi, fantasy, and horror projects with unmatched gritty and dark sound effects of robotic radio static, scans, morphs, risers and more.
+
+Cartoon Sound Effects 
+
+Cartoon tends to be synonymous with funny when it comes to the sound effects world.  If you need ingredients for a laughter cake, look no farther.  Mmmm. Cake.
+
+Movie Sound Effects 
+
+All the people searching for sounds from famous movies will be thrilled to know that they not only can find and use sounds from Academy-Award winning films, there are thousands to choose from. Check out The Odyssey Collection by Mark Mangini.
+
+Weather Sound Effects 
+
+Brave the elements with sound effects from all weather patterns including wind, rain, thunder, storms, snow & beyond.
+
+Trailer Sound Effects
+
+Video game and movie trailers need big, epic, Hollywood quality sounds to create an impactful impression on the audience. Check out Colossal: Trailer Sound Effects designed by feature film sound editors from Christopher Nolan’s Tenet, Joseph Fraioli and Randy Torres for a collection of high-energy impacts, whooshes, rumbles, and transitions.
+
+Explosion Sound Effects 
+
+One of the most fun sound effects to work with: explosions.  You can build your own with individual elements (wood snap, glass debris, low frequency boom) or use pre-made effects that already contain multiple sound layers. Boooooom.
+
+Vehicle Sound Effects
+
+Whether it's a high-speed chase or a casual Sunday cruise, chances are you'll work on a project where someone is driving, flying, or sailing somewhere. Check out The Odyssey Collection: Vehicles for the most thorough collection of car sound effects available – plus trucks, buses, and motorcycles – curated from the private library of Academy Award®-winners.
+
+Siren Sound Effects 
+
+Build your soundscape and be ready for any chase scene with emergency siren sounds.
+
+Fire Sound Effects
+
+DJs often cross from traditional musical borders into the more abstract sound art territory.  Often spicing mixes up with sound effects, these libraries offer many sounds to choose from. Check out Ember by Richard King for crackling, roaring, and smoldering sound effects.
+
+Gun Sound Effects
+
+Like explosions, gun sound effects are made from multiple elements, and each type of gun sounds drastically different from the next.  Pro Sound Effects customers are often searching for gun sounds. We've got thousands to offer – Check out King Collection: Guns for the most comprehensive collection of gun sounds available.
+
+THE_AUDIO-SFX_PLUGIN 
+
+UE5 Plugin - Use .SVG for recovery of icons and plugin toolbar images 
+A file can be used to filter and or wave-shape another files output 
+Global Project Font: Calibri
+...
+
+
 NOTE:
 
 Unreal Engine provides the ability to add attributes and methods to a class definition at runtime 
