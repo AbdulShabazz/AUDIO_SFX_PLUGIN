@@ -19,7 +19,7 @@ myprompt = '''(1) Seperate each word by a newline, and (2) split each word into 
 
 # OPENAI
 # @param - prompt [prompt.length + response.length < max_tokens]
-# @param - engine [gpt-3.5-turbo] | [code/text]-[davinci/curie/babbage/ada]-[ver]
+# @param - engine [gpt-3.5-turbo/gpt-4(13pg max/gpt-4-32k(52pg max))] or [[code/text]-[davinci/curie/babbage/ada]-[ver]]
 # @param - max_tokens [prompt + response < 4097] Length. Bandwidth alloted for the session/connection 
 # @param - temperature [1.0 - 0.0] Strictness. Controls the creativity or randomness of the response
 # @param - top_p [1.0 - 0.0] Predictability. Controls the constrained randomness of oncomming text
