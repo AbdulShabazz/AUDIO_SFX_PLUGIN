@@ -90,6 +90,9 @@ SOLU:   static WidgetType&& New()
             static WidgetType instance;
             return instance;
         }
+        
+SYMP: Double copy
+TODO: Override copy constructor to patch double copy bug
 
 SYMP:   Error C2248 'FSlateControlledConstruction::operator new': cannot access private member declared in class 'FSlateControlledConstruction' of TheAudio__sfx_Class C:\Program Files\Epic Games\UE_5.1\Engine\Source\Runtime\Core\Public\Templates\SharedPointer.h	214	
 SOLU:   SNWin = SNew(UMGViewportComponent); >> TSharedRef<UMGViewportComponent> SNWin = SNew(UMGViewportComponent);
