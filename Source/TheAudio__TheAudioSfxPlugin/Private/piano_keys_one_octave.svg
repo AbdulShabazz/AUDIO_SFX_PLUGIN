@@ -1,0 +1,23 @@
+<svg width="560" height="150" xmlns="http://www.w3.org/2000/svg">
+    <!-- Define white and black keys for reuse -->
+    <defs>
+        <rect id="whiteKey" width="80" height="150" fill="white" />
+        <rect id="blackKey" width="50" height="90" fill="black" />
+    </defs>
+
+    <!-- White keys using <use> -->
+    <use href="#whiteKey" x="0" y="0" />
+    <use href="#whiteKey" x="80" y="0" />
+    <use href="#whiteKey" x="160" y="0" />
+    <use href="#whiteKey" x="240" y="0" />
+    <use href="#whiteKey" x="320" y="0" />
+    <use href="#whiteKey" x="400" y="0" />
+    <use href="#whiteKey" x="480" y="0" />
+
+    <!-- Black keys using <use> -->
+    <use href="#blackKey" x="60" y="0" />
+    <use href="#blackKey" x="140" y="0" />
+    <use href="#blackKey" x="300" y="0" />
+    <use href="#blackKey" x="380" y="0" />
+    <use href="#blackKey" x="460" y="0" />
+</svg>
