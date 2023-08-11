@@ -257,6 +257,9 @@ MENU
                     CONCERT HALL
                     CATHEDRAL
                     CONCERT STADIUM
+                    SUBWAY  
+                    SWIMMING POOL  
+                    INDUSTRIAL WAREHOUSE  
                 ALGORITHMIC EDITOR // MULTIPLE OSCILLATORS: FILTERS[ COMB, DELAY, ALL PASS, BANDPASS, BAND REJECT, HIPASS, LOPASS]
         GRANULAR SYNTHESIS
         COMPILE TO UNREAL ENGINE AUDIO NODE
