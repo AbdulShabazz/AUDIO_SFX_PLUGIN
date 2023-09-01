@@ -146,8 +146,7 @@ MENU
         FADE
             FADE IN // CURRENT SETTINGS
             FADE OUT // CURRENT SETTINGS
-            FADE IN EDITOR
-            FADE OUT EDITOR
+            FADE (EDITOR)(QUICKTOOLS)
         CROSSFADE
             L > R
             R > L
